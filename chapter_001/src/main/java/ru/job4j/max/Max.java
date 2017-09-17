@@ -5,4 +5,10 @@ public class Max {
         int maxvalue = first  < second ? second : first;
         return maxvalue;
     }
+
+    public int max (int first, int second, int third) {
+        int maxValue = this.max(first, second);
+        int result = this.max(maxValue, third);
+        return result;
+    }
 }
