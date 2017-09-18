@@ -1,0 +1,20 @@
+package ru.job4j.loop;
+
+public class Board {
+    public String paint(int width, int height) {
+        int count = 1;
+        StringBuilder builder = new StringBuilder();
+        for (int j = 1; j <= height; j++) {
+            for (int i = 1; i <= width; i++) {
+                if (count % 2 != 0) {
+                    builder.append("x");
+                } else {
+                    builder.append(" ");
+                }
+                count++;
+            }
+            System.getProperty("line.separator");
+        }
+        return builder.toString();
+    }
+}
