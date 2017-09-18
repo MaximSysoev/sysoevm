@@ -9,7 +9,7 @@ public class FactorialTest {
     public void FactorialFive() {
         Factorial fact = new Factorial();
         int result = fact.Calc(5);
-        assertThat(result, is(5));
+        assertThat(result, is(120));
     }
 
     public void FactorialZero() {
