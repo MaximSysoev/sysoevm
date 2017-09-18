@@ -13,7 +13,7 @@ public class Board {
                 }
                 count++;
             }
-            System.getProperty("line.separator");
+            builder.append(System.getProperty("line.separator"));
         }
         return builder.toString();
     }
