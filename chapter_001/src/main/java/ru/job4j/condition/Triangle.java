@@ -41,8 +41,11 @@ public class Triangle {
     }
 
     private boolean exist(double ab, double ac, double bc) {
-        double sum = ab + ac;
-        if (sum > bc & ab > 0 & ac > 0 & bc > 0) {
+        double sum1 = ab + ac; // > bc
+        double sum2 = ab + bc;  // > ac
+        double sum3 = ac + bc; // > ab
+
+        if (sum1 > bc & sum2 > ac & sum3 > ab & ab > 0 & ac > 0 & bc > 0) {
             return true;
         } else {
             return false;
