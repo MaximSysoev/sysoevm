@@ -45,10 +45,11 @@ public class Triangle {
         double sum2 = ab + bc;  // > ac
         double sum3 = ac + bc; // > ab
 
-        if (sum1 > bc & sum2 > ac & sum3 > ab & ab > 0 & ac > 0 & bc > 0) {
-            return true;
-        } else {
+
+        if (sum1 < bc | sum2 < ac | sum3 < ab | ab <= 0 | ac <= 0 | bc <= 0) {
             return false;
+        } else {
+            return true;
         }
     }
 
