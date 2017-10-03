@@ -6,29 +6,31 @@ public class SortingArray {
     Метод сортировки массива
     */
 
-    public int[] sortingArray(int[] array) {
-        for (int i = 0; i < array.length; i++) {
-            int j = i + 1;
-            while (j < array.length) {
-                if (array[i] > array[j]) {
-                    int k = array[i];
-                    array[i] = array[j];
-                    array[j] = k;
+    public int[] sortingArray(int[] array1, int[] array2) {
+        int[] resultArray = new int[array1.length + array2.length];
+        int k = 0;
+        for (int i = 0; i < resultArray.length; i++) {
+            if (i < array1.length) {
+                resultArray[i] = array1[i];
+            } else {
+                resultArray[i] = array2[k];
+                k++;
+            }
+
+            for (int j = 0; j < i+1; j++) {
+                int ch = j+1;
+                while (ch < i + 1) {
+                    if (resultArray[j] > resultArray[ch]) {
+                        int param = resultArray[j];
+                        resultArray[j] = resultArray[ch];
+                        resultArray[ch] = param;
+                    }
+                    ch++;
                 }
-                j++;
             }
         }
-        return array;
+        return resultArray;
     }
 
-    /*
-    Метод сложения 2-х массивов в 1
-    */
 
-    public int[] additionArrays(int[] a, int[] b) {
-        int[] c = new int [a.length + b.length];
-        System.arraycopy(a, 0, c, 0, a.length);
-        System.arraycopy(b, 0, c, a.length, b.length);
-        return c;
-    }
 }
