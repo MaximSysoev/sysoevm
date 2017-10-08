@@ -8,7 +8,8 @@ public class SortingArray {
 
     public int[] sortingArray(int[] array1, int[] array2) {
         int[] resultArray = new int[array1.length + array2.length];
-        int k = 0;
+        int k = 0, ch = 0, index = 0, min = 1000;
+
         for (int i = 0; i < resultArray.length; i++) {
             if (i < array1.length) {
                 resultArray[i] = array1[i];
@@ -16,21 +17,22 @@ public class SortingArray {
                 resultArray[i] = array2[k];
                 k++;
             }
-
-            for (int j = 0; j < i+1; j++) {
-                int ch = j+1;
-                while (ch < i + 1) {
-                    if (resultArray[j] > resultArray[ch]) {
-                        int param = resultArray[j];
-                        resultArray[j] = resultArray[ch];
-                        resultArray[ch] = param;
-                    }
-                    ch++;
-                }
-            }
         }
+
+        for ( int j = 0; j < resultArray.length; j++ ) {
+            ch = j;
+            while (ch < resultArray.length) {
+                if (min > resultArray[ch]) {
+                    min = resultArray[ch];
+                    index = ch;
+                }
+                ch++;
+            }
+            resultArray[index] = resultArray[j];
+            resultArray[j] = min;
+            min = 1000;
+        }
+
         return resultArray;
     }
-
-
 }

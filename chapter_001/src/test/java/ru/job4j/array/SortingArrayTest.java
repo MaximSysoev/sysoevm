@@ -9,10 +9,10 @@ public class SortingArrayTest {
     @Test
     public void WhenAdditionTwoArraysAndSortingArray() {
         SortingArray sort = new SortingArray();
-        int[] a = {1, 6, 10, 90, 122};
-        int[] b = {2, 3, 4, 15, 20, 25, 100, 150};
+        int[] a = {1, 3};
+        int[] b = {2, 4};
         int [] resultArray = sort.sortingArray(a, b);
-        int[] expectArray = {1, 2, 3, 4, 6, 10, 15, 20, 25, 90, 100, 122, 150 };
+        int[] expectArray = {1, 2, 3, 4};
         assertThat(resultArray, is(expectArray));
     }
 
