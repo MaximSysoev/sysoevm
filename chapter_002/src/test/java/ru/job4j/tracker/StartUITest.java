@@ -28,10 +28,10 @@ public class StartUITest {
     @Test
     public void whenDeleteThenReturnNull() {
         Tracker tracker = new Tracker();
-        Item item = new Task("test1", "testDescription1");
-        tracker.add(item);
-        tracker.delete(item);
-        assertThat(item.getName(), is("null"));
+        Item item1 = new Task("test1", "testDescription1");
+        tracker.add(item1);
+        tracker.delete(item1);
+        assertThat(item1.getName(), is("null"));
     }
 
     @Test

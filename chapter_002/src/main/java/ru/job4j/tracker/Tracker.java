@@ -14,23 +14,17 @@ public class Tracker {
     }
 
     public void update(Item item) {
-        Item[] result = new Item[this.position];
-        int index = 0;
-        for (Item element : result) {
-           if ( this.items[index].getId() == item.getId() ) {
+        for (int index = 0; index < this.position; index++) {
+            if (this.items[index].getId().equals(item.getId())) {
                 this.items[index] = item;
             }
-            index++;
         }
     }
 
     public void delete(Item item) {
-        Item[] result = new Item[this.position];
         for (int index = 0; index < this.position; index++) {
-            if (this.items[index].getId()==item.getId()) {
-                this.items[index].setId("null");
-                this.items[index].setName("null");
-                this.items[index].setDesc("null");
+            if (this.items[index].getId().equals(item.getId())) {
+                this.items[index] = null;
             }
         }
     }
@@ -40,7 +34,7 @@ public class Tracker {
         Item[] result = new Item[this.position];
         int k = 0;
         for (int index = 0; index < this.position; index++) {
-           if (this.items[index].getId() != null) {
+           if (this.items[index] != null) {
                result[k] = this.items[index];
                k++;
             }
@@ -49,22 +43,27 @@ public class Tracker {
     }
 
     public Item[] findByName(String key) {
-        Item[] result = new Item[this.position];
         int k = 0;
-        for (int index = 0; index < result.length; index++) {
-            if (this.items[index].getName() == key) {
-                result[k] = this.items[index];
+        for (int index = 0; index < this.position; index++) {
+            if (this.items[index].getName().equals(key)) {
                 k++;
             }
         }
+
+        Item[] result = new Item[k];
+        for (int index = 0; index < k; index++) {
+            result[k] = this.items[index];
+        }
+
         return result;
     }
 
     public Item findById(String id) {
         Item res = new Item();
         for (int index = 0; index < this.position; index++) {
-            if (items[index].getId() == id) {
+            if (items[index].getId().equals(id)) {
                 res = items[index];
+                break;
             }
         }
         return res;
