@@ -18,8 +18,12 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item previous = new Task("test1", "testDescription");
         tracker.add(previous);
+
         Item next = new Task("test2", "testDescription2");
         next.setId(previous.getId());
+
+
+
         tracker.update(next);
         assertThat(next.getName(), is("test2"));
     }
