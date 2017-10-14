@@ -3,9 +3,9 @@ import java.util.Scanner;
 
 public class StartUI {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         ConsoleInput input = new ConsoleInput();
         input.menu();
+        Scanner scanner = new Scanner(System.in);
         String number = scanner.nextLine();
         input.selectMenu(number);
     }

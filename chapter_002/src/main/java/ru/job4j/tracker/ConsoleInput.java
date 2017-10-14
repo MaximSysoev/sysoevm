@@ -34,7 +34,7 @@ public class ConsoleInput implements Input {
         Tracker tracker = new Tracker();
         int ch = 0;
         while (true) {
-            if (ADD.equals(number)) { // 0
+            if (ADD.equals(number)) { // 0 Add new Item
                 System.out.print("Введите имя: ");
                 String name = scanner.nextLine();
                 System.out.print("Введите описание: ");
@@ -44,7 +44,7 @@ public class ConsoleInput implements Input {
                 System.out.print("Select: ");
                 number = scanner.nextLine();
 
-        } else if (SHOW.equals(number)) {  // 1
+        } else if (SHOW.equals(number)) {  // 1 Show all items
                 System.out.println("Вывод всех значений");
                 for (Item item : tracker.findAll()) {
                     if (item!=null) {
@@ -54,7 +54,7 @@ public class ConsoleInput implements Input {
                 }
                 System.out.print("Select: ");
                 number = scanner.nextLine();
-            } else if (EDIT.equals(number)) {  // 2
+            } else if (EDIT.equals(number)) {  // 2 Edit item
                 System.out.println("Вывод значений");
                 for (Item item : tracker.findAll()) {
                     System.out.println(item.getName() + " " + item.getId());
@@ -75,7 +75,7 @@ public class ConsoleInput implements Input {
                 System.out.println("Select: ");
                 number = scanner.nextLine();
 
-            } else if (DELETE.equals(number)) { // 3
+            } else if (DELETE.equals(number)) { // 3 Delete item
                 System.out.println("Вывод значений");
                 for (Item item : tracker.findAll()) {
                     System.out.println(item.getName() + " " + item.getId());
@@ -88,7 +88,7 @@ public class ConsoleInput implements Input {
                 System.out.println("Select: ");
                 number = scanner.nextLine();
 
-            } else if (FINDBYID.equals(number)) { // 4
+            } else if (FINDBYID.equals(number)) { // 4 Find Item by id
                 System.out.println("Вывод значений");
                 for (Item item : tracker.findAll()) {
                     System.out.println(item.getName() + " " + item.getId());
@@ -100,7 +100,7 @@ public class ConsoleInput implements Input {
                 System.out.println("Select: ");
                 number = scanner.nextLine();
 
-            } else if (FINDBYNAME.equals(number)) { // 5
+            } else if (FINDBYNAME.equals(number)) { // 5 Find Items by name
                 System.out.println("Введите имя элемента: ");
                 String name = scanner.nextLine();
                 for (Item item:tracker.findByName(name)) {
@@ -108,7 +108,7 @@ public class ConsoleInput implements Input {
                 }
                 System.out.println("Select: ");
                 number = scanner.nextLine();
-            } else if (EXIT.equals(number)) { // 6
+            } else if (EXIT.equals(number)) { // 6 EXIT
                 break;
             }
         }
