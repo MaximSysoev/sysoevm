@@ -1,24 +1,81 @@
 package ru.job4j.tracker;
-
 import java.util.Scanner;
 
+/**
+ * Работа с пользователем.
+ */
 public class ConsoleInput implements Input {
+    /**
+     * Объект Scanner.
+     */
     private Scanner scanner = new Scanner(System.in);
+    /**
+     * Переменная ADD.
+     */
     private static final String ADD = "0";
+    /**
+     * Переменная SHOW.
+     */
     private static final String SHOW = "1";
+    /**
+     * Переменная EDIT.
+     */
     private static final String EDIT = "2";
+    /**
+     * Переменная DELETE.
+     */
     private static final String DELETE = "3";
+    /**
+     * Переменная FINDBYID.
+     */
     private static final String FINDBYID = "4";
+    /**
+     * Переменная FINDBYNAME.
+     */
     private static final String FINDBYNAME = "5";
+    /**
+     * Переменная EXIT.
+     */
     private static final String EXIT = "6";
 
 
-    public String ask (String question) {
-        System.out.println(question);
+    /**
+     * Создает вопрос.
+     * @param question Параметр.
+     * @return Вывод на печать и переход на новую строку.
+     */
+    public String ask(String question) {
+        System.out.print(question);
         return scanner.nextLine();
     }
 
-    public void menu () {
+    /**
+     * Обработка ошибок.
+     * @param question параметр.
+     * @param range параметр.
+     * @return Сообщение об ошибке.
+     */
+    public int ask(String question, int[] range) {
+        int key = Integer.valueOf(this.ask(question));
+        boolean exist = false;
+        for (int value : range) {
+            if (value == key) {
+                exist = true;
+                break;
+            }
+        }
+
+        if (exist) {
+            return key;
+        } else {
+            throw new MenuOutException("Out of menu range");
+        }
+    }
+
+    /**
+     * Вывод меню для пользователя.
+     */
+    public void menu() {
         System.out.println("0 Add new Item");
         System.out.println("1 Show all items");
         System.out.println("2 Edit item");
@@ -29,7 +86,10 @@ public class ConsoleInput implements Input {
         System.out.print("Select: ");
     }
 
-
+    /**
+     * Выбор меню пользователем.
+     * @param number передаётся в качестве параметра.
+     */
     public void selectMenu(String number) {
         Tracker tracker = new Tracker();
         int ch = 0;
@@ -44,13 +104,12 @@ public class ConsoleInput implements Input {
                 System.out.print("Select: ");
                 number = scanner.nextLine();
 
-        } else if (SHOW.equals(number)) {  // 1 Show all items
+            } else if (SHOW.equals(number)) {  // 1 Show all items
                 System.out.println("Вывод всех значений");
                 for (Item item : tracker.findAll()) {
-                    if (item!=null) {
+                    if (!item.equals(null)) {
                         System.out.println(item.getName() + " " + item.getId());
                     }
-
                 }
                 System.out.print("Select: ");
                 number = scanner.nextLine();

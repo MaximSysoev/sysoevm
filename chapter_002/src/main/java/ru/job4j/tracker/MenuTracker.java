@@ -50,7 +50,14 @@ public class MenuTracker {
     /**
      * Массив действий для пользователей actions.
      */
-    private UserAction[] actions = new UserAction[10];
+    private UserAction[] actions = new UserAction[6];
+
+    /**
+     * Конструктор класса MenuTracker.
+     */
+    public MenuTracker() {
+
+    }
 
     /**
      * Констурктор класса.
@@ -72,6 +79,14 @@ public class MenuTracker {
         this.actions[3] = this.new DeleteItem();
         this.actions[4] = this.new FindItemById();
         this.actions[5] = this.new FindItemByName();
+    }
+
+    /**
+     * Диапазон значений ввода пользователя.
+     * @return actions.
+     */
+    public UserAction[] getActions() {
+        return actions;
     }
 
     /**
