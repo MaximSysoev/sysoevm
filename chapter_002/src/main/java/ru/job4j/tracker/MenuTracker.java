@@ -3,13 +3,15 @@ package ru.job4j.tracker;
 /**
  * Класс UpdateItem - обновление позиции.
  */
-class UpdateItem implements UserAction {
+class UpdateItem extends BaseAction {
+
     /**
-     * Метод key - выбор пользовательского меню.
-     * @return 2
+     * Передача в конструктор родительского конструктора.
+     * @param key параметр.
+     * @param name параметр.
      */
-    public int key() {
-        return 2;
+    UpdateItem(int key, String name) {
+        super(key, name);
     }
 
     /**
@@ -31,7 +33,7 @@ class UpdateItem implements UserAction {
      * @return String.format.
      */
     public String info() {
-        return String.format("%s %s", this.key(), "Update item");
+        return super.info();
     }
 }
 
@@ -73,12 +75,12 @@ public class MenuTracker {
      * Метод fillActions. Хранит методы в массиве actions.
      */
     public void fillActions() {
-        this.actions[0] = this.new AddItem();
-        this.actions[1] = new MenuTracker.ShowItems();
-        this.actions[2] = new UpdateItem();
-        this.actions[3] = this.new DeleteItem();
-        this.actions[4] = this.new FindItemById();
-        this.actions[5] = this.new FindItemByName();
+        this.actions[0] = this.new AddItem(0, "Add the new item.");
+        this.actions[1] = new MenuTracker.ShowItems(1, "Show all items.");
+        this.actions[2] = new UpdateItem(2, "Update item");
+        this.actions[3] = this.new DeleteItem(3, "Delete item");
+        this.actions[4] = this.new FindItemById(4, "Find item by id");
+        this.actions[5] = this.new FindItemByName(5, "Find item by name");
     }
 
     /**
@@ -111,13 +113,15 @@ public class MenuTracker {
     /**
      * Внутренний класс addItem - добавляет позицию.
      */
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
+
         /**
-         * Метод key - выбор пользовательского меню.
-         * @return 0.
+         * Передача в конструктор родительского конструктора.
+         * @param key параметр.
+         * @param name параметр.
          */
-        public int key() {
-            return 0;
+        AddItem(int key, String name) {
+            super(key, name);
         }
 
         /**
@@ -136,20 +140,22 @@ public class MenuTracker {
          * @return String.format.
          */
         public String info() {
-            return String.format("%s %s", this.key(), "Add the new item.");
+            return super.info();
         }
     }
 
     /**
      * Внутренний класс DeleteItem - удаляет позицию.
      */
-    private class DeleteItem implements UserAction {
+
+    private class DeleteItem extends BaseAction {
         /**
-         * Метод key - выбор пользовательского меню.
-         * @return 3.
+         * Передача в конструктор родительского конструктора.
+         * @param key параметр.
+         * @param name параметр.
          */
-        public int key() {
-            return 3;
+        DeleteItem(int key, String name) {
+            super(key, name);
         }
 
         /**
@@ -168,21 +174,22 @@ public class MenuTracker {
          * @return String.format.
          */
         public String info() {
-            return String.format("%s  %s", this.key(), "Delete item");
+            return super.info();
         }
     }
 
     /**
      * Внутренний класс FindItembyId - поиск элемента по id.
      */
-    private class FindItemById implements UserAction {
+    private class FindItemById extends BaseAction {
 
         /**
-         * Метод key - выбор пользовательского меню.
-         * @return 4.
+         * Передача в конструктор родительского конструктора.
+         * @param key параметр.
+         * @param name параметр.
          */
-        public int key() {
-            return 4;
+        FindItemById(int key, String name) {
+            super(key, name);
         }
 
         /**
@@ -201,21 +208,22 @@ public class MenuTracker {
          * @return String.format.
          */
         public String info() {
-            return String.format("%s  %s", this.key(), "Find item by id");
+            return super.info();
         }
     }
 
     /**
      * Внутренний класс FindItemByName - поиск элемента по name.
      */
-    private class FindItemByName implements UserAction {
+    private class FindItemByName extends BaseAction {
 
         /**
-         * Метод key - выбор пользовательского меню.
-         * @return 5.
+         * Передача в конструктор родительского конструктора.
+         * @param key параметр.
+         * @param name параметр.
          */
-        public int key() {
-            return 5;
+        FindItemByName(int key, String name) {
+            super(key, name);
         }
 
         /**
@@ -238,20 +246,22 @@ public class MenuTracker {
          * @return String.format.
          */
         public String info() {
-            return String.format("%s  %s", this.key(), "Find item by name");
+            return super.info();
         }
     }
 
     /**
      * Внутренний статический класс ShowItems - вывод всех элементов.
      */
-    public static class ShowItems implements UserAction {
+    public static class ShowItems extends BaseAction {
+
         /**
-         * Метод key - выбор пользовательского меню.
-         * @return 1.
+         * Передача в конструктор родительского конструктора.
+         * @param key параметр.
+         * @param name параметр.
          */
-        public int key() {
-            return 1;
+        ShowItems(int key, String name) {
+            super(key, name);
         }
 
         /**
@@ -272,7 +282,7 @@ public class MenuTracker {
          * @return String.format.
          */
         public  String info() {
-            return String.format("%s %s", this.key(), "Show all items. ");
+            return super.info();
         }
     }
 }
