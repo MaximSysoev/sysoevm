@@ -1,31 +1,17 @@
 package ru.job4j.chess;
 
 import com.sun.org.apache.xml.internal.resolver.helpers.BootstrapResolver;
-
 import java.util.Arrays;
 
-public class Board extends Figure {
-    private Figure[] figures = new Figure[32];
-    private Cell[][] cell = new Cell[9][9];
-    private boolean result = true;
+public class Board {
+    public Figure[][] figure = new Figure[8][8];
 
-    /**
-     * Массив с ходами фигуры конь.
-     */
-    private Cell[] MoveOfTheHorse = new Cell[8];
-    private int index = 0;
-
-    public Board (Cell position) {
-        super(position);
+    public Figure[][] getFigure() {
+        return figure;
     }
 
-    /**
-     * Задаёт фигуре новые координаты.
-     * @param dist
-     */
-    public void clone(Cell dist) {
-        figures[1].position.setX(dist.getX());
-        figures[1].position.setY(dist.getY());
+    public void setFigure(Figure[][] figure) {
+        this.figure = figure;
     }
 
     /**
@@ -40,16 +26,16 @@ public class Board extends Figure {
     public boolean move(Cell source, Cell dist) throws ImposibleMoveException, OccupiedWayException, FigureNotFoundException {
         int x = source.getX();
         int y = source.getY();
-        cell[x][y] = source;
-        if (x > 0 && y > 0) {
-            if (cell[x][y] == null) {
+        boolean result = true;
+        if (x >= 0 && y >= 0) {
+            if (this.indexOf(source) == 0) {
+                System.out.println("x=" + figure[1][0].position.getX() + " y=" + figure[1][0].position.getY());
                 result = false;
                 throw new FigureNotFoundException("Ячейка [" + x + "][" + y + "] не содержит фигуры.");
             } else {
-                if (figures[1].position.getX() == x && figures[1].position.getY() == y) {
-                   // result = true;
-                    way(dist);
-                    clone(dist);
+                if (figure[1][0].position.getX() == x && figure[1][0].position.getY() == y) {
+                    figure[1][0].way(dist);
+                    figure[1][0].clone(dist);
                 } else {
                     result = false;
                     throw new OccupiedWayException("Фигура [" + source.getX() + "][" + source.getY() + "] так не ходит.");
@@ -57,126 +43,60 @@ public class Board extends Figure {
             }
         } else {
             result = false;
+            System.out.println("Здесь в Board.java");
             throw new ImposibleMoveException("Недопустимый ход [" + x + "][" + y + "]");
         }
         return result;
     }
 
-    /**
-     * Расстановка белых фигур.
-     */
-    public void alignmentWhiteFigures() {
-        for (int i = 1; i < 3; i++) {
-            for (int j = 1; j < 9; j++) {
-                Cell dist = new Cell(j, i);
-                this.figures[index] = new Board(dist);
-                this.cell[j][i] = dist;
-                this.index++;
-            }
-        }
+    public void alignmentFigures() {
+        this.figure[0][0] = new Horse(new Cell(0, 0));
+        this.figure[1][0] = new Horse(new Cell(1, 0));
+        this.figure[2][0] = new Horse(new Cell(2, 0));
+        this.figure[3][0] = new Horse(new Cell(3, 0));
+        this.figure[4][0] = new Horse(new Cell(4, 0));
+        this.figure[5][0] = new Horse(new Cell(5, 0));
+        this.figure[6][0] = new Horse(new Cell(6, 0));
+        this.figure[7][0] = new Horse(new Cell(7, 0));
+        this.figure[0][1] = new Horse(new Cell(0, 1));
+        this.figure[1][1] = new Horse(new Cell(1, 1));
+        this.figure[2][1] = new Horse(new Cell(2, 1));
+        this.figure[3][1] = new Horse(new Cell(3, 1));
+        this.figure[4][1] = new Horse(new Cell(4, 1));
+        this.figure[5][1] = new Horse(new Cell(5, 1));
+        this.figure[6][1] = new Horse(new Cell(6, 1));
+        this.figure[7][1] = new Horse(new Cell(7, 1));
     }
 
     /**
-     * Расстановка чёрных фигур.
+     * Находит index в массиве figures той фигуры, которая стоит на этой клетке.
+     * @param cell
+     * @return
      */
-    public void alignmentBlackFigures() {
-        for (int i = 8; i > 6; i--) {
-            for (int j = 1; j < 9; j++) {
-                Cell dist = new Cell(j, i);
-                this.figures[index] = new Board(dist);
-                this.cell[j][i] = dist;
-                this.index++;
-            }
-        }
-    }
-
-    /**
-     * Все ходы фигурой лошадь.
-     * @param number номер фигуры.
-     */
-    public void MoveHourse(int number) {
-        int x = figures[number].position.getX();
-        int y = figures[number].position.getY();
-        // Первый ход влево->вверх
-        MoveOfTheHorse[0] = new Cell(x - 2, y + 1);
-        // Второй ход влево->вниз
-        MoveOfTheHorse[1] = new Cell(x - 2, y - 1);
-        // Третий ход вверх->влево
-        MoveOfTheHorse[2] = new Cell(x - 1, y + 2);
-        // Четвёртый ход вверх->вправо
-        MoveOfTheHorse[3] = new Cell(x + 1, y + 2);
-        // Пятый ход вправо->вверх
-        MoveOfTheHorse[4] = new Cell(x + 2, y + 1);
-        // Шестой ход вправо->вниз
-        MoveOfTheHorse[5] = new Cell(x + 2, y - 1);
-        // Седьмой ход вниз->вправо
-        MoveOfTheHorse[6] = new Cell(x + 1, y - 2);
-        // Восьмой ход вниз->влево
-        MoveOfTheHorse[7] = new Cell(x - 1, y - 2);
-    }
-
-    /**
-     * Задаёт ячейку куда следует пойти.
-     * Если фигура может туда пойти, то Вернуть массив ячеек, которые должна пройти фигура.
-     * @param dist - ячейка.
-     * @return массив с ячейками.
-     */
-    public Cell[] way(Cell dist) throws ImposibleMoveException, OccupiedWayException {
-        MoveHourse(1);
-        int x = dist.getX();
-        int y = dist.getY();
-        int count = 0;
-        if (cell[x][y] == null && x > 0 && y > 0) {
-            for (int i = 0; i < 8; i++) {
-                if (x == MoveOfTheHorse[i].getX() && y == MoveOfTheHorse[i].getY() && MoveOfTheHorse[i].getX() > 0 && MoveOfTheHorse[i].getY() > 0) {
-                    System.out.println("Фигура может пойти в ячейку [" + x + "][" + y + "]");
-                    if (y == figures[1].position.getY() + 2) {
-                        System.out.println("Клетки через которые проходит фигура: [" + figures[1].position.getX() + "][" + (figures[1].position.getY() + 1) + "]");
-                        System.out.println("Клетки через которые проходит фигура: [" + figures[1].position.getX() + "][" + (figures[1].position.getY() + 2) + "]");
-                    } else if (y == figures[1].position.getY() - 2) {
-                        System.out.println("Клетки через которые проходит фигура: [" + figures[1].position.getX() + "][" + (figures[1].position.getY() - 1) + "]");
-                        System.out.println("Клетки через которые проходит фигура: [" + figures[1].position.getX() + "][" + (figures[1].position.getY() - 2) + "]");
-                    } else if (x == figures[1].position.getX() + 2) {
-                        System.out.println("Клетки через которые проходит фигура: [" + (figures[1].position.getX() + 1) + "][" + figures[1].position.getY() + "]");
-                        System.out.println("Клетки через которые проходит фигура: [" + (figures[1].position.getX() + 2) + "][" + figures[1].position.getY() + "]");
-                    } else if (x == figures[1].position.getX() - 2) {
-                        System.out.println("Клетки через которые проходит фигура: [" + (figures[1].position.getX() - 1) + "][" + figures[1].position.getY() + "]");
-                        System.out.println("Клетки через которые проходит фигура: [" + (figures[1].position.getX() - 2) + "][" + figures[1].position.getY() + "]");
-                    }
-                    break;
-                 } else {
-                    count++;
+    public int indexOf(Cell cell) {
+        int k = 0;
+        int index = 0;
+        int x = cell.getX();
+        int y = cell.getY();
+        for (int out = 0; out < 2; out++) {
+            for (int inner = 0; inner < 8; inner++) {
+                if (x == figure[inner][out].position.getX() && y == figure[inner][out].position.getY()) {
+                    k = index;
                 }
+                index++;
             }
-            if (count == MoveOfTheHorse.length) {
-                throw new ImposibleMoveException("Недопустимый ход [" + x + "][" + y + "]");
-            }
-        } else {
-            throw new ImposibleMoveException("Недопустимый ход [" + x + "][" + y + "]");
         }
-        return MoveOfTheHorse;
+        return k;
     }
 
-
-  /*  public static void main(String[] args) {
-        Board board = new Board(new Cell(0, 0));
-        board.alignmentWhiteFigures();
-        board.alignmentBlackFigures();
-
-
-        board.move(new Cell(2, 1), new Cell(1, 3));
-        System.out.println("--------------------");
-
-
-        board.move(new Cell(1, 3), new Cell(3, 4));
-        System.out.println("--------------------");
-
-        board.move(new Cell(3, 4), new Cell(5, 5));
-        System.out.println("--------------------");
-
-        board.move(new Cell(5, 5), new Cell(4, 3));
-
-    }*/
+    public static void main(String[] args) {
+        Board board = new Board();
+        Horse horse = new Horse(null);
+        board.alignmentFigures();
+        board.move(new Cell(1, 0), new Cell(2, 2));
+        board.move(new Cell(2, 2), new Cell(4, 3));
+        // horse.moveHorse(board.figure[1][0].position.getX(), board.figure[1][0].position.getY());
+    }
 
 
 }

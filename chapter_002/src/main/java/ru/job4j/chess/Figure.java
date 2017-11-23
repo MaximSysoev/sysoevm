@@ -2,16 +2,18 @@ package ru.job4j.chess;
 
 public abstract class Figure {
 
-    final Cell position;
+   final Cell position;
 
-    public Figure(Cell position) {
-        this.position = position;
-    }
+
+   public Figure(Cell position) {
+       this.position = position;
+   }
 
     /**
      * Делает ход.
      * @param dist - задаёт ячейку куда следует пойти.
      * @return массив с ячейками.
      */
-    abstract Cell[] way(Cell dist);
+    abstract Cell[] way(Cell dist) throws ImposibleMoveException;
+    abstract void clone(Cell dist);
 }
