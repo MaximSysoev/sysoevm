@@ -3,13 +3,8 @@ package ru.job4j.chess;
 public class Horse extends Figure {
     Board board = new Board();
 
-
     public Horse(Cell cell) {
         super(cell);
-    }
-
-    public void initHorse() {
-        Horse horse = new Horse(new Cell(1, 0));
     }
 
     /**
@@ -39,11 +34,6 @@ public class Horse extends Figure {
         MoveHorse[7] = new Cell(x - 1, y - 2);
     }
 
-    public void test(Cell dist) {
-        board.figure[1][0] = new Horse(dist);
-        //System.out.println("В clone figures= " + board.figure[1][0].position.getX() + " " +  board.figure[1][0].position.getY());
-       // System.out.println("В test: " + board.getFigure()[1][0]);
-    }
 
     public void clone(Cell dist) {
         board.figure[1][0] = new Horse(dist);
@@ -61,7 +51,7 @@ public class Horse extends Figure {
         board.alignmentFigures();
         moveHorse(board.figure[1][0].position.getX(), board.figure[1][0].position.getY());
 
-        if (board.indexOf(dist) == 0) {
+        if (board.figure[x][y] == null) {
             for (int i = 0; i < 8; i++) {
                 if (x == MoveHorse[i].getX() && y == MoveHorse[i].getY() && MoveHorse[i].getX() > 0 && MoveHorse[i].getY() > 0) {
                     System.out.println("Фигура может пойти в ячейку [" + x + "][" + y + "]");

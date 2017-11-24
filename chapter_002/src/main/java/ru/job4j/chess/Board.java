@@ -28,13 +28,13 @@ public class Board {
         int y = source.getY();
         boolean result = true;
         if (x >= 0 && y >= 0) {
-            if (this.indexOf(source) == 0) {
-                System.out.println("x=" + figure[1][0].position.getX() + " y=" + figure[1][0].position.getY());
+            if (figure[x][y] == null) {
                 result = false;
                 throw new FigureNotFoundException("Ячейка [" + x + "][" + y + "] не содержит фигуры.");
             } else {
                 if (figure[1][0].position.getX() == x && figure[1][0].position.getY() == y) {
                     figure[1][0].way(dist);
+
                     figure[1][0].clone(dist);
                 } else {
                     result = false;
@@ -68,34 +68,13 @@ public class Board {
         this.figure[7][1] = new Horse(new Cell(7, 1));
     }
 
-    /**
-     * Находит index в массиве figures той фигуры, которая стоит на этой клетке.
-     * @param cell
-     * @return
-     */
-    public int indexOf(Cell cell) {
-        int k = 0;
-        int index = 0;
-        int x = cell.getX();
-        int y = cell.getY();
-        for (int out = 0; out < 2; out++) {
-            for (int inner = 0; inner < 8; inner++) {
-                if (x == figure[inner][out].position.getX() && y == figure[inner][out].position.getY()) {
-                    k = index;
-                }
-                index++;
-            }
-        }
-        return k;
-    }
-
     public static void main(String[] args) {
         Board board = new Board();
         Horse horse = new Horse(null);
         board.alignmentFigures();
         board.move(new Cell(1, 0), new Cell(2, 2));
         board.move(new Cell(2, 2), new Cell(4, 3));
-        // horse.moveHorse(board.figure[1][0].position.getX(), board.figure[1][0].position.getY());
+       System.out.println("В main: " + board.figure[1][0].position.getX() + " " + board.figure[1][0].position.getY());
     }
 
 
