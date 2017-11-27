@@ -5,6 +5,7 @@ public class Horse extends Figure {
 
     public Horse(Cell cell) {
         super(cell);
+        board.figure = this;
     }
 
     /**
@@ -34,9 +35,10 @@ public class Horse extends Figure {
         MoveHorse[7] = new Cell(x - 1, y - 2);
     }
 
-
-    public void clone(Cell dist) {
-        board.figure[1][0] = new Horse(dist);
+    public Figure clone(Cell dist) {
+        int x = dist.getX();
+        int y = dist.getY();
+        return new Horse(new Cell(x, y));
     }
 
     /**
@@ -48,33 +50,32 @@ public class Horse extends Figure {
     public Cell[] way(Cell dist) throws ImposibleMoveException {
         int x = dist.getX();
         int y = dist.getY();
-        board.alignmentFigures();
-        moveHorse(board.figure[1][0].position.getX(), board.figure[1][0].position.getY());
-
-        if (board.figure[x][y] == null) {
-            for (int i = 0; i < 8; i++) {
-                if (x == MoveHorse[i].getX() && y == MoveHorse[i].getY() && MoveHorse[i].getX() > 0 && MoveHorse[i].getY() > 0) {
-                    System.out.println("Фигура может пойти в ячейку [" + x + "][" + y + "]");
-                    if (y == board.figure[1][0].position.getY() + 2) {
-                        System.out.println("Клетки через которые проходит фигура: [" + board.figure[1][0].position.getX() + "][" + (board.figure[1][0].position.getY() + 1) + "]");
-                        System.out.println("Клетки через которые проходит фигура: [" + board.figure[1][0].position.getX() + "][" + (board.figure[1][0].position.getY() + 2) + "]");
-                    } else if (y == board.figure[1][0].position.getY() - 2) {
-                        System.out.println("Клетки через которые проходит фигура: [" + board.figure[1][0].position.getX() + "][" + (board.figure[1][0].position.getY() - 1) + "]");
-                        System.out.println("Клетки через которые проходит фигура: [" + board.figure[1][0].position.getX() + "][" + (board.figure[1][0].position.getY() - 2) + "]");
-                    } else if (x == board.figure[1][0].position.getX() + 2) {
-                        System.out.println("Клетки через которые проходит фигура: [" + (board.figure[1][0].position.getX() + 1) + "][" + board.figure[1][0].position.getY() + "]");
-                        System.out.println("Клетки через которые проходит фигура: [" + (board.figure[1][0].position.getX() + 2) + "][" + board.figure[1][0].position.getY() + "]");
-                    } else if (x == board.figure[1][0].position.getX() - 2) {
-                        System.out.println("Клетки через которые проходит фигура: [" + (board.figure[1][0].position.getX() - 1) + "][" + board.figure[1][0].position.getY() + "]");
-                        System.out.println("Клетки через которые проходит фигура: [" + (board.figure[1][0].position.getX() - 2) + "][" + board.figure[1][0].position.getY() + "]");
-                    }
-                    break;
+        int count = 0;
+        moveHorse(board.figure.position.getX(), board.figure.position.getY());
+        for (int i = 0; i < 8; i++) {
+            if (x == MoveHorse[i].getX() && y == MoveHorse[i].getY() && MoveHorse[i].getX() >= 0 && MoveHorse[i].getY() >= 0) {
+                count = 1;
+                System.out.println("Фигура может пойти в ячейку [" + x + "][" + y + "]");
+                if (y == board.figure.position.getY() + 2) {
+                    System.out.println("Клетки через которые проходит фигура: [" + board.figure.position.getX() + "][" + (board.figure.position.getY() + 1) + "]");
+                        System.out.println("Клетки через которые проходит фигура: [" + board.figure.position.getX() + "][" + (board.figure.position.getY() + 2) + "]");
+                } else if (y == board.figure.position.getY() - 2) {
+                    System.out.println("Клетки через которые проходит фигура: [" + board.figure.position.getX() + "][" + (board.figure.position.getY() - 1) + "]");
+                    System.out.println("Клетки через которые проходит фигура: [" + board.figure.position.getX() + "][" + (board.figure.position.getY() - 2) + "]");
+                } else if (x == board.figure.position.getX() + 2) {
+                    System.out.println("Клетки через которые проходит фигура: [" + (board.figure.position.getX() + 1) + "][" + board.figure.position.getY() + "]");
+                    System.out.println("Клетки через которые проходит фигура: [" + (board.figure.position.getX() + 2) + "][" + board.figure.position.getY() + "]");
+                } else if (x == board.figure.position.getX() - 2) {
+                    System.out.println("Клетки через которые проходит фигура: [" + (board.figure.position.getX() - 1) + "][" + board.figure.position.getY() + "]");
+                    System.out.println("Клетки через которые проходит фигура: [" + (board.figure.position.getX() - 2) + "][" + board.figure.position.getY() + "]");
                 }
+                    break;
             }
-        } else {
-            System.out.println("Здесь в Horse.java");
-            throw new ImposibleMoveException("Недопустимый ход [" + x + "][" + y + "]");
-        }
+         }
+
+         if (count == 0) {
+             throw new ImposibleMoveException("Недопустимый ход [" + x + "][" + y + "]");
+         }
          return MoveHorse;
     }
 }

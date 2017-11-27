@@ -4,7 +4,6 @@ public abstract class Figure {
 
    final Cell position;
 
-
    public Figure(Cell position) {
        this.position = position;
    }
@@ -15,5 +14,5 @@ public abstract class Figure {
      * @return массив с ячейками.
      */
     abstract Cell[] way(Cell dist) throws ImposibleMoveException;
-    abstract void clone(Cell dist);
+    abstract Figure clone(Cell dist);
 }

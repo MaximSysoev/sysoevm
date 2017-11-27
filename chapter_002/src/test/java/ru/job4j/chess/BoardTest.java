@@ -7,11 +7,10 @@ public class BoardTest {
 
     @Test
     public void WhenHourseWalksInCellOneThree() {
-        Board board = new Board(new Cell(0, 0));
-        board.alignmentWhiteFigures();
-        board.alignmentBlackFigures();
-        boolean result = board.move(new Cell(2, 1), new Cell(1, 3));
+        Horse horse = new Horse( new Cell(1, 0) ); // Создан экземпляр объекта класса Horse;
+        Board figureHorse = new Board(horse);
+        figureHorse.cell[horse.position.getX()][horse.position.getY()] = horse;
+        boolean result = figureHorse.move(new Cell(1, 0), new Cell(2, 2));
         assertThat(result, is(true));
     }
-
 }
