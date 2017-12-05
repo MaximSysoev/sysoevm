@@ -36,4 +36,21 @@ public class testConvertList {
         int[][] expect = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         assertThat(arrToArray, is(expect));
     }
+
+    @Test
+    public void whenConvertArrayList() {
+        ConvertList clst = new ConvertList();
+        List<int[]> list = new ArrayList<int[]>();
+        List<Integer> expect = new ArrayList<Integer>();
+        list.add(new int[] {1, 2, 3});
+        list.add(new int[] {4, 5, 6});
+        expect.add(1);
+        expect.add(2);
+        expect.add(3);
+        expect.add(4);
+        expect.add(5);
+        expect.add(6);
+        List<Integer> result = clst.convert(list);
+        assertThat(result, is(expect));
+    }
 }

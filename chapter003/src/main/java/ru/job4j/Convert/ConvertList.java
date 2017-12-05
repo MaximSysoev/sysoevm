@@ -9,6 +9,7 @@ public class ConvertList {
      * @return list - параметр.
      */
     public List<Integer> toList(int[][] array) {
+
         int count = 1;
         List<Integer> list = new ArrayList<Integer>();
         for (int i = 0; i < array.length; i++) {
@@ -56,4 +57,31 @@ public class ConvertList {
         }
         return array;
     }
+
+    /**
+     * Метод конвертирует лист массивов в один лист Integer.
+     * @param list - коллекция массивов.
+     * @return result - список из элементов массивов.
+     */
+    public List<Integer> convert(List<int[]> list) {
+        int count = 0;
+        List<Integer> result = new ArrayList<Integer>();
+        for(int[] index : list) {
+            int[] arr = index;
+            for (int i = 0; i < arr.length; i++) {
+                result.add(arr[i]);
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        ConvertList clst = new ConvertList();
+        List<int[]> list = new ArrayList<int[]>();
+        list.add(new int[] {1, 2, 3});
+        list.add(new int[] {4, 5, 6, 7});
+        List<Integer> result = clst.convert(list);
+        System.out.println(result);
+    }
+
 }
