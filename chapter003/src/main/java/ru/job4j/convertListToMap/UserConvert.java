@@ -13,10 +13,8 @@ public class UserConvert {
      */
     public HashMap<Integer, User> process(List<User> list) {
         HashMap<Integer, User> hm = new HashMap<Integer, User>();
-        int index = 0;
         for (User user : list) {
-            hm.put(index, user);
-            index++;
+            hm.put(user.getId(), user);
         }
         return hm;
     }
