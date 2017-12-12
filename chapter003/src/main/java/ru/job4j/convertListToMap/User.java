@@ -1,5 +1,6 @@
 package ru.job4j.convertListToMap;
 import java.lang.*;
+import java.util.Comparator;
 
 /**
  * Класс User описывает пользователя.
@@ -24,7 +25,7 @@ public class User implements Comparable<User> {
     /**
      * age - возраст.
      */
-    private String age;
+    private int age;
 
     public User() {
 
@@ -36,7 +37,7 @@ public class User implements Comparable<User> {
      * @param name параметр.
      * @param city параметр.
      */
-    public User(int id, String name, String city, String age) {
+    public User(int id, String name, String city, int age) {
         this.id = id;
         this.name = name;
         this.city = city;
@@ -71,9 +72,10 @@ public class User implements Comparable<User> {
      * Получить age.
      * @return age.
      */
-    public String getAge() {
+    public int getAge() {
         return age;
     }
+
 
     /**
      * Переопределён метод compareTo - сортирует пользователей по возрасту.
@@ -82,7 +84,9 @@ public class User implements Comparable<User> {
      */
     @Override
     public int compareTo(User o) {
-        return this.age.compareTo(o.age);
+        //return this.age.compareTo(o.age);
+        // return name.length()-o.name.length();
+        return -1;
     }
 
     /**
@@ -91,6 +95,33 @@ public class User implements Comparable<User> {
      */
     @Override
     public String toString() {
-        return "USERS {name='" + name + "' age='" + age +"'}";
+        return "\nUSERS {name='" + name + "' age='" + age +"'}";
+    }
+}
+
+/**
+ * PersonNameComparator - определяет компаратор для длины имени.
+ */
+class PersonNameComparator implements Comparator<User> {
+    @Override
+    public int compare(User a, User b) {
+        return a.getName().length() - b.getName().length();
+    }
+}
+
+/**
+ * PersonAgeComparator - определяет компоратор для имени.
+ */
+class PersonAgeComparator implements Comparator<User> {
+    @Override
+    public int compare(User a, User b) {
+        if(a.getAge()> b.getAge()) {
+            return 1;
+        } else if (a.getAge()< b.getAge()) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
     }
 }
