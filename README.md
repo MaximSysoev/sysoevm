@@ -1,4 +1,4 @@
+[![Build Status](https://travis-ci.org/MaximSysoev/sysoevm.svg?branch=master)](https://travis-ci.org/MaximSysoev/sysoevm)
+[![codecov](https://codecov.io/gh/MaximSysoev/sysoevm/branch/master/graph/badge.svg)](https://codecov.io/gh/MaximSysoev/sysoevm)
 # sysoevm
-http://job4j.ru/
-Цель: Трудоустройство java-разработчиком
-Дата, когда планирую достигнуть цели: После окончания учёбы, в районе 6 месяцев обучения
+????????? ?????? ??? ????? Junior.
