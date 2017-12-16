@@ -1,11 +1,11 @@
-package ru.job4j.convertListToMap;
+package ru.job4j.convertlisttomap;
 import java.lang.*;
 import java.util.Comparator;
 
 /**
  * Класс User описывает пользователя.
  */
-public class User implements Comparable<User> {
+public class User<User> {
 
     /**
      * id пользователя.
@@ -26,10 +26,6 @@ public class User implements Comparable<User> {
      * age - возраст.
      */
     private int age;
-
-    public User() {
-
-    }
 
     /**
      * конструктор класса User.
@@ -75,29 +71,7 @@ public class User implements Comparable<User> {
     public int getAge() {
         return age;
     }
-
-
-    /**
-     * Переопределён метод compareTo - сортирует пользователей по возрасту.
-     * @param o воходящий User;
-     * @return параметр age, отсортированный по возрастанию.
-     */
-    @Override
-    public int compareTo(User o) {
-        //return this.age.compareTo(o.age);
-        // return name.length()-o.name.length();
-        return -1;
-    }
-
-    /**
-     * Переопределён метод toString().
-     * @return Вывод информации.
-     */
-    @Override
-    public String toString() {
-        return "\nUSERS {name='" + name + "' age='" + age +"'}";
-    }
-}
+ }
 
 /**
  * PersonNameComparator - определяет компаратор для длины имени.
@@ -105,7 +79,7 @@ public class User implements Comparable<User> {
 class PersonNameComparator implements Comparator<User> {
     @Override
     public int compare(User a, User b) {
-        return a.getName().length() - b.getName().length();
+        return a.getName().compareTo(b.getName());
     }
 }
 
@@ -115,12 +89,11 @@ class PersonNameComparator implements Comparator<User> {
 class PersonAgeComparator implements Comparator<User> {
     @Override
     public int compare(User a, User b) {
-        if(a.getAge()> b.getAge()) {
+        if (a.getAge() > b.getAge()) {
             return 1;
-        } else if (a.getAge()< b.getAge()) {
+        } else if (a.getAge() < b.getAge()) {
             return -1;
-        }
-        else {
+        } else {
             return 0;
         }
     }
