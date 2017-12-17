@@ -1,8 +1,16 @@
 package ru.job4j.array;
 
-public class join {
-
-    public int[] CombiningArrays(int[] array1, int[] array2) {
+/**
+ * Join класс.
+ */
+public class Join {
+    /**
+     * Объединение массивов.
+     * @param array1 параметр.
+     * @param array2 параметр.
+     * @return resultArray.
+     */
+    public int[] combiningArrays(int[] array1, int[] array2) {
         int[] resultArray = new int[array1.length + array2.length];
         int k = 0;
         for (int i = 0; i < resultArray.length; i++) {

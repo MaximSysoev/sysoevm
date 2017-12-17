@@ -1,12 +1,17 @@
 package ru.job4j.array;
-
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * TurnTest класс.
+ */
 public class TurnTest {
-
-    public void RotateFiveElements() {
+    /**
+     * Сортирует с конца по элементы.
+     */
+    @Test
+    public void rotateFiveElements() {
         Turn turn = new Turn();
         int[] resultArray = {1, 2, 3, 4, 5};
         resultArray = turn.back(resultArray);
@@ -14,7 +19,11 @@ public class TurnTest {
         assertThat(resultArray, is(expectArray));
     }
 
-    public void RotateFourElements() {
+    /**
+     * Сортирует с конца по элементы.
+     */
+    @Test
+    public void rotateFourElements() {
         Turn turn = new Turn();
         int[] resultArray = {4, 1, 6, 2};
         resultArray = turn.back(resultArray);

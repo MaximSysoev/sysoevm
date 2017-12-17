@@ -1,22 +1,32 @@
 package ru.job4j.loop;
-
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * BoardTest - класс.
+ */
 public class BoardTest {
-    public void WhenBoardThreeOnThree() {
+    /**
+     * Заполнение 3х3.
+     */
+    @Test
+    public void whenBoardThreeOnThree() {
         Board board = new Board();
-        StringBuilder builder= new StringBuilder();
-        builder.append("x x x\r\n x \r\nx x");
-        assertThat(board.paint(3,3), is(builder.toString()));
+        StringBuilder builder = new StringBuilder();
+        builder.append("x x\r\n x \r\nx x\r\n");
+        assertThat(board.paint(3, 3), is(builder.toString()));
     }
 
-    public void WhenBoardFiveOnFour() {
+    /**
+     * Заполнение 5х4.
+     */
+    @Test
+    public void whenBoardFiveOnFour() {
         Board board = new Board();
-        StringBuilder builder= new StringBuilder();
-        builder.append("x x x x\r\n x x \r\nx x x\r\n x x ");
-        assertThat(board.paint(5,4), is(builder.toString()));
+        StringBuilder builder = new StringBuilder();
+        builder.append("x x x\r\n x x \r\nx x x\r\n x x \r\n");
+        assertThat(board.paint(5, 4), is(builder.toString()));
     }
 
 }

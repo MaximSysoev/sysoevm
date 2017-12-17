@@ -1,4 +1,4 @@
-package ru.job4j.convertListToMap;
+package ru.job4j.convertlisttomap;
 import java.util.*;
 
 /**

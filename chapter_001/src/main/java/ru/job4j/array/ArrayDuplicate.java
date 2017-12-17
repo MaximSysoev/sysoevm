@@ -1,7 +1,15 @@
 package ru.job4j.array;
 import java.util.Arrays;
 
+/**
+ * ArrayDuplicate класс.
+ */
 public class ArrayDuplicate {
+    /**
+     * Удаляет дубликаты в массиве.
+     * @param array параметр.
+     * @return Arrays.copyOf(array, unique);
+     */
     public String[] removeDuplicates(String[] array) {
         int unique = array.length;
         for (int out = 0; out < unique; out++) {

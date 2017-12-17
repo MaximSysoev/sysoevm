@@ -1,11 +1,15 @@
 package ru.job4j.array;
 
+/**
+ * SortingArray класс.
+ */
 public class SortingArray {
-
-    /*
-    Метод сортировки массива
-    */
-
+    /**
+     *  Метод сортировки массива.
+     * @param array1 параметр.
+     * @param array2 параметр.
+     * @return resultArray.
+     */
     public int[] sortingArray(int[] array1, int[] array2) {
         int[] resultArray = new int[array1.length + array2.length];
         int k = 0, ch = 0, index = 0, min = 1000;
@@ -19,7 +23,7 @@ public class SortingArray {
             }
         }
 
-        for ( int j = 0; j < resultArray.length; j++ ) {
+        for (int j = 0; j < resultArray.length; j++) {
             ch = j;
             while (ch < resultArray.length) {
                 if (min > resultArray[ch]) {

@@ -1,12 +1,10 @@
-package ru.job4j.Convert;
+package ru.job4j.convert;
 import org.junit.Test;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class testConvertList {
+public class TestConvertList {
     /**
      * Тестовый метод преобразования в коллекцию.
      */

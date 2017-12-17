@@ -1,6 +1,15 @@
 package ru.job4j.loop;
 
+/**
+ * Board класс.
+ */
 public class Board {
+    /**
+     * Прорисовка фигур.
+     * @param width параметр.
+     * @param height параметр.
+     * @return builder.toString().
+     */
     public String paint(int width, int height) {
         int count = 1;
         StringBuilder builder = new StringBuilder();

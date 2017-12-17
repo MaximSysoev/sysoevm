@@ -25,6 +25,10 @@ public class Calculate {
       System.out.println(value);
    }
 
+   /**
+    * change - увеличивает счётчик.
+    * @param that параметр.
+    */
    public static void change(Integer that) {
       that++;
    }

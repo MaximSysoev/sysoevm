@@ -1,8 +1,7 @@
-package ru.job4j.Convert;
+package ru.job4j.convert;
 import java.util.*;
 
 public class ConvertList {
-
     /**
      * Преобразует массив в коллекцию.
      * @param array - входящий массив.
@@ -66,7 +65,7 @@ public class ConvertList {
     public List<Integer> convert(List<int[]> list) {
         int count = 0;
         List<Integer> result = new ArrayList<Integer>();
-        for(int[] index : list) {
+        for (int[] index : list) {
             int[] arr = index;
             for (int i = 0; i < arr.length; i++) {
                 result.add(arr[i]);
