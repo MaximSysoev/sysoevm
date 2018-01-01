@@ -15,7 +15,7 @@ public class Operations {
     public void addAccountToUser(String passport, Account account) {
         List<Account> al = new ArrayList<Account>();
         for (Map.Entry<User, List<Account>> entry : hashMap.entrySet()) {
-            if (entry.getKey().getPassport() == passport) {
+            if (entry.getKey().getPassport().equals(passport)) {
                 if (entry.getValue() == null) {
                     al.add(account);
                     entry.setValue(al);
@@ -31,11 +31,10 @@ public class Operations {
     public void deleteAccountFromUser(String passport, Account account) {
         List<Account> al = new ArrayList<Account>();
         for (Map.Entry<User, List<Account>> entry : hashMap.entrySet()) {
-            if (entry.getKey().getPassport() == passport) {
+            if (entry.getKey().getPassport().equals(passport)) {
                 if (entry.getValue() != null) {
                     al = entry.getValue();
                     al.remove(account);
-                    // entry.setValue(al);
                 } else {
 
                 }
@@ -46,7 +45,7 @@ public class Operations {
     public List<Account> getUserAccounts (String passport) {
         List<Account> list = new ArrayList<Account>();
         for (Map.Entry<User, List<Account>> entry : hashMap.entrySet()) {
-            if (entry.getKey().getPassport() == passport) {
+            if (entry.getKey().getPassport().equals(passport)) {
                list.addAll(entry.getValue());
             }
         }
@@ -58,7 +57,6 @@ public class Operations {
         for (Account account : this.getUserAccounts(srcPassport)) {
             if (account.getRequisites().equals(srcRequisite) && account.getValue() > amount) {
                 account.setValue(account.getValue() - amount);
-                System.out.println(account.getRequisites() + " " + account.getValue());
             } else {
                 result = false;
              }
@@ -67,7 +65,6 @@ public class Operations {
          for (Account account : this.getUserAccounts(destPassport)) {
             if (account.getRequisites().equals(dstRequisite)) {
                 account.setValue(account.getValue() + amount);
-                System.out.println(account.getRequisites() + " " + account.getValue());
             }
          }
         return result;
