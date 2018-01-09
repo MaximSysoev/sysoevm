@@ -9,17 +9,35 @@ public class DepartmentList{
 
     public int compare(int[] left, int[] right) {
         int result = 0;
-        int diff = left.length - right.length;
-        for (int index = 0; index < Math.abs(diff); index++) {
-            result = Integer.compare(left[index], right[index]);
-            if (result != 0) {
-                break;
-            }
-        }
+        int diff = Math.abs(left.length - right.length);
+
+       if (left.length <= right.length) {
+           for (int index = 0; index < left.length; index++) {
+               result = Integer.compare(left[index], right[index]);
+           }
+       } else {
+           for (int index = 0; index < right.length; index++) {
+               result = Integer.compare(left[index], right[index]);
+           }
+       }
+
         if (result == 0) {
             result = diff;
         }
-        System.out.println(result);
+
+      /*  if (left.length <= right.length) {
+            for (int index = 0; index < Math.abs(diff); index++) {
+                result = Integer.compare(left[index], right[index]);
+                if (result != 0) {
+                    break;
+                }
+            }
+            if (result == 0) {
+                result = diff;
+            }
+        } else {
+            result = 1;
+        } */
         return result;
     }
 
@@ -29,42 +47,29 @@ public class DepartmentList{
         int index = 1;
         for (String s : list) {
             lst.add(Arrays.asList(s.split("\\\\")));
-
         }
 
         System.out.print(lst + " / " + lst.size());
         System.out.println();
-        System.out.println();
 
-        for (int i = 0; i < lst.size(); i+=2) {
+        for (int i = 0; i < lst.size(); i++) {
             if (index < lst.size()) {
                 int[] left = new int[lst.get(i).size()];
                 int[] right = new int[lst.get(index).size()];
                 int k = 0;
                 for (String s : lst.get(i)) {
                     left[k] = Integer.parseInt(s.substring(s.length()-1));
+                    k++;
                 }
-
+                k = 0;
                 for (String s : lst.get(index)) {
                     right[k] = Integer.parseInt(s.substring(s.length()-1));
-                }
-                index+=2;
-                this.compare(left, right);
-            } else {
-                index-=2;
-                int[] left = new int[lst.get(i).size()];
-                int[] right = new int[lst.get(index).size()];
-                int k = 0;
-                for (String s : lst.get(i)) {
-                    left[k] = Integer.parseInt(s.substring(s.length()-1));
+                    k++;
                 }
 
-                for (String s : lst.get(index)) {
-                    right[k] = Integer.parseInt(s.substring(s.length()-1));
-                }
-                this.compare(left, right);
+               System.out.println(this.compare(left, right));
+                index++;
             }
-
         }
         return lst;
     }
@@ -80,13 +85,11 @@ public class DepartmentList{
                         "K1\\SK1\\SSK1",
                         "K2",
                         "K1\\SK1\\SSK2",
-                        "K2\\SK1\\SSK2"
+                        "K2\\SK1\\SSK2",
+                        "K3\\SK3\\SSK1"
                 )
         );
         List<List<String>> lst = departmentList.convert(treeSet);
-
-        int result = departmentList.compare(new int[] {1,1,2}, new int[] {1, 2});
-
     }
 
 }
