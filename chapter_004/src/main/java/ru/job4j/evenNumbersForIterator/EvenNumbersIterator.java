@@ -13,7 +13,12 @@ public class EvenNumbersIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-       hasIndex = index + 1;
+       if (index!=numbers.length-1) {
+          hasIndex = index + 1;
+       } else {
+           hasIndex = index;
+       }
+
        return numbers.length > hasIndex && numbers[hasIndex] % 2 == 0;
     }
 
@@ -22,9 +27,9 @@ public class EvenNumbersIterator implements Iterator {
          int result = 0;
          if (index < numbers.length) {
              for (int i = index; i < numbers.length; i++) {
-                /* if (index == numbers.length - 1 & numbers[index] % 2 != 0) {
+                 if (index == numbers.length - 1 & numbers[index] % 2 != 0) {
                      throw new NoSuchElementException();
-                 } */
+                 }
                  if (numbers[i] % 2 == 0) {
                      index = i + 1;
                      result = numbers[i];
