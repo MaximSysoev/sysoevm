@@ -2,33 +2,34 @@ package ru.job4j.converter;
 import java.util.*;
 
 public class Converter {
-    ArrayList<Integer> arrayList = new ArrayList<>();
 
-    public ArrayList<Integer> convertToList(Iterator<Integer> iterator) {
-        while (iterator.hasNext()) {
-            arrayList.add(iterator.next());
-        }
-        return arrayList;
-    }
+   public Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
+       return new Iterator<Integer>() {
+           Iterator<Integer> iterator = it.next();
 
-    public Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
-        while (it.hasNext()) {
-            convertToList(it.next());
-        }
+           @Override
+           public boolean hasNext() {
+               boolean result = false;
+                   if (iterator.hasNext()) {
+                       result = iterator.hasNext();
+                   } else {
+                       result = it.hasNext();
+                   }
+               return result;
+           }
 
-        Iterator<Integer> iterator = arrayList.iterator();
-
-        return new Iterator<Integer>() {
-            @Override
-            public boolean hasNext() {
-                return iterator.hasNext();
-            }
-
-            @Override
-            public Integer next() {
-                return iterator.next();
-            }
-        };
-    }
+           @Override
+           public Integer next() {
+                int value = 0;
+                if (iterator.hasNext()) {
+                    value = iterator.next();
+                } else {
+                    iterator = it.next();
+                    value = iterator.next();
+                }
+                return value;
+           }
+       };
+   }
 
 }
