@@ -2,7 +2,8 @@ package ru.job4j.simpeArray;
 import java.util.*;
 
 public class SimpleArray<T> {
-    ArrayList<T> arrayList = new ArrayList<T>();
+   public ArrayList<T> arrayList = new ArrayList<T>();
+
     int index = 0;
 
     public void add(T value) {
@@ -21,7 +22,6 @@ public class SimpleArray<T> {
         return arrayList.get(index);
     }
 
-
     public boolean hasNext() {
         int value = index + 1;
         boolean result = true;
@@ -33,7 +33,6 @@ public class SimpleArray<T> {
         return result;
     }
 
-
     public T next() {
        T value = null;
        if (index < arrayList.size()) {
@@ -43,16 +42,5 @@ public class SimpleArray<T> {
        }
        index++;
        return value;
-    }
-
-    public static void main(String[] args) {
-        SimpleArray<Integer> simpleArray = new SimpleArray<Integer>();
-        simpleArray.add(1);
-        simpleArray.add(2);
-        simpleArray.add(3);
-        System.out.println(simpleArray.next());
-        System.out.println(simpleArray.next());
-        System.out.println(simpleArray.next());
-        System.out.println(simpleArray.hasNext());
     }
 }
