@@ -1,9 +1,8 @@
 package ru.job4j.simpeArray;
 import java.util.*;
 
-public class SimpleArray<T> {
-   public ArrayList<T> arrayList = new ArrayList<T>();
-
+public class SimpleArray<T> implements Iterable {
+    ArrayList<T> arrayList = new ArrayList<T>();
     int index = 0;
 
     public void add(T value) {
@@ -22,25 +21,46 @@ public class SimpleArray<T> {
         return arrayList.get(index);
     }
 
-    public boolean hasNext() {
-        int value = index + 1;
-        boolean result = true;
-        if (value <= arrayList.size()) {
-            result = true;
-        } else {
-            result = false;
-        }
-        return result;
+    @Override
+    public Iterator<T> iterator() {
+        return new SimpleIterator<T>();
     }
 
-    public T next() {
-       T value = null;
-       if (index < arrayList.size()) {
-           value = arrayList.get(index);
-       } else {
-           throw new NoSuchElementException();
-       }
-       index++;
-       return value;
+    class SimpleIterator<T> implements Iterator<T> {
+        @Override
+        public boolean hasNext() {
+            int value = index + 1;
+            boolean result = true;
+            if (value <= arrayList.size()) {
+                result = true;
+            } else {
+                result = false;
+            }
+            return result;
+        }
+
+        @Override
+        public T next() {
+            T value = null;
+            if (index < arrayList.size()) {
+                value = (T) arrayList.get(index);
+            } else {
+                throw new NoSuchElementException();
+            }
+            index++;
+            return value;
+        }
+    }
+
+    public static void main(String[] args) {
+        SimpleArray<Integer> simpleArray = new SimpleArray<>();
+        simpleArray.add(1);
+        simpleArray.add(2);
+        simpleArray.add(3);
+        System.out.println(simpleArray.iterator().next());
+        System.out.println(simpleArray.iterator().next());
+        System.out.println(simpleArray.iterator().hasNext());
+        System.out.println(simpleArray.iterator().next());
+        System.out.println(simpleArray.iterator().hasNext());
     }
 }

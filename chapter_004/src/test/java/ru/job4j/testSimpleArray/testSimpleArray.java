@@ -10,6 +10,7 @@ import ru.job4j.simpeArray.SimpleArray;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+
 public class testSimpleArray {
 
     private ArrayList<Integer> arrayList = new ArrayList<>();
@@ -41,7 +42,7 @@ public class testSimpleArray {
 
     @Test
     public void whenNextValue() {
-        assertThat(1, is(simpleArray.next()));
+        assertThat(1, is(simpleArray.iterator().next()));
     }
 
 }
