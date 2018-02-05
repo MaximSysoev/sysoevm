@@ -8,13 +8,12 @@ public class User extends Base {
     }
 
     public static void main(String[] args) {
-        UserStore userStore = new UserStore(new SimpleArray<Base>());
-        Base base1 = new User("0");
-        Base base2 = new User("1");
-        userStore.add(base1);
-        userStore.add(base2);
-        userStore.delete(base2.getId());
+        UserStore userStore = new UserStore(new SimpleArray<User>());
+        User user1 = new User("001");
+        User user2 = new User("111");
+        userStore.add(user1);
+        userStore.add(user2);
+       // userStore.delete(base2.getId());
         System.out.println(userStore.simpleArray.arrayList.get(0).getId());
-
     }
 }
