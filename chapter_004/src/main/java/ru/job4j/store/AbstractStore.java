@@ -27,6 +27,7 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
     }
 
     public void delete(String id) {
+
         int i = 0;
         for (T element : simpleArray.arrayList) {
             if (id == simpleArray.arrayList.get(i).getId()) {
