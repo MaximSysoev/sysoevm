@@ -38,6 +38,7 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
     }
 
     public T findById(String id) {
+
         int i = 0;
         T value = null;
         for (T element : simpleArray.arrayList) {

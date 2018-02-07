@@ -15,45 +15,41 @@ public class StoreTest {
 
     @Before
     public void setUp(){
-        userStore = new UserStore(new SimpleArray<Base>());
+        userStore = new UserStore();
     }
 
     @Test
     public void whenAddNewUser() {
-        Base base1 = new User("001");
-        userStore.add(base1);
+        User user = new User("001");
+        userStore.add(user);
         assertThat("001", is(userStore.simpleArray.arrayList.get(0).getId()));
     }
 
     @Test
     public void whenRpelaceUsers() {
-        Base base1 = new User("001");
-        Base base2 = new User("002");
-        userStore.add(base1);
-        userStore.add(base2);
-        userStore.replace(base1.getId(), base2);
+        User user1 = new User("001");
+        User user2 = new User("002");
+        userStore.add(user1);
+        userStore.add(user2);
+        userStore.replace(user1.getId(), user2);
         assertThat("002", is(userStore.simpleArray.arrayList.get(0).getId()));
     }
 
     @Test
     public void whenDeleteUsers() {
-        Base base1 = new User("0");
-        Base base2 = new User("1");
-        userStore.add(base1);
-        userStore.add(base2);
-        userStore.delete(base1.getId());
+        User user1 = new User("0");
+        User user2 = new User("1");
+        userStore.add(user1);
+        userStore.add(user2);
+        userStore.delete(user1.getId());
         assertThat("1", is(userStore.simpleArray.arrayList.get(0).getId()));
     }
 
     @Test
     public void whenFindById() {
-        Base base1 = new User("0");
-        Base base2 = new User("1");
-        Base base3 = new User("2");
-        userStore.add(base1);
-        userStore.add(base2);
-        userStore.add(base3);
-        assertThat("2", is(userStore.findById("2").getId()));
+        User user = new User("1");
+        userStore.add(user);
+        assertThat("1", is(userStore.findById("1").getId()));
     }
 
 }
