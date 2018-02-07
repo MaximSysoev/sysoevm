@@ -1,8 +1,8 @@
 package ru.job4j.store;
-import ru.job4j.simpeArray.SimpleArray;
+import ru.job4j.simpeArray.*;
 
 public class UserStore extends AbstractStore<User> {
-    public UserStore(SimpleArray<User> simpleArray) {
-        super(simpleArray);
+    public UserStore() {
+        super(new SimpleArray<>());
     }
 }
