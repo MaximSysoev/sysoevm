@@ -18,11 +18,13 @@ public class SimpleContainerTest {
         container.add(1);
         container.add(2);
         container.add(3);
+        container.add(4);
+        container.add(5);
     }
 
     @Test
     public void whenAddValue() {
-        assertThat(container.get(0), is(1));
+        assertThat(container.get(4), is(5));
     }
 
     @Test

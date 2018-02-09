@@ -1,4 +1,5 @@
 package ru.job4j.simpleContainer;
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -7,29 +8,23 @@ public class Container<E> implements SimpleContainer<E>, Iterable<E> {
 
     private int index = 0;
     private int modCount = 0;
-    private int expectedModCount;
+    private int expectedModCount = 0;
     private int indexNext = 0;
-    private Object[] container = new Object[1];
+    private Object[] container = new Object[10];
 
-    private void setCapacity(Object[] a, Object[] b) {
-        for (int i = 0; i < b.length; i++) {
-            a[i] = b[i];
-        }
+    public Object[] ensureCapacity(Object[] source, int capacity) {
+        return Arrays.copyOf(source, capacity);
     }
 
     @Override
     public void add(E value) {
-        Object[] array = new Object[container.length + 1];
-        if (index == 0) {
+        if (index > 9) {
+            container = ensureCapacity(container, index + 1);
             container[index] = value;
-            index++;
-        } else {
-            index++;
-            setCapacity(array, container);
-            array[array.length-1] = value;
-            container = new Object[index];
-            setCapacity(container, array);
         }
+        container[index] = value;
+
+        index++;
         modCount++;
     }
 
@@ -40,38 +35,51 @@ public class Container<E> implements SimpleContainer<E>, Iterable<E> {
 
     @Override
     public Iterator<E> iterator() {
-        if (expectedModCount == 0) {
-            expectedModCount = modCount;
-        }
         return new SimpleIterator<E>();
     }
 
     public class SimpleIterator<E> implements Iterator {
+
+        public void exceptions() throws ConcurrentModificationException, NoSuchElementException {
+            if (expectedModCount == 0) {
+                expectedModCount = modCount;
+            }
+
+            if (expectedModCount != modCount) {
+                throw new ConcurrentModificationException();
+            }
+
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+        }
+
         @Override
         public boolean hasNext() {
-            boolean result = true;
-            if (indexNext + 1 <= container.length) {
-                result = true;
-            } else {
-                result = false;
-            }
-            return result;
+            return indexNext < index;
         }
 
         @Override
         public E next() {
-            E value;
-            if (expectedModCount == modCount) {
-                if (indexNext < container.length && container[indexNext] != null) {
-                    value = (E) container[indexNext];
-                } else {
-                    throw new NoSuchElementException();
-                }
-            } else {
-                throw new ConcurrentModificationException();
-            }
-            indexNext++;
-            return value;
+            exceptions();
+            return (E)container[indexNext++];
         }
+    }
+
+    public static void main(String[] args) {
+        Container<Integer> container = new Container<>();
+        container.add(0);
+        container.add(1);
+        container.add(2);
+        container.add(3);
+        container.add(4);
+        container.add(5);
+        container.add(6);
+        container.add(7);
+        container.add(8);
+        container.add(9);
+        container.add(10);
+        container.add(11);
+
     }
 }
