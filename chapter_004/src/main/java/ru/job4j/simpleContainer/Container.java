@@ -8,8 +8,8 @@ public class Container<E> implements SimpleContainer<E>, Iterable<E> {
 
     private int index = 0;
     private int modCount = 0;
-    private int expectedModCount = 0;
     private int indexNext = 0;
+
     private Object[] container = new Object[10];
 
     public Object[] ensureCapacity(Object[] source, int capacity) {
@@ -18,12 +18,10 @@ public class Container<E> implements SimpleContainer<E>, Iterable<E> {
 
     @Override
     public void add(E value) {
-        if (index > 9) {
-            container = ensureCapacity(container, index + 1);
-            container[index] = value;
+        if (index > container.length - 1) {
+            container = ensureCapacity(container, index + 10);
         }
         container[index] = value;
-
         index++;
         modCount++;
     }
@@ -38,19 +36,16 @@ public class Container<E> implements SimpleContainer<E>, Iterable<E> {
         return new SimpleIterator<E>();
     }
 
+
+
     public class SimpleIterator<E> implements Iterator {
 
-        public void exceptions() throws ConcurrentModificationException, NoSuchElementException {
-            if (expectedModCount == 0) {
-                expectedModCount = modCount;
-            }
+        private int expectedModCount = modCount;
 
+
+        public void checkForConcurrentModification() throws ConcurrentModificationException, NoSuchElementException {
             if (expectedModCount != modCount) {
                 throw new ConcurrentModificationException();
-            }
-
-            if (!hasNext()) {
-                throw new NoSuchElementException();
             }
         }
 
@@ -61,25 +56,11 @@ public class Container<E> implements SimpleContainer<E>, Iterable<E> {
 
         @Override
         public E next() {
-            exceptions();
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            checkForConcurrentModification();
             return (E)container[indexNext++];
         }
-    }
-
-    public static void main(String[] args) {
-        Container<Integer> container = new Container<>();
-        container.add(0);
-        container.add(1);
-        container.add(2);
-        container.add(3);
-        container.add(4);
-        container.add(5);
-        container.add(6);
-        container.add(7);
-        container.add(8);
-        container.add(9);
-        container.add(10);
-        container.add(11);
-
     }
 }
