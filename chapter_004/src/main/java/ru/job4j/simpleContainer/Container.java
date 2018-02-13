@@ -8,7 +8,7 @@ public class Container<E> implements SimpleContainer<E>, Iterable<E> {
 
     private int index = 0;
     private int modCount = 0;
-    private int indexNext = 0;
+
 
     private Object[] container = new Object[10];
 
@@ -41,7 +41,7 @@ public class Container<E> implements SimpleContainer<E>, Iterable<E> {
     public class SimpleIterator<E> implements Iterator {
 
         private int expectedModCount = modCount;
-
+        private int indexNext = 0;
 
         public void checkForConcurrentModification() throws ConcurrentModificationException, NoSuchElementException {
             if (expectedModCount != modCount) {
