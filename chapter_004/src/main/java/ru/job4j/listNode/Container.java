@@ -1,21 +1,16 @@
 package ru.job4j.listNode;
 
 public class Container<E> {
-
-    private Node<E> head;
-    private Node<E> tail;
+    public Node<E> head;
+    public Node<E> tail;
 
     public void add(E value) {
         if (head == null) {
-            head = new Node<>();
+            head = new Node<>(value);
+            tail = head;
         } else {
-            if (head.next!=null) {
-                tail = head.next;
-                if (tail.next == null) {
-                    tail.next = new Node<>();
-                }
-            }
+            head.next = new Node<>(value);
+            tail = head.next;
         }
-        head.value = value;
     }
 }
