@@ -7,7 +7,7 @@ public class Container<E> implements Iterable<E> {
 
     public Node<E> head;
     public Node<E> tail;
-    public Node<E> temp = head;
+    public Node temp;
 
     public void add(E value) {
         Node<E> newNode = new Node<>(value);
@@ -19,6 +19,8 @@ public class Container<E> implements Iterable<E> {
         }
     }
 
+
+
     @Override
     public Iterator<E> iterator() {
         return new simpleIterator();
@@ -29,7 +31,7 @@ public class Container<E> implements Iterable<E> {
         E value = null;
         @Override
         public boolean hasNext() {
-            if (temp.value!=null) {
+            if (temp!=null) {
                 return true;
             } else {
                 return false;
@@ -38,8 +40,12 @@ public class Container<E> implements Iterable<E> {
 
         @Override
         public E next() {
-            value = temp.value;
-            temp = temp.next;
+            if (this.hasNext() == true) {
+                value = (E) temp.value;
+                temp = temp.next;
+            } else {
+                throw new NoSuchElementException();
+            }
             return value;
         }
     }

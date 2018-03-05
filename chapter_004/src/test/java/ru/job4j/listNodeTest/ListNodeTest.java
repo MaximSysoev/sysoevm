@@ -28,7 +28,7 @@ public class ListNodeTest {
 
     @Test
     public void whenGetHasNextIsTrue() {
-        assertThat(true, is(container.hasNext()));
+        assertThat(true, is(container.iterator().hasNext()));
     }
 
 }
