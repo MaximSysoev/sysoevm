@@ -1,28 +1,23 @@
 package ru.job4j.listNode;
-
-
+import ru.job4j.simpleContainer.*;
 
 public class SimpleQueue<E> {
 
     private Container<E> container = new Container<>();
-    private Object[] array = new Object[10];
+    private ru.job4j.simpleContainer.Container<E> simpleContainer = new ru.job4j.simpleContainer.Container<>();
     private int index = 0;
 
     public E poll() {
-        E value = null;
-        for (int i = array.length - 1; i >= 0; i--) {
-            if (array[i]!=null){
-                value = (E) array[i];
-                array[i] = null;
-                break;
-            }
-        }
+        index--;
+        E value = (E) simpleContainer.get(index);
+        simpleContainer.remove(index);
         return value;
     }
 
     public void push(E value) {
         container.add(value);
-        array[index] = value;
+        simpleContainer.add(container.head.value);
+        container.head = container.head.next;
         index++;
     }
 }

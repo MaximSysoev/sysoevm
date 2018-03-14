@@ -9,11 +9,18 @@ public class Container<E> implements SimpleContainer<E>, Iterable<E> {
     private int index = 0;
     private int modCount = 0;
 
-
     private Object[] container = new Object[10];
 
     public Object[] ensureCapacity(Object[] source, int capacity) {
         return Arrays.copyOf(source, capacity);
+    }
+
+    public void remove(int index) throws NoSuchElementException {
+        if (container[index]!=null) {
+            container[index] = null;
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     @Override
@@ -36,10 +43,7 @@ public class Container<E> implements SimpleContainer<E>, Iterable<E> {
         return new SimpleIterator<E>();
     }
 
-
-
     public class SimpleIterator<E> implements Iterator {
-
         private int expectedModCount = modCount;
         private int indexNext = 0;
 
