@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import org.junit.*;
 import ru.job4j.converter.Converter;
 import ru.job4j.listNode.Container;
+import ru.job4j.listNode.Node;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -31,4 +32,19 @@ public class ListNodeTest {
         assertThat(true, is(container.iterator().hasNext()));
     }
 
+    @Test
+    public void whenCycleList(){
+        Node<Integer> first = new Node<>(1);
+        Node<Integer> second = new Node<>(2);
+        Node<Integer> third = new Node<>(3);
+        Node<Integer> fourth = new Node(4);
+
+        first.next = second;
+        second.next = third;
+        third.next = fourth;
+        fourth.next = first;
+        Node<Integer> head = first;
+
+        assertThat(true, is(head.hasCycle(first)));
+    }
 }
