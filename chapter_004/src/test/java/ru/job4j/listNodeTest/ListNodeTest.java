@@ -34,17 +34,17 @@ public class ListNodeTest {
 
     @Test
     public void whenCycleList(){
-        Node<Integer> first = new Node<>(1);
-        Node<Integer> second = new Node<>(2);
-        Node<Integer> third = new Node<>(3);
-        Node<Integer> fourth = new Node(4);
+        Node<Integer> n1 = new Node<>(1);
+        Node<Integer> n2 = new Node<>(2);
+        Node<Integer> n3 = new Node<>(3);
+        Node<Integer> n4 = new Node(4);
+        Node<Integer> n5 = new Node(5);
 
-        first.next = second;
-        second.next = third;
-        third.next = fourth;
-        fourth.next = first;
-        Node<Integer> head = first;
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        n4.next = n5;
 
-        assertThat(true, is(head.hasCycle(first)));
+        assertThat(n1.hasCycle(n1), is(false));
     }
 }

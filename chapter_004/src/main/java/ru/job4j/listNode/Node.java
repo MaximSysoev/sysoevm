@@ -12,7 +12,7 @@ public class Node<E>{
         boolean result = false;
         Node<E> temp = node;
 
-        while (temp != null) {
+        while (temp.next != null) {
             Node<E> one = temp;
             Node<E> two = temp.next;
             if (two.next == one || two.next == node) {
