@@ -19,16 +19,16 @@ public class Container<E> implements Iterable<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new simpleIterator();
+        return new SimpleIterator();
     }
 
-    class simpleIterator implements Iterator<E> {
+    class SimpleIterator implements Iterator<E> {
 
-        public Node temp = head;
+        public Node<E> temp = head;
 
         @Override
         public boolean hasNext() {
-           return temp!=null;
+           return temp != null;
         }
 
         @Override
