@@ -12,24 +12,12 @@ public class Container {
 
     public void add (SetHash setHash) {
         int result = 0;
-
         if (index > container.length - 1) {
             container = ensureCapacity(container, index + 10);
         }
-
-        if ( container[0] != null ) {
-            for ( int i = 0; i < container.length; i++ ) {
-                if (container[i]!=null) {
-                    if (container[i].getKey() == setHash.getKey() ) {
-                        result = 1;
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (result == 0) {
-            container[index] = setHash;
+        int cell = Math.abs(setHash.hashCode() % container.length);
+        if (container[cell] == null) {
+            container[cell] = setHash;
             index++;
         }
     }
