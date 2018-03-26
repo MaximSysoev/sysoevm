@@ -6,30 +6,27 @@ public class SetNode<E> implements Iterable<E> {
 
     private Node<E> head;
     private Node<E> tail;
-    int result = 0;
 
-    public void searchElement(E value) {
+    public boolean searchElement(E value) {
+        boolean result = false;
         Node<E> temp = head;
         while (temp != null) {
             if (value.equals(temp.value)) {
-                result = 1;
+                result = true;
                 break;
             }
             temp = temp.next;
         }
+        return result;
     }
 
     public void add(E value) {
         if (head == null) {
             head = tail = new Node<>(value);
         } else {
-            searchElement(value);
-
-            if (result == 0) {
+            if (!searchElement(value)) {
                 tail.next = new Node<>(value);
                 tail = tail.next;
-            } else {
-                throw new NoSuchElementException();
             }
         }
     }
@@ -51,7 +48,11 @@ public class SetNode<E> implements Iterable<E> {
         @Override
         public E next() {
             Node<E> temp = node;
-            node = node.next;
+            if (temp!=null) {
+                node = node.next;
+            } else {
+                throw new NoSuchElementException();
+            }
             return temp.value;
         }
     }
