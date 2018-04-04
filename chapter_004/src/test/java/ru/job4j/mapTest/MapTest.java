@@ -1,31 +1,33 @@
 package ru.job4j.mapTest;
 import org.junit.*;
+import ru.job4j.map.Entry;
 import ru.job4j.map.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class MapTest {
-    Map<String, String> map = new Map<>();
+    Map<Integer, String> map = new Map<>();
 
     @Before
     public void setUp() {
-        map.insert("Первый", "first");
-        map.insert("Второй", "second");
-        map.insert("Третий", "three");
-        map.insert("Четвертый", "fourth");
-        map.insert("Пятый", "five");
+        Entry<Integer, String> entry1 = new Entry<>(1, "first");
+        Entry<Integer, String> entry2 = new Entry<>(2, "second");
+        Entry<Integer, String> entry3 = new Entry<>(3, "third");
+        map.insert(entry1.key, entry1.value);
+        map.insert(entry2.key, entry2.value);
+        map.insert(entry3.key, entry3.value);
     }
 
     @Test
     public void whenGetValueForKey() {
-        assertThat(map.get("Пятый"), is("five"));
+        assertThat(map.get(1), is("first"));
     }
 
     @Test
     public void whenDeleteFiveValueShouldNull() {
-        map.delete("Пятый");
-        assertThat(map.get("Пятый"), is((Object) null));
+        map.delete(1);
+        assertThat(map.get(1), is((Object) null));
     }
 
 }
