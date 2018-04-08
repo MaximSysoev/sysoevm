@@ -12,12 +12,15 @@ public abstract class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     @Override
     public boolean add(E parent, E child) {
-        if (root.equals(parent)) {
+        if (root == null) {
             root.add(new Node<>(child));
         } else {
-            root = new Node<>(parent);
-            root.add(new Node<>(child));
-         }
+            if (root.eqValue(parent)) {
+
+            } else {
+                root.add(new Node<>(child));
+            }
+        }
         return true;
     }
 
