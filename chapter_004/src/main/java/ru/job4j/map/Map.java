@@ -1,35 +1,29 @@
 package ru.job4j.map;
-
-import javafx.beans.binding.ObjectExpression;
-
 public class Map<K, V> {
 
-    public Object[] container = new Object[10];
+    public Entry[] container = new Entry[2];
     private int capacity = 10;
     private int index = 0;
 
-    public Object[] ensureCapacity(int length) {
+    public Entry[] ensureCapacity(int length) {
         capacity = capacity + length;
-        Object[] newArray = new Object[capacity];
+        Entry[] array = new Entry[capacity];
         for (int i = 0; i < container.length; i++) {
-            if (container[i] != null) {
-                int cell = Math.abs(i % newArray.length);
-                if (newArray[cell] == null) {
-                    newArray[cell] = container[i];
-                }
+            if (container[i]!=null) {
+                addEntry(array, (K) container[i].key, (V) container[i].value);
             }
         }
-        return newArray;
+        return array;
     }
 
     public int getCell(K key) {
         return Math.abs(key.hashCode() % container.length);
     }
 
-    public boolean addEntry(Object[] array, K key, V value) {
+    public boolean addEntry(Entry[] array, K key, V value) {
         int cell = getCell(key);
         if (array[cell] == null) {
-            array[cell] = value;
+            array[cell] = new Entry(key, value);
             index++;
             return true;
         } else {
@@ -41,7 +35,6 @@ public class Map<K, V> {
         if (index > container.length - 1) {
             container = ensureCapacity(index + 10);
         }
-
         return addEntry(container, key, value);
     }
 
@@ -60,17 +53,4 @@ public class Map<K, V> {
         }
     }
 
-    public static void main(String[] args) {
-        Entry<Integer, String> entry1 = new Entry<>(1, "first");
-        Entry<Integer, String> entry2 = new Entry<>(2, "second");
-        Entry<Integer, String> entry3 = new Entry<>(3, "third");
-        Map<Integer, String> map = new Map<>();
-        map.insert(entry1.key, entry1.value);
-        map.insert(entry2.key, entry2.value);
-        map.insert(entry3.key, entry3.value);
-
-        for (int i = 0; i < map.container.length; i++) {
-            System.out.println(i+ ") " + map.container[i]);
-        }
-    }
 }
