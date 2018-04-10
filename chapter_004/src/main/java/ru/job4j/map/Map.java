@@ -16,12 +16,12 @@ public class Map<K, V> {
         return array;
     }
 
-    public int getCell(K key) {
-        return Math.abs(key.hashCode() % container.length);
+    public int getCell(Entry[] array, K key) {
+        return Math.abs(key.hashCode() % array.length);
     }
 
     public boolean addEntry(Entry[] array, K key, V value) {
-        int cell = getCell(key);
+        int cell = getCell(array, key);
         if (array[cell] == null) {
             array[cell] = new Entry(key, value);
             index++;
@@ -39,12 +39,12 @@ public class Map<K, V> {
     }
 
     public V get(K key) {
-        int cell = getCell(key);
+        int cell = getCell(container, key);
         return (V) container[cell];
     }
 
     public boolean delete(K key) {
-        int cell = getCell(key);
+        int cell = getCell(container, key);
         if (container[cell] != null) {
             container[cell] = null;
             return true;
@@ -52,5 +52,4 @@ public class Map<K, V> {
             return false;
         }
     }
-
 }
