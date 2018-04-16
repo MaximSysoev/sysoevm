@@ -8,15 +8,17 @@ public abstract class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     @Override
     public boolean add(E parent, E child) {
-
+        boolean result = false;
       if (findBy(parent).equals(parent)) {
           if (findBy(child).equals(Optional.empty())) {
               root.add(new Node<>(child));
-              return true;
+              result = true;
           }
+      } else {
+          root.add(new Node<>(parent));
+          result = true;
       }
-
-
+        return result;
     }
 
     @Override
