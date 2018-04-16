@@ -6,31 +6,26 @@ public abstract class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     Node<E> root;
 
-    public Tree(E value) {
-        this.root = new Node<>(value);
-    }
-
     @Override
     public boolean add(E parent, E child) {
-        if (root == null) {
-            root.add(new Node<>(child));
-        } else {
-            if (root.eqValue(parent)) {
 
-            } else {
-                root.add(new Node<>(child));
-            }
-        }
-        return true;
+      if (findBy(parent).equals(parent)) {
+          if (findBy(child).equals(Optional.empty())) {
+              root.add(new Node<>(child));
+              return true;
+          }
+      }
+
+
     }
 
     @Override
     public Optional findBy(E value) {
-        Optional<Node<E>> rsl = Optional.empty();
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
+        Optional<Node<E>> rsl = Optional.empty(); // Создаётся объект типа optional.
+        Queue<Node<E>> data = new LinkedList<>(); // Создаётся объект типа Queue
+        data.offer(this.root); // добавляется в очередь объект root
         while (!data.isEmpty()) {
-            Node<E> el = data.poll();
+            Node<E> el = data.poll(); // Получаем объект из очереди.
             if (el.eqValue(value)) {
                 rsl = Optional.of(el);
                 break;
