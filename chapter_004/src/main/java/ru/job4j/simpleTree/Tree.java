@@ -1,24 +1,22 @@
 package ru.job4j.simpleTree;
 import java.util.*;
 
-public abstract class Tree<E extends Comparable<E>> implements SimpleTree<E> {
+public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     Node<E> root;
+
+    public Tree(E value) {
+        this.root = new Node<>(value);
+    }
 
     @Override
     public boolean add(E parent, E child) {
         if (findBy(parent).isPresent()) { // Если есть родительский элемент.
-            if (!findBy(child).isPresent()) { // и при этом нет дочернего элемента.
-                root.add(new Node<>(child)); // в корневой узел добавляю новый дочерний.
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            Node<E> node = new Node<>(parent); // Иначе если нет родительского элемента – создаётся новый узел.
-            node.add(new Node<>(child)); // К новому узлу добавляется новый дочерний узел.
-            root.add(node); // и всё это добавляется в корневой главный узел.
+            Node<E> element = (Node)findBy(parent).get();
+            element.add(new Node<>(child));
             return true;
+        } else {
+           return false;
         }
     }
 
@@ -38,5 +36,10 @@ public abstract class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             }
         }
         return rsl;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return null;
     }
 }
