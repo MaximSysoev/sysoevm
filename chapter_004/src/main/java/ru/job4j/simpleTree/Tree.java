@@ -40,6 +40,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     public class treeIterator<E> implements Iterator {
 
+        Queue<Node> data = new LinkedList<>();
         List next = root.leaves();
 
         @Override
@@ -49,7 +50,9 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
         @Override
         public Object next() {
-            return next.iterator().next();
+            Node node = (Node) next.iterator().next();
+            data.offer(node);
+            return data.poll();
         }
     }
 
