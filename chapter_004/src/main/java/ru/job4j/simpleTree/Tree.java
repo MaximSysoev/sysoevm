@@ -9,6 +9,16 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         this.root = new Node<>(value);
     }
 
+    public boolean contains(List<Node<E>> list, Node<E> children) {
+        for (int i = 0; i < list.size(); i++) {
+            Node<E> node = list.get(i);
+            if (node.value == children.value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean add(E parent, E child) {
         if (findBy(parent).isPresent()) {
@@ -17,12 +27,10 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             List<Node<E>> list = element.leaves();
             Node<E> children = new Node<>(child);
 
-            for (int i = 0; i < list.size(); i++) {
-                Node<E> node = list.get(i);
-                if (node.value == children.value) {
-                    return false;
-                }
+            if (contains(list, children)) {
+                return false;
             }
+
             element.add(new Node<>(child));
             return true;
 
@@ -52,7 +60,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     public class treeIterator<E> implements Iterator {
 
         Queue<Node> data = new LinkedList<>();
-        List next = root.leaves();
+        Node next = new Node(null);
 
         @Override
         public boolean hasNext() {
@@ -62,12 +70,11 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         @Override
         public Object next() {
             data.offer(root);
-            Node node = new Node(null);
             while (!data.isEmpty()) {
-                node = data.poll();
+                next = data.poll();
                 break;
             }
-            return node;
+            return next;
         }
     }
 
