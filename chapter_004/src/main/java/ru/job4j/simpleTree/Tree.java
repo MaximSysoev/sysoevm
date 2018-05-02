@@ -12,9 +12,20 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     @Override
     public boolean add(E parent, E child) {
         if (findBy(parent).isPresent()) {
+
             Node<E> element = findBy(parent).get();
+            List<Node<E>> list = element.leaves();
+            Node<E> children = new Node<>(child);
+
+            for (int i = 0; i < list.size(); i++) {
+                Node<E> node = list.get(i);
+                if (node.value == children.value) {
+                    return false;
+                }
+            }
             element.add(new Node<>(child));
             return true;
+
         } else {
            return false;
         }
@@ -50,9 +61,13 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
         @Override
         public Object next() {
-            Node node = (Node) next.iterator().next();
-            data.offer(node);
-            return data.poll();
+            data.offer(root);
+            Node node = new Node(null);
+            while (!data.isEmpty()) {
+                node = data.poll();
+                break;
+            }
+            return node;
         }
     }
 

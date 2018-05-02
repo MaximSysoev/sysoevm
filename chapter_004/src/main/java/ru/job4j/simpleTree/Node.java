@@ -1,13 +1,11 @@
 package ru.job4j.simpleTree;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Node<E extends Comparable<E>> {
-
     private final List<Node<E>> children = new ArrayList<>();
-    private final E value;
+    public final E value;
 
     public Node(final E value) {
         this.value = value;
@@ -24,5 +22,4 @@ public class Node<E extends Comparable<E>> {
     public boolean eqValue(E that) {
         return this.value.compareTo(that) == 0;
     }
-
 }
