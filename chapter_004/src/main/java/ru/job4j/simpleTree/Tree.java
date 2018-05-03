@@ -4,36 +4,18 @@ import java.util.*;
 public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     Node<E> root;
+    Queue<Node> queue = new LinkedList<>();
 
     public Tree(E value) {
         this.root = new Node<>(value);
     }
 
-    public boolean contains(List<Node<E>> list, Node<E> children) {
-        for (int i = 0; i < list.size(); i++) {
-            Node<E> node = list.get(i);
-            if (node.value == children.value) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public boolean add(E parent, E child) {
-        if (findBy(parent).isPresent()) {
-
+        if (findBy(parent).isPresent() && !findBy(child).isPresent()) {
             Node<E> element = findBy(parent).get();
-            List<Node<E>> list = element.leaves();
-            Node<E> children = new Node<>(child);
-
-            if (contains(list, children)) {
-                return false;
-            }
-
             element.add(new Node<>(child));
             return true;
-
         } else {
            return false;
         }
@@ -57,29 +39,27 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return rsl;
     }
 
-    public class treeIterator<E> implements Iterator {
+    @Override
+    public Iterator<E> iterator() {
+        queue.offer(root);
+        return new treeIterator();
+    }
 
-        Queue<Node> data = new LinkedList<>();
-        Node next = new Node(null);
+    public class treeIterator<E> implements Iterator {
 
         @Override
         public boolean hasNext() {
-            return next != null;
+            return queue.isEmpty();
         }
 
         @Override
         public Object next() {
-            data.offer(root);
-            while (!data.isEmpty()) {
-                next = data.poll();
-                break;
-            }
-            return next;
+            Node child = queue.poll();
+            queue.offer(child);
+            return child.value;
         }
+
     }
 
-    @Override
-    public Iterator<E> iterator() {
-        return new treeIterator();
-    }
+
 }
