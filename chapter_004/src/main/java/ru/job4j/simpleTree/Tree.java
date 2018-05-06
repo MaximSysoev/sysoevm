@@ -46,20 +46,21 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     public class treeIterator<E> implements Iterator {
-
         @Override
         public boolean hasNext() {
-            return queue.isEmpty();
+            return !queue.isEmpty();
         }
 
         @Override
         public Object next() {
-            Node child = queue.poll();
-            queue.offer(child);
-            return child.value;
+            if (hasNext()) {
+                Node child = queue.poll();
+                List list = child.leaves();
+                queue.offer((Node) list.get(0));
+            } else {
+                throw new NoSuchElementException();
+            }
+            return queue.poll().value;
         }
-
     }
-
-
 }
