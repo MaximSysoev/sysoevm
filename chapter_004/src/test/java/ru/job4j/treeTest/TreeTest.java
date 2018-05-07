@@ -32,4 +32,16 @@ public class TreeTest {
                 is(false)
         );
     }
+
+    @Test
+    public void whenNextValueIsOne() {
+        Tree<Integer> tree = new Tree<Integer>(1);
+        assertThat(tree.iterator().next(), is(1));
+    }
+
+    @Test
+    public void whenhasNextIsTrue() {
+        Tree<Integer> tree = new Tree<Integer>(1);
+        assertThat(tree.iterator().hasNext(), is(true));
+    }
 }
