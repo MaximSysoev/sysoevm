@@ -10,6 +10,10 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         this.root = new Node<>(value);
     }
 
+    public boolean isBinary() {
+        return root.leaves().size() == 2;
+    }
+
     @Override
     public boolean add(E parent, E child) {
         if (findBy(parent).isPresent() && !findBy(child).isPresent()) {
