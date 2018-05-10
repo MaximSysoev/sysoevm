@@ -11,7 +11,17 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     public boolean isBinary() {
-        return root.leaves().size() <= 2;
+        if (this.root.leaves().size() <= 2) {
+            List<Node<E>> list = root.leaves();
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).leaves().size() > 2) {
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -21,7 +31,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             element.add(new Node<>(child));
             return true;
         } else {
-           return false;
+            return false;
         }
     }
 
