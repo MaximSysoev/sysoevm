@@ -10,18 +10,37 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         this.root = new Node<>(value);
     }
 
-    public boolean isBinary() {
-        if (this.root.leaves().size() <= 2) {
+    public boolean add(E value) {
+        if (!findBy(value).isPresent()) {
             List<Node<E>> list = root.leaves();
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).leaves().size() > 2) {
-                    return false;
-                }
-            }
         } else {
             return false;
         }
         return true;
+    }
+
+    public boolean bin(List<Node<E>> list) {
+        boolean result;
+        if (list.size() <= 2 ) {
+            result = true;
+            for (int i = 0; i < list.size(); i++) {
+                result = bin(list.get(i).leaves());
+            }
+        } else {
+            result = false;
+        }
+        return result;
+    }
+
+    public boolean isBinary() {
+        boolean result = true;
+        if (this.root.leaves().size() <= 2) {
+            List<Node<E>> list = root.leaves();
+            result = bin(list);
+        } else {
+            result = false;
+        }
+        return result;
     }
 
     @Override
