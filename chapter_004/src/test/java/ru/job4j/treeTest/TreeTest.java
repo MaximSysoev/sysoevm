@@ -28,8 +28,8 @@ public class TreeTest {
         Tree<Integer> tree = new Tree<Integer>(1);
         tree.add(1, 2);
         assertThat(
-                tree.findBy(7).isPresent(),
-                is(false)
+            tree.findBy(7).isPresent(),
+            is(false)
         );
     }
 
@@ -46,10 +46,21 @@ public class TreeTest {
     }
 
     @Test
-    public void whenTreeIsBinary() {
+    public void whenTreeIsBinaryTrue() {
         Tree<Integer> tree = new Tree<>(1);
         tree.add(1,2);
         tree.add(1,3);
         assertThat(tree.isBinary(), is(true));
     }
+
+    @Test
+    public void whenTreeIsBinaryFalse() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1,2);
+        tree.add(1,3);
+        tree.add(1,4);
+        assertThat(tree.isBinary(), is(false));
+    }
+
+
 }
