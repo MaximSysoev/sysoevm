@@ -16,6 +16,7 @@ public class SQLStorage implements AutoCloseable {
             System.out.println("ok");
             conn = DriverManager.getConnection(url, username, password);
             Statement st = conn.createStatement();
+
             ResultSet rs = st.executeQuery("SELECT * FROM users");
             while (rs.next()) {
                 System.out.println(String.format("%s", rs.getInt("id")));
