@@ -17,8 +17,8 @@
         <!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>3.0-alpha-1</version>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat -->
@@ -29,7 +29,7 @@
             <type>pom</type>
         </dependency>
     </dependencies>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <parent>
         <groupId>ru.job4j</groupId>
         <artifactId>junior</artifactId>

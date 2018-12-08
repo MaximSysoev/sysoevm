@@ -1,7 +1,9 @@
 package ru.job4j.servlets;
 import java.util.List;
 
-public final class ValidateService implements Store {
+public final class ValidateService {
+
+    private final Store logic = MemoryStore.getInstance();
 
     private static ValidateService _instance = null;
     public MemoryStore store = new MemoryStore();
