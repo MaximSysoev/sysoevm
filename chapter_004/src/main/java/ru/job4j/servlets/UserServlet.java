@@ -10,8 +10,8 @@ import java.util.*;
 
 public class UserServlet extends HttpServlet {
 
-    private ValidateService logic = ValidateService.getInstance();
-    private int id = new MemoryStore().id;
+    private final ValidateService logic = ValidateService.getInstance();
+    private int id = 0;
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {

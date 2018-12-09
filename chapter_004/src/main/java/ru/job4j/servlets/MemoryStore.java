@@ -2,6 +2,7 @@ package ru.job4j.servlets;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MemoryStore implements Store {
 
@@ -15,23 +16,14 @@ public class MemoryStore implements Store {
         return _instance;
     }
 
-    public int id = 0;
+    private AtomicInteger id = new AtomicInteger(0);
     public  List<User> userStore = new CopyOnWriteArrayList<User>();
 
-    private boolean contain (User user) {
-        for (int i = 0; i < userStore.size(); i++) {
-            if (userStore.get(i).name.equals(user.name)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public void add(User user) {
-        if (!contain(user)) {
-            userStore.add(user);
-        }
+        user.setId(id.getAndIncrement());
+        userStore.add(user);
     }
 
     @Override
@@ -61,5 +53,6 @@ public class MemoryStore implements Store {
         }
         return user;
     }
+
 
 }

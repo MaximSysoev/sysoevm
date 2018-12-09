@@ -1,14 +1,13 @@
 package ru.job4j.servlets;
 import java.util.List;
+import java.util.Optional;
 
 public final class ValidateService {
 
-    private final Store logic = MemoryStore.getInstance();
-
     private static ValidateService _instance = null;
-    public MemoryStore store = new MemoryStore();
+    public MemoryStore store = MemoryStore.getInstance();
 
-    public ValidateService() {}
+    private ValidateService() {}
 
     public static synchronized ValidateService getInstance() {
         if (_instance == null)
@@ -16,42 +15,30 @@ public final class ValidateService {
         return _instance;
     }
 
-    private boolean contain (User user) {
-        for (int i = 0; i < store.userStore.size(); i++) {
-            if (store.userStore.get(i).name.equals(user.name)) {
-                return true;
-            }
+    public Optional add (User user) {
+        Optional result;
+        if (!user.getName().isEmpty() && !user.getEmail().isEmpty() && !user.getLogin().isEmpty()) {
+            store.add(user);
+            result = Optional.of("user was save with id " + user.getId());
+        } else {
+            result = Optional.of("fields can not be empty");
         }
-        return false;
-    }
-
-    public void add (User user) {
-        if (!contain(user)) {
-            store.userStore.add(user);
-        }
+        return result;
     }
 
     public void update (int id, User user) {
-        store.userStore.set(id, user);
+        store.update(id, user);
     }
 
     public void delete (int key) {
-        this.store.userStore.remove(key);
+        store.delete(key);
     }
 
     public List<User> findAll() {
-        return  this.store.userStore;
+        return  store.findAll();
     }
 
     public User findById(int key) {
-        int index = 0;
-        User user = new User();
-        for (User u : this.store.userStore) {
-            if (this.store.userStore.get(index).id == key) {
-                user = this.store.userStore.get(index);
-                break;
-            }
-        }
-        return user;
+        return store.findById(key);
     }
 }
