@@ -15,15 +15,21 @@ public final class ValidateService {
         return _instance;
     }
 
-    public Optional add (User user) {
-        Optional result;
-        if (!user.getName().isEmpty() && !user.getEmail().isEmpty() && !user.getLogin().isEmpty()) {
-            store.add(user);
-            result = Optional.of("user was save with id " + user.getId());
-        } else {
-            result = Optional.of("fields can not be empty");
+    private boolean contain (User user) {
+        for (int i = 0; i < store.userStore.size(); i++) {
+            if (store.userStore.get(i).getName().equals(user.getName()) || store.userStore.get(i).getEmail().equals(user.getEmail())) {
+                return true;
+            }
         }
-        return result;
+        return false;
+    }
+
+    public void add (User user) {
+        if (!user.getName().isEmpty() && !user.getEmail().isEmpty() && !user.getLogin().isEmpty()) {
+            if (!contain(user)) {
+                store.add(user);
+            }
+        }
     }
 
     public void update (int id, User user) {
