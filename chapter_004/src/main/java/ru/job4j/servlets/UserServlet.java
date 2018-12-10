@@ -15,22 +15,46 @@ public class UserServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        int index = 0;
+
+        StringBuilder sb = new StringBuilder("<table>");
+        for (User user : logic.findAll()) {
+            if (user.getName() != null || user.getLogin() != null || user.getEmail() != null) {
+                sb.append("<form action='/list?id="+user.getId()+"' method='post'>" +
+                        "<tr><td>" + user.getName() + " | </td>" +
+                        "<td>" + user.getLogin() + " | </td>" +
+                        "<td>" + user.getEmail() + " | </td>" +
+                        "<td>" + user.getCreateDate() + " | </td>" +
+                        "<td><a href='edit?id="+user.getId()+"'>Редактировать</a></td>" +
+                        "<td><input type='submit' value='Удалить'/></td>" +
+                        "</tr>" +
+                        "</form>");
+            }
+        }
+        sb.append("</table>");
+
         res.setContentType("text/html");
         PrintWriter writer = new PrintWriter(res.getOutputStream());
         List<User> lst = logic.findAll();
-        for (User user : lst) {
-            writer.append("   " + lst.get(index).id + ") " + lst.get(index).name + "  /  ");
-            index++;
-        }
+        writer.append("<!DOCTYPE HTML>" +
+                "<html>" +
+                "<head>" +
+                "<title>#2513</title>" +
+                "</head>" +
+                "<body>" +
+                "</br>" +
+                 sb.toString() +
+                "</body>" +
+                "</html>");
         writer.flush();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        String action = req.getParameter("action");
+        int id = Integer.parseInt(req.getParameter("id"));
+        logic.delete(id);
 
+        /*String action = req.getParameter("action");
         if (action.equals("add")) {
             String name = req.getParameter("name");
             logic.add(new User(id++, name, name, name + "@email", new Date()));
@@ -41,7 +65,7 @@ public class UserServlet extends HttpServlet {
         } else if (action.equals("delete")) {
             int key = Integer.parseInt(req.getParameter("id"));
             logic.delete(key);
-        }
+        }*/
 
         doGet(req, resp);
 

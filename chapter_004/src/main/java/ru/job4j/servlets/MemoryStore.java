@@ -19,7 +19,6 @@ public class MemoryStore implements Store {
     private AtomicInteger id = new AtomicInteger(0);
     public  List<User> userStore = new CopyOnWriteArrayList<User>();
 
-
     @Override
     public void add(User user) {
         user.setId(id.getAndIncrement());
@@ -31,6 +30,7 @@ public class MemoryStore implements Store {
         for (int i = 0; i < userStore.size(); i++) {
             if (id == userStore.get(i).getId()) {
                 userStore.get(i).setName(user.getName());
+                userStore.get(i).setLogin(user.getLogin());
                 userStore.get(i).setEmail(user.getEmail());
                 userStore.get(i).setCreateDate(user.createDate);
             }
@@ -42,6 +42,7 @@ public class MemoryStore implements Store {
         for (int i = 0; i < userStore.size(); i++) {
             if (id == userStore.get(i).getId()) {
                 userStore.get(i).setName(null);
+                userStore.get(i).setLogin(null);
                 userStore.get(i).setEmail(null);
                 userStore.get(i).setCreateDate(null);
             }
@@ -57,8 +58,8 @@ public class MemoryStore implements Store {
     public User findById(int id) {
         User user = new User();
         for (User u : this.userStore) {
-            if (u.getId() == id) {
-                user.setId(u.getId());
+            if (id == u.getId()) {
+                user.setLogin(u.getLogin());
                 user.setName(u.getName());
                 user.setEmail(u.getEmail());
                 user.setCreateDate(u.getCreateDate());
