@@ -28,12 +28,24 @@ public class MemoryStore implements Store {
 
     @Override
     public void update(int id, User user) {
-        userStore.set(id, user);
+        for (int i = 0; i < userStore.size(); i++) {
+            if (id == userStore.get(i).getId()) {
+                userStore.get(i).setName(user.getName());
+                userStore.get(i).setEmail(user.getEmail());
+                userStore.get(i).setCreateDate(user.createDate);
+            }
+        }
     }
 
     @Override
-    public void delete(int key) {
-        userStore.remove(key);
+    public void delete(int id) {
+        for (int i = 0; i < userStore.size(); i++) {
+            if (id == userStore.get(i).getId()) {
+                userStore.get(i).setName(null);
+                userStore.get(i).setEmail(null);
+                userStore.get(i).setCreateDate(null);
+            }
+        }
     }
 
     @Override
@@ -42,17 +54,16 @@ public class MemoryStore implements Store {
     }
 
     @Override
-    public User findById(int key) {
-        int index = 0;
+    public User findById(int id) {
         User user = new User();
         for (User u : this.userStore) {
-            if (this.userStore.get(index).id == key) {
-                user = this.userStore.get(index);
-                break;
+            if (u.getId() == id) {
+                user.setId(u.getId());
+                user.setName(u.getName());
+                user.setEmail(u.getEmail());
+                user.setCreateDate(u.getCreateDate());
             }
         }
         return user;
     }
-
-
 }
