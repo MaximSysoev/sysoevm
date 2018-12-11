@@ -40,7 +40,7 @@ public class UserServlet extends HttpServlet {
                 "</head>" +
                 "<body>" +
                 "</br>" +
-                "<p><a href = '/create'>Добавить новых пользователей</a></p>" +
+                "<p><a href = '" + req.getContextPath() + "/create'>Добавить новых пользователей</a></p>" +
                  sb.toString() +
                 "</body>" +
                 "</html>");

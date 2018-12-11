@@ -37,7 +37,7 @@ public class UserUpdateServlet extends HttpServlet {
                 "<body>" +
                 "</br>" +
                 sb.toString() +
-                "<p><a href='/list'>Список всех пользователей</a></p>" +
+                "<p><a href='" + req.getContextPath() + "/list'>Список всех пользователей</a></p>" +
                 "</body>" +
                 "</html>");
 
