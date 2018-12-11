@@ -18,17 +18,15 @@ public class UserServlet extends HttpServlet {
 
         StringBuilder sb = new StringBuilder("<table>");
         for (User user : logic.findAll()) {
-            if (user.getName() != null || user.getLogin() != null || user.getEmail() != null) {
-                sb.append("<form action='/list?id="+user.getId()+"' method='post'>" +
+                sb.append("<form action='/list?id=" + user.getId() + "' method='post'>" +
                         "<tr><td>" + user.getName() + " | </td>" +
                         "<td>" + user.getLogin() + " | </td>" +
                         "<td>" + user.getEmail() + " | </td>" +
                         "<td>" + user.getCreateDate() + " | </td>" +
-                        "<td><a href='edit?id="+user.getId()+"'>Редактировать</a></td>" +
+                        "<td><a href='edit?id=" + user.getId() + "'>Редактировать</a></td>" +
                         "<td><input type='submit' value='Удалить'/></td>" +
-                        "</tr>" +
+                        "</tr><tr><td height = '20'></td></tr>" +
                         "</form>");
-            }
         }
         sb.append("</table>");
 
@@ -42,6 +40,7 @@ public class UserServlet extends HttpServlet {
                 "</head>" +
                 "<body>" +
                 "</br>" +
+                "<p><a href = '/create'>Добавить новых пользователей</a></p>" +
                  sb.toString() +
                 "</body>" +
                 "</html>");
