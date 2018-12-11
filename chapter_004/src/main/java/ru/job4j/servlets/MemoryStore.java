@@ -29,10 +29,8 @@ public class MemoryStore implements Store {
     public void update(int id, User user) {
         for (int i = 0; i < userStore.size(); i++) {
             if (id == userStore.get(i).getId()) {
-                userStore.get(i).setName(user.getName());
-                userStore.get(i).setLogin(user.getLogin());
-                userStore.get(i).setEmail(user.getEmail());
-                userStore.get(i).setCreateDate(user.createDate);
+                userStore.set(i, user);
+                break;
             }
         }
     }
@@ -41,10 +39,8 @@ public class MemoryStore implements Store {
     public void delete(int id) {
         for (int i = 0; i < userStore.size(); i++) {
             if (id == userStore.get(i).getId()) {
-                userStore.get(i).setName(null);
-                userStore.get(i).setLogin(null);
-                userStore.get(i).setEmail(null);
-                userStore.get(i).setCreateDate(null);
+                userStore.remove(i);
+                break;
             }
         }
     }
@@ -59,10 +55,8 @@ public class MemoryStore implements Store {
         User user = new User();
         for (User u : this.userStore) {
             if (id == u.getId()) {
-                user.setLogin(u.getLogin());
-                user.setName(u.getName());
-                user.setEmail(u.getEmail());
-                user.setCreateDate(u.getCreateDate());
+                user = u;
+                break;
             }
         }
         return user;
