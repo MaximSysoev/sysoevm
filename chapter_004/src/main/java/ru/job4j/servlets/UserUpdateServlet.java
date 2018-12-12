@@ -14,7 +14,7 @@ public class UserUpdateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
+       /* resp.setContentType("text/html");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
         int id = Integer.parseInt(req.getParameter("id"));
         User user = logic.findById(id);
@@ -41,7 +41,7 @@ public class UserUpdateServlet extends HttpServlet {
                 "</body>" +
                 "</html>");
 
-        writer.flush();
+        writer.flush();*/
     }
 
     @Override

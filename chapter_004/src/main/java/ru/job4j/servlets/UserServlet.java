@@ -15,7 +15,7 @@ public class UserServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-
+/*
         StringBuilder sb = new StringBuilder("<table>");
         for (User user : logic.findAll()) {
                 sb.append("<form action='/list?id=" + user.getId() + "' method='post'>" +
@@ -44,16 +44,19 @@ public class UserServlet extends HttpServlet {
                  sb.toString() +
                 "</body>" +
                 "</html>");
-        writer.flush();
+        writer.flush();*/
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
+//        resp.setContentType("text/html");
+  //      logic.add(new User(id++, req.getParameter("name"), req.getParameter("login"), req.getParameter("name") + "@email", new Date()));
+    //    doGet(req, resp);
+        /*
         int id = Integer.parseInt(req.getParameter("id"));
         logic.delete(id);
 
-        /*String action = req.getParameter("action");
+        String action = req.getParameter("action");
         if (action.equals("add")) {
             String name = req.getParameter("name");
             logic.add(new User(id++, name, name, name + "@email", new Date()));
@@ -64,9 +67,9 @@ public class UserServlet extends HttpServlet {
         } else if (action.equals("delete")) {
             int key = Integer.parseInt(req.getParameter("id"));
             logic.delete(key);
-        }*/
-
+        }
         doGet(req, resp);
+        */
 
     }
 }

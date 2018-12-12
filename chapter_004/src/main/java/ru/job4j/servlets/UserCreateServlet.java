@@ -15,7 +15,7 @@ public class UserCreateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        StringBuilder sb = new StringBuilder();
+      /*  StringBuilder sb = new StringBuilder();
         sb.append("<form action='' method = 'post'>" +
                 "<table>" +
                 "<tr>" +
@@ -46,13 +46,13 @@ public class UserCreateServlet extends HttpServlet {
                 "<p><a href='" + req.getContextPath() +"/list'>Список всех пользователей</a></p>" +
                 "</body>" +
                 "</html>");
-        writer.flush();
+        writer.flush();*/
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        logic.add(new User(id, req.getParameter("name"), req.getParameter("login"), req.getParameter("email"), new Date()));
-        doGet(req, resp);
+        logic.add(new User(id++, req.getParameter("name"), req.getParameter("login"), req.getParameter("email"), new Date()));
+        resp.sendRedirect (String.format("%s/index.jsp", req.getContextPath()));
     }
 }
