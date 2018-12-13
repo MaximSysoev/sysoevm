@@ -14,62 +14,17 @@ public class UserServlet extends HttpServlet {
     private int id = 0;
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-/*
-        StringBuilder sb = new StringBuilder("<table>");
-        for (User user : logic.findAll()) {
-                sb.append("<form action='/list?id=" + user.getId() + "' method='post'>" +
-                        "<tr><td>" + user.getName() + " | </td>" +
-                        "<td>" + user.getLogin() + " | </td>" +
-                        "<td>" + user.getEmail() + " | </td>" +
-                        "<td>" + user.getCreateDate() + " | </td>" +
-                        "<td><a href='edit?id=" + user.getId() + "'>Редактировать</a></td>" +
-                        "<td><input type='submit' value='Удалить'/></td>" +
-                        "</tr><tr><td height = '20'></td></tr>" +
-                        "</form>");
-        }
-        sb.append("</table>");
-
-        res.setContentType("text/html");
-        PrintWriter writer = new PrintWriter(res.getOutputStream());
-        List<User> lst = logic.findAll();
-        writer.append("<!DOCTYPE HTML>" +
-                "<html>" +
-                "<head>" +
-                "<title>#2513</title>" +
-                "</head>" +
-                "<body>" +
-                "</br>" +
-                "<p><a href = '" + req.getContextPath() + "/create'>Добавить новых пользователей</a></p>" +
-                 sb.toString() +
-                "</body>" +
-                "</html>");
-        writer.flush();*/
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, res);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        resp.setContentType("text/html");
-  //      logic.add(new User(id++, req.getParameter("name"), req.getParameter("login"), req.getParameter("name") + "@email", new Date()));
-    //    doGet(req, resp);
-        /*
+        resp.setContentType("text/html");
         int id = Integer.parseInt(req.getParameter("id"));
         logic.delete(id);
+        req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, resp);
 
-        String action = req.getParameter("action");
-        if (action.equals("add")) {
-            String name = req.getParameter("name");
-            logic.add(new User(id++, name, name, name + "@email", new Date()));
-        } else if (action.equals("update")) {
-            String name = req.getParameter("name");
-            int key = Integer.parseInt(req.getParameter("id"));
-            logic.update(key, new User(key, name,  name,name + "@email", new Date()));
-        } else if (action.equals("delete")) {
-            int key = Integer.parseInt(req.getParameter("id"));
-            logic.delete(key);
-        }
-        doGet(req, resp);
-        */
 
     }
 }

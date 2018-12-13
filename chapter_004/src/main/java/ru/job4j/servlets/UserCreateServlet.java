@@ -14,45 +14,14 @@ public class UserCreateServlet extends HttpServlet {
     private int id = 0;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-      /*  StringBuilder sb = new StringBuilder();
-        sb.append("<form action='' method = 'post'>" +
-                "<table>" +
-                "<tr>" +
-                "<td>Имя</td><td><input type = 'text' name='name'/></td>" +
-                "</tr>" +
-                "<tr>" +
-                "<td>Логин</td><td><input type = 'text' name='login'/></td>" +
-                "</tr>" +
-                "<tr>" +
-                "<td>E-mail</td><td><input type = 'text' name='email'/></td>" +
-                "</tr>" +
-                "<tr>" +
-                "<td><input type='submit' value = 'Создать'/></td>" +
-                "</tr>" +
-                "</table>"+
-                "</form>");
-
-        resp.setContentType("text/html");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append("<!DOCTYPE HTML>" +
-                "<html>" +
-                "<head>" +
-                "<title>#2513</title>" +
-                "</head>" +
-                "<body>" +
-                "</br>" +
-                sb.toString() +
-                "<p><a href='" + req.getContextPath() +"/list'>Список всех пользователей</a></p>" +
-                "</body>" +
-                "</html>");
-        writer.flush();*/
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        req.getRequestDispatcher("/WEB-INF/jsp/create.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         logic.add(new User(id++, req.getParameter("name"), req.getParameter("login"), req.getParameter("email"), new Date()));
-        resp.sendRedirect (String.format("%s/index.jsp", req.getContextPath()));
+        req.getRequestDispatcher("/WEB-INF/jsp/create.jsp").forward(req, resp);
     }
 }
