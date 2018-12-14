@@ -9,7 +9,7 @@
     <title>Create</title>
 </head>
 <body>
-<form action = "<%request.getContextPath();%>/" method = "post">
+<form action = "<%=request.getContextPath()%>/" method = "post">
     <table>
     <tr>
         <td>Имя</td><td><input type = "text" name="name"/></td>
@@ -24,7 +24,7 @@
         <td><input type="submit" value = "Создать"/></td>
      </tr>
     </table>
-    <p><a href="<%request.getContextPath();%>/jsp/list.jsp">Список всех пользователей</a></p>
+    <p><a href="<%=request.getContextPath()%>/jsp/list.jsp">Список всех пользователей</a></p>
 </form>
 </body>
 </html>
