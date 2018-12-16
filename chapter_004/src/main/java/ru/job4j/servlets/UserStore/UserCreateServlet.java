@@ -1,11 +1,10 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.UserStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 
 public class UserCreateServlet extends HttpServlet {
@@ -24,7 +23,7 @@ public class UserCreateServlet extends HttpServlet {
         User user = new User(id++, req.getParameter("name"), req.getParameter("login"), req.getParameter("email"), new Date());
         if (!logic.contain(user)) {
             logic.add(user);
-            req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, resp);
+            resp.sendRedirect(String.format("%s/list", req.getContextPath()));
         } else {
             req.setAttribute("error", "<b>Заполните заново поля</b>");
             req.getRequestDispatcher("/WEB-INF/jsp/create.jsp").forward(req, resp);

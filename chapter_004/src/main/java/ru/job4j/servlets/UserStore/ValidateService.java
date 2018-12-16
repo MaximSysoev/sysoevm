@@ -1,11 +1,12 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.UserStore;
 import java.util.List;
-import java.util.Optional;
 
 public final class ValidateService {
 
     private static ValidateService _instance = null;
     public MemoryStore store = MemoryStore.getInstance();
+  //  private final Store store = ru.job4j.servlets.DbStore.getInstance();
+
 
     private ValidateService() {}
 

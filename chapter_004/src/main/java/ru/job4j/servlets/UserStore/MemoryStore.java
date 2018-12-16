@@ -1,4 +1,4 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.UserStore;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
