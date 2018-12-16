@@ -22,6 +22,6 @@
          </tr>
     </table>
 </form>
-<p><a href="/jsp/list.jsp">Список всех пользователей</a></p>
+<p><a href="/list">Список всех пользователей</a></p>
 </body>
 </html>

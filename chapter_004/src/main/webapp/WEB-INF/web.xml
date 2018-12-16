@@ -16,7 +16,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
-        <url-pattern>/jsp/list.jsp</url-pattern>
+        <url-pattern>/list</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -25,7 +25,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UserUpdateServlet</servlet-name>
-        <url-pattern>/jsp/edit.jsp</url-pattern>
+        <url-pattern>/edit</url-pattern>
     </servlet-mapping>
 
     <filter>

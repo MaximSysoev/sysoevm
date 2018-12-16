@@ -15,6 +15,7 @@ public class UserServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        req.setAttribute("users", logic.store.userStore);
         req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, res);
     }
 
@@ -24,7 +25,5 @@ public class UserServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         logic.delete(id);
         req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, resp);
-
-
     }
 }

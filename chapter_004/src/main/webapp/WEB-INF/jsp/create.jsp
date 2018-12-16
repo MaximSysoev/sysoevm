@@ -32,7 +32,7 @@
         <td><input type="submit" value = "Создать"/></td>
      </tr>
     </table>
-    <p><a href="<%=request.getContextPath()%>/jsp/list.jsp">Список всех пользователей</a></p>
+    <p><a href="<%=request.getContextPath()%>/list">Список всех пользователей</a></p>
 </form>
 </body>
 </html>
