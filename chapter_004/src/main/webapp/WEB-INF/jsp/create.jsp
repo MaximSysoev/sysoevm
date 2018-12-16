@@ -9,6 +9,14 @@
     <title>Create</title>
 </head>
 <body>
+<% String errorl = (String) request.getAttribute("error"); %>
+
+<%
+    if (errorl == null) {
+        errorl = "";
+    }
+%>
+<h1 align="center"><%=errorl%></h1>
 <form action = "<%=request.getContextPath()%>/" method = "post">
     <table>
     <tr>

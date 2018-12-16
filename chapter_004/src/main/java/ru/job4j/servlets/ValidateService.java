@@ -15,7 +15,7 @@ public final class ValidateService {
         return _instance;
     }
 
-    private boolean contain (User user) {
+    public boolean contain (User user) {
         for (int i = 0; i < store.userStore.size(); i++) {
             if (store.userStore.get(i).getName().equals(user.getName()) || store.userStore.get(i).getEmail().equals(user.getEmail())) {
                 return true;
@@ -44,7 +44,7 @@ public final class ValidateService {
         return  store.findAll();
     }
 
-    public User findById(int key) {
-        return store.findById(key);
+    public User findById(int id) {
+        return store.findById(id);
     }
 }

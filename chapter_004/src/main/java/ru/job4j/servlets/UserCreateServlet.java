@@ -21,15 +21,13 @@ public class UserCreateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        PrintWriter out = resp.getWriter();
         User user = new User(id++, req.getParameter("name"), req.getParameter("login"), req.getParameter("email"), new Date());
-        if (logic.contain(user)==false) {
+        if (!logic.contain(user)) {
             logic.add(user);
             req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, resp);
         } else {
+            req.setAttribute("error", "<b>Заполните заново поля</b>");
             req.getRequestDispatcher("/WEB-INF/jsp/create.jsp").forward(req, resp);
-            out.println("<b>Заполните заново поля</b>");
-            out.close();
         }
 
     }
