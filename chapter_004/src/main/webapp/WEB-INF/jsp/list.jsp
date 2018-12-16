@@ -18,7 +18,7 @@
 <%
     for (User user : users) {
 %>
-<form action = "<%=request.getContextPath()%>?id=<%=user.getId()%>"  method = "post">
+<form action = "/list?id=<%=user.getId()%>"  method = "post">
     <tr>
         <td><%=user.getName()%></td>
         <td><%=user.getLogin()%></td>

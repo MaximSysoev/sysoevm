@@ -24,6 +24,6 @@ public class UserServlet extends HttpServlet {
         resp.setContentType("text/html");
         int id = Integer.parseInt(req.getParameter("id"));
         logic.delete(id);
-        req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, resp);
+        resp.sendRedirect(String.format("%s/list", req.getContextPath()));
     }
 }
