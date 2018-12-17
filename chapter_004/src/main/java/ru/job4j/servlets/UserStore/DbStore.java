@@ -16,6 +16,7 @@ public class DbStore implements Store {
     private AtomicInteger id = new AtomicInteger(0);
 
     public DbStore() {
+        SOURCE.setDriverClassName("org.postgresql.Driver");
         SOURCE.setUrl("jdbc:postgresql://localhost:5432/postgres");
         SOURCE.setUsername("postgres");
         SOURCE.setPassword("password");
@@ -31,7 +32,6 @@ public class DbStore implements Store {
     @Override
     public void add(User user) {
         try {
-            Class.forName("org.postgresql.Driver");
             Connection connection = SOURCE.getConnection();
             Statement st = connection.prepareStatement("INSERT INTO users(id, name, login, email) values(?,?,?,?)" );
             ((PreparedStatement) st).setInt(1, id.getAndIncrement());
