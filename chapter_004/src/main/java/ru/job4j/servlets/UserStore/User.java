@@ -61,4 +61,15 @@ public class User {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", createDate=" + createDate +
+                '}';
+    }
 }

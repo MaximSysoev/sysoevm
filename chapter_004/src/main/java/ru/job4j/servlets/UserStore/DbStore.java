@@ -31,15 +31,17 @@ public class DbStore implements Store {
 
     @Override
     public void add(User user) {
+        System.out.println(user);
         try {
             Connection connection = SOURCE.getConnection();
-            Statement st = connection.prepareStatement("INSERT INTO users(id, name, login, email) values(?,?,?,?)" );
+ /*           Statement st = connection.prepareStatement("INSERT INTO users(id, name, login, email) values(?,?,?,?)" );
             ((PreparedStatement) st).setInt(1, id.getAndIncrement());
             ((PreparedStatement) st).setString(2, user.getName());
             ((PreparedStatement) st).setString(3, user.getLogin());
-            ((PreparedStatement) st).setString(2, user.getEmail());
+            ((PreparedStatement) st).setString(4, user.getEmail());
             ((PreparedStatement) st).executeQuery();
             st.close();
+            */
             connection.close();
         } catch (Exception e) {
             e.printStackTrace();

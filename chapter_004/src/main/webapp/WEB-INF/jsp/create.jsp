@@ -1,4 +1,4 @@
-<%@ page import="ru.job4j.servlets.ValidateService" %>
+<%@ page import="ru.job4j.servlets.UserStore.ValidateService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ValidateService logic = ValidateService.getInstance();
@@ -9,14 +9,14 @@
     <title>Create</title>
 </head>
 <body>
-<% String errorl = (String) request.getAttribute("error"); %>
+<% // String errorl = (String) request.getAttribute("error"); %>
 
 <%
-    if (errorl == null) {
-        errorl = "";
-    }
+   // if (errorl == null) {
+   //     errorl = "";
+   // }
 %>
-<h1 align="center"><%=errorl%></h1>
+<h1 align="center"><%//=errorl%></h1>
 <form action = "<%=request.getContextPath()%>/" method = "post">
     <table>
     <tr>

@@ -2,7 +2,7 @@
 <web-app>
     <servlet>
         <servlet-name>UserCreateServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.UserCreateServlet</servlet-class>
+        <servlet-class>ru.job4j.servlets.UserStore.UserCreateServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserCreateServlet</servlet-name>
@@ -11,7 +11,7 @@
 
     <servlet>
         <servlet-name>UserServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.UserServlet</servlet-class>
+        <servlet-class>ru.job4j.servlets.UserStore.UserServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -21,7 +21,7 @@
 
     <servlet>
         <servlet-name>UserUpdateServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.UserUpdateServlet</servlet-class>
+        <servlet-class>ru.job4j.servlets.UserStore.UserUpdateServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserUpdateServlet</servlet-name>

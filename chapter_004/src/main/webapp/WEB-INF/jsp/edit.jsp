@@ -1,5 +1,5 @@
-<%@ page import="ru.job4j.servlets.User" %>
-<%@ page import="ru.job4j.servlets.ValidateService" %>
+<%@ page import="ru.job4j.servlets.UserStore.User" %>
+<%@ page import="ru.job4j.servlets.UserStore.ValidateService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ValidateService logic = ValidateService.getInstance();
