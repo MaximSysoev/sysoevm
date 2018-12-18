@@ -31,7 +31,7 @@ public class DbStore implements Store {
 
     @Override
     public void add(User user) {
-        System.out.println(user);
+        System.out.println("User" + user);
         try {
             Connection connection = SOURCE.getConnection();
  /*           Statement st = connection.prepareStatement("INSERT INTO users(id, name, login, email) values(?,?,?,?)" );

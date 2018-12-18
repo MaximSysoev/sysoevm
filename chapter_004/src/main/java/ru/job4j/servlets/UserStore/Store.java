@@ -1,5 +1,4 @@
 package ru.job4j.servlets.UserStore;
-
 import java.util.List;
 
 public interface Store {

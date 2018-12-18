@@ -28,6 +28,5 @@ public class UserCreateServlet extends HttpServlet {
             req.setAttribute("error", "<b>Заполните заново поля</b>");
             req.getRequestDispatcher("/WEB-INF/jsp/create.jsp").forward(req, resp);
         }
-
     }
 }

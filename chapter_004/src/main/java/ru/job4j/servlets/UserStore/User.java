@@ -1,5 +1,4 @@
 package ru.job4j.servlets.UserStore;
-
 import java.util.Date;
 
 public class User {

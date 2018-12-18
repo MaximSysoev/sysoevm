@@ -1,5 +1,4 @@
 package ru.job4j.servlets.UserStore;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

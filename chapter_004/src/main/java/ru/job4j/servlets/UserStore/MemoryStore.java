@@ -15,7 +15,6 @@ public class MemoryStore implements Store {
             _instance = new MemoryStore();
         return _instance;
     }
-
     private AtomicInteger id = new AtomicInteger(0);
     public  List<User> userStore = new CopyOnWriteArrayList<User>();
 

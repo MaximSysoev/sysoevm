@@ -13,7 +13,7 @@ public class UserServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-        req.setAttribute("users", logic.store.userStore);
+       // req.setAttribute("users", logic.store.userStore);
         req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, res);
     }
 

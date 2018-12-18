@@ -8,7 +8,7 @@
 %>
 <html>
 <head>
-    <title>List</title>
+    <title>List page</title>
 </head>
 <body>
 <% //List<User> users = (List<User>) request.getAttribute("users"); %>

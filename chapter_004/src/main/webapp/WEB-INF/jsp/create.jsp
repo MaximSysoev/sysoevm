@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Create</title>
+    <title>Create page</title>
 </head>
 <body>
 <% // String errorl = (String) request.getAttribute("error"); %>
