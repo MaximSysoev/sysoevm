@@ -1,5 +1,5 @@
-<%@ page import="ru.job4j.servlets.UserStore.User" %>
-<%@ page import="ru.job4j.servlets.UserStore.ValidateService" %>
+<%@ page import="ru.job4j.servlets.userstore.User" %>
+<%@ page import="ru.job4j.servlets.userstore.ValidateService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ValidateService logic = ValidateService.getInstance();
@@ -22,6 +22,6 @@
          </tr>
     </table>
 </form>
-<p><a href="/list">Список всех пользователей</a></p>
+<p><a href="<%=request.getContextPath()%>/list">Список всех пользователей</a></p>
 </body>
 </html>

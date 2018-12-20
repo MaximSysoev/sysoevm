@@ -1,4 +1,4 @@
-package ru.job4j.servlets.UserStore;
+package ru.job4j.servlets.userstore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,11 +9,10 @@ import java.io.IOException;
 public class UserServlet extends HttpServlet {
 
     private final ValidateService logic = ValidateService.getInstance();
-    private int id = 0;
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-       // req.setAttribute("users", logic.store.userStore);
+        req.setAttribute("users", logic.findAll());
         req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, res);
     }
 
