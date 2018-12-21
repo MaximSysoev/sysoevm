@@ -11,36 +11,18 @@ public class DbStore implements Store {
     private static DbStore instance = new DbStore();
     private static Connect conn = new Connect();
 
-
     public static DbStore getInstance() {
         return instance;
-    }
-
-    private int countItem(Connection connection) {
-        int id = 0;
-        try {
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("select * from users order by id desc limit 1");
-            while (rs.next()) {
-                id =  rs.getInt("id");
-                id++;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return id;
     }
 
     @Override
     public void add(User user) {
         try {
             Connection connection = conn.getSOURCE().getConnection();
-            int id = this.countItem(connection);
-            Statement st = connection.prepareStatement("INSERT INTO users(id, name, login, email) values(?,?,?,?)");
-            ((PreparedStatement) st).setInt(1,  id);
-            ((PreparedStatement) st).setString(2, user.getName());
-            ((PreparedStatement) st).setString(3, user.getLogin());
-            ((PreparedStatement) st).setString(4, user.getEmail());
+            Statement st = connection.prepareStatement("INSERT INTO users(name, login, email) values(?,?,?)");
+            ((PreparedStatement) st).setString(1, user.getName());
+            ((PreparedStatement) st).setString(2, user.getLogin());
+            ((PreparedStatement) st).setString(3, user.getEmail());
             ((PreparedStatement) st).executeQuery();
             st.close();
             connection.close();
