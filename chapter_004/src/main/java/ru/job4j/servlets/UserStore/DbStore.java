@@ -26,11 +26,11 @@ public class DbStore implements Store {
 
     @Override
     public void add(User user) {
-        try (Statement st = connection().prepareStatement("INSERT INTO users(name, login, email) values(?,?,?)")) {
-            ((PreparedStatement) st).setString(1, user.getName());
-            ((PreparedStatement) st).setString(2, user.getLogin());
-            ((PreparedStatement) st).setString(3, user.getEmail());
-            ((PreparedStatement) st).executeQuery();
+        try (PreparedStatement st = connection().prepareStatement("INSERT INTO users(name, login, email) values(?,?,?)")) {
+            st.setString(1, user.getName());
+            st.setString(2, user.getLogin());
+            st.setString(3, user.getEmail());
+            st.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,8 +38,8 @@ public class DbStore implements Store {
 
     @Override
     public void update(int id, User user) {
-        try (Statement st = connection().prepareStatement("UPDATE users SET name='"+user.getName()+"', login='"+user.getLogin()+"', email='"+user.getEmail()+"' WHERE id='"+id+"'")) {
-            ((PreparedStatement) st).executeQuery();
+        try (PreparedStatement st = connection().prepareStatement("UPDATE users SET name='"+user.getName()+"', login='"+user.getLogin()+"', email='"+user.getEmail()+"' WHERE id='"+id+"'")) {
+            st.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,8 +47,8 @@ public class DbStore implements Store {
 
     @Override
     public void delete(int key) {
-        try (Statement st = connection().prepareStatement("delete from users where id = '"+key+"'")) {
-            ((PreparedStatement) st).executeQuery();
+        try (PreparedStatement st = connection().prepareStatement("delete from users where id = '"+key+"'")) {
+            st.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,8 +57,8 @@ public class DbStore implements Store {
     @Override
     public List<User> findAll() {
         List<User> userStore = new CopyOnWriteArrayList<User>();
-        try (Statement st = connection().createStatement()) {
-            ResultSet rs = st.executeQuery("select * from users");
+        try (PreparedStatement st = connection().prepareStatement("select * from users")) {
+            ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("login"), rs.getString("email"), new Date());
                 userStore.add(user);
@@ -72,8 +72,8 @@ public class DbStore implements Store {
     @Override
     public User findById(int key) {
         User user = new User();
-        try (Statement st = connection().createStatement()) {
-            ResultSet rs = st.executeQuery("select * from users where id = " + key);
+        try (PreparedStatement st = connection().prepareStatement("select * from users where id = " + key)) {
+            ResultSet rs = st.executeQuery();
             rs.next();
             user.setName(rs.getString("name"));
             user.setLogin(rs.getString("login"));
