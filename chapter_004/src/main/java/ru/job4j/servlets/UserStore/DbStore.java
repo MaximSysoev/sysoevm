@@ -37,7 +37,7 @@ public class DbStore implements Store {
             st.setString(1, user.getName());
             st.setString(2, user.getLogin());
             st.setString(3, user.getEmail());
-            st.executeQuery();
+            st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class DbStore implements Store {
     @Override
     public void update(int id, User user) {
         try (PreparedStatement st = connection().prepareStatement("UPDATE users SET name='"+user.getName()+"', login='"+user.getLogin()+"', email='"+user.getEmail()+"' WHERE id='"+id+"'")) {
-            st.executeQuery();
+            st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class DbStore implements Store {
     @Override
     public void delete(int key) {
         try (PreparedStatement st = connection().prepareStatement("delete from users where id = '"+key+"'")) {
-            st.executeQuery();
+            st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
