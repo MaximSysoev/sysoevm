@@ -21,6 +21,13 @@ public class DbStore implements Store {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try (PreparedStatement st = connection.prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100))")) {
+            st.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return connection;
     }
 
