@@ -1,21 +1,18 @@
-<%@ page import="ru.job4j.servlets.userstore.ValidateService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
 <head>
     <title>Create page</title>
 </head>
 <body>
-<%  String errorl = (String) request.getAttribute("error"); %>
 
-<%
-    if (errorl == null) {
-        errorl = "";
-    }
-%>
-<h1 align="center"><%=errorl%></h1>
-<form action = "<%=request.getContextPath()%>/" method = "post">
+<c:if test="${error==null}">
+    ${error=""}
+</c:if>
+
+<h1 align="center"><c:out value="${error}"></c:out></h1>
+<form action = "${pageContext.servletContext.contextPath}/" method = "post">
     <table>
     <tr>
         <td>Имя</td><td><input type = "text" name="name"></td>
@@ -30,7 +27,7 @@
         <td><input type="submit" value = "Создать"/></td>
      </tr>
     </table>
-    <p><a href="<%=request.getContextPath()%>/list">Список всех пользователей</a></p>
+    <p><a href="${pageContext.servletContext.contextPath}/list">Список всех пользователей</a></p>
 </form>
 </body>
 </html>
