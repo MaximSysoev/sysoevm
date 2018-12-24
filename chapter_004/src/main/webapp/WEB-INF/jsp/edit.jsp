@@ -6,13 +6,12 @@
     <title>Edit page</title>
 </head>
 <body>
-<c:set var = "u" value = "${user}"></c:set>
-<form action = "${pageContext.servletContext.contextPath}/edit?id=<c:out value="${u.id}"></c:out>" method="post">
+<form action = "" method="post">
     <table>
          <tr>
-            <td><input type = "text" name="name" value = "<c:out value="${u.name}"/>"></td>
-            <td><input type = "text" name = "login" value =  "<c:out value="${u.login}"/>"></td>
-            <td><input type = "text" name = "email" value =  "<c:out value="${u.email}"/>"></td>
+            <td><input type = "text" name="name" value = "<c:out value="${user.name}"/>"></td>
+            <td><input type = "text" name = "login" value =  "<c:out value="${user.login}"/>"></td>
+            <td><input type = "text" name = "email" value =  "<c:out value="${user.email}"/>"></td>
             <td><input type = "submit" value = "Сохранить"/></td>
          </tr>
     </table>

@@ -79,9 +79,10 @@ public class DbStore implements Store {
     @Override
     public User findById(int key) {
         User user = new User();
-        try (PreparedStatement st = connection().prepareStatement("select * from users where id = " + key)) {
+        try (PreparedStatement st = connection().prepareStatement("select * from users where id = '"+key+"'")) {
             ResultSet rs = st.executeQuery();
             rs.next();
+            user.setId(rs.getInt("id"));
             user.setName(rs.getString("name"));
             user.setLogin(rs.getString("login"));
             user.setEmail(rs.getString("email"));
