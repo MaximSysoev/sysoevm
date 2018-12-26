@@ -14,7 +14,7 @@ public class DbStore implements Store {
         return instance;
     }
 
-    private Connection connection() {
+    public Connection connection() {
         Connection connection = null;
         try {
             connection = new Connect().getSOURCE().getConnection();
@@ -29,6 +29,19 @@ public class DbStore implements Store {
         }
 
         return connection;
+    }
+
+    @Override
+    public boolean contain(User user) {
+        try  (PreparedStatement st = connection().prepareStatement("select login, email from users where login='"+user.getLogin()+"' or email = '"+user.getEmail()+"'")) {
+            ResultSet rs = st.executeQuery();
+            if (rs.next() || user.getName().isEmpty() || user.getLogin().isEmpty() || user.getEmail().isEmpty()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

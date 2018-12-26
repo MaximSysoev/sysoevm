@@ -25,7 +25,7 @@ public class UserCreateServlet extends HttpServlet {
             logic.add(user);
             resp.sendRedirect(String.format("%s/list", req.getContextPath()));
         } else {
-            req.setAttribute("error", "<b>Заполните заново поля</b>");
+            req.setAttribute("error", "Заполните заново поля");
             req.getRequestDispatcher("/WEB-INF/jsp/create.jsp").forward(req, resp);
         }
     }

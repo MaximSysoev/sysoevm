@@ -1,11 +1,11 @@
-package ru.job4j.servlets.UserStore;
+package ru.job4j.servlets.userstore;
 import java.util.List;
 
 public interface Store {
     void add(User user);
-    void update (int id, User user);
-    void delete (int key);
+    void update(int id, User user);
+    void delete(int key);
     List<User> findAll();
     User findById(int key);
-
+    boolean contain(User user);
 }
