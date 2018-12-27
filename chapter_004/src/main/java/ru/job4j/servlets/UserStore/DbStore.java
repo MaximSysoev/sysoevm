@@ -14,6 +14,18 @@ public class DbStore implements Store {
         return instance;
     }
 
+    private DbStore() {
+        try (PreparedStatement st = connection().prepareStatement("INSERT INTO users(name, login, email, password, role) values(?,?,?,?,?)")) {
+            st.setString(1, "admin");
+            st.setString(2, "admin");
+            st.setString(3, "admin@admin");
+            st.setString(4, "password");
+            st.setString(5, "admin");
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public Connection connection() {
         Connection connection = null;
         try {
@@ -21,8 +33,7 @@ public class DbStore implements Store {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        try (PreparedStatement st = connection.prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100))")) {
+        try (PreparedStatement st = connection.prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100), password varchar(50), role varchar(50))")) {
             st.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,6 +53,18 @@ public class DbStore implements Store {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public boolean isCredentional(String login, String password) {
+        boolean exists = false;
+        try(PreparedStatement st = connection().prepareStatement("select * from users where login = '"+login+"' and password = '"+password+"'")) {
+            if (st.executeQuery().next()) {
+                exists = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return exists;
     }
 
     @Override
@@ -80,7 +103,7 @@ public class DbStore implements Store {
         try (PreparedStatement st = connection().prepareStatement("select * from users")) {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("login"), rs.getString("email"), new Date());
+                User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("login"), rs.getString("email"), new Date(), null, null);
                 userStore.add(user);
             }
         } catch (Exception e) {

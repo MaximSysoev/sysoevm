@@ -8,17 +8,21 @@ public class User {
     public String login;
     public String email;
     public Date createDate;
+    private String password;
+    public String role;
 
-    public User(int id, String name, String login, String email, Date createDate) {
+    public User() {
+
+    }
+
+    public User(int id, String name, String login, String email, Date createDate, String password, String role) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.email = email;
         this.createDate = createDate;
-    }
-
-    public User() {
-
+        this.password = password;
+        this.role = role;
     }
 
     public int getId() {
@@ -59,6 +63,14 @@ public class User {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     @Override

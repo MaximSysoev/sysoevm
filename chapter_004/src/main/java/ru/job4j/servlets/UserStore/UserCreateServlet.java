@@ -20,7 +20,7 @@ public class UserCreateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        User user = new User(id++, req.getParameter("name"), req.getParameter("login"), req.getParameter("email"), new Date());
+        User user = new User(id++, req.getParameter("name"), req.getParameter("login"), req.getParameter("email"), new Date(), null, null);
         if (!logic.contain(user)) {
             logic.add(user);
             resp.sendRedirect(String.format("%s/list", req.getContextPath()));
