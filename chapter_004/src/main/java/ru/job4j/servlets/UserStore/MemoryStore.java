@@ -1,4 +1,4 @@
-package ru.job4j.servlets.UserStore;
+package ru.job4j.servlets.userstore;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -6,17 +6,34 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MemoryStore implements Store {
 
-    private static MemoryStore _instance = null;
+    private static MemoryStore instance = null;
 
-    public MemoryStore() {}
-
-    public static synchronized MemoryStore getInstance() {
-        if (_instance == null)
-            _instance = new MemoryStore();
-        return _instance;
-    }
     private AtomicInteger id = new AtomicInteger(0);
     public  List<User> userStore = new CopyOnWriteArrayList<User>();
+
+    public MemoryStore() {
+
+    }
+
+    @Override
+    public boolean contain(User user) {
+        boolean result = false;
+        for (int i = 0; i < userStore.size(); i++) {
+            if (user.getLogin().equals(userStore.get(i)) || user.getEmail().equals(userStore.get(i)) || user.getName().isEmpty() || user.getLogin().isEmpty() || user.getEmail().isEmpty()) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public static synchronized MemoryStore getInstance() {
+        if (instance == null) {
+            instance = new MemoryStore();
+        }
+        return instance;
+    }
+
 
     @Override
     public void add(User user) {
