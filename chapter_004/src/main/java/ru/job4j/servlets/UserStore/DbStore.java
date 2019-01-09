@@ -14,18 +14,6 @@ public class DbStore implements Store {
         return instance;
     }
 
-    private DbStore() {
-        try (PreparedStatement st = connection().prepareStatement("INSERT INTO users(name, login, email, password, role) values(?,?,?,?,?)")) {
-            st.setString(1, "admin");
-            st.setString(2, "admin");
-            st.setString(3, "admin@admin");
-            st.setString(4, "password");
-            st.setString(5, "admin");
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public Connection connection() {
         Connection connection = null;
         try {
@@ -33,13 +21,35 @@ public class DbStore implements Store {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try (PreparedStatement st = connection.prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100), password varchar(50), role varchar(50))")) {
+
+        try(PreparedStatement st = connection.prepareStatement("create table if not exists public.roles(id serial primary key, name varchar(100))")) {
             st.executeQuery();
+            connection.prepareStatement("INSERT INTO roles(name) values('admin')").executeQuery();
+            connection.prepareStatement("INSERT INTO roles(name) values('user')").executeQuery();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        try (PreparedStatement st = connection.prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100), password varchar(100), roles_id int references roles(id))")) {
+            st.executeQuery();
+           // connection.prepareStatement("INSERT INTO users(name, login, email, password, roles_id) values ('admin', 'admin@email.com', 'password', 1)").executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return connection;
+    }
+
+    public boolean isCredentional(String login, String password) {
+        boolean exists = false;
+        try(PreparedStatement st = connection().prepareStatement("select * from users where login = '"+login+"' and password = '"+password+"'")) {
+            if (st.executeQuery().next()) {
+                exists = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return exists;
     }
 
     @Override
@@ -53,18 +63,6 @@ public class DbStore implements Store {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public boolean isCredentional(String login, String password) {
-        boolean exists = false;
-        try(PreparedStatement st = connection().prepareStatement("select * from users where login = '"+login+"' and password = '"+password+"'")) {
-            if (st.executeQuery().next()) {
-                exists = true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return exists;
     }
 
     @Override

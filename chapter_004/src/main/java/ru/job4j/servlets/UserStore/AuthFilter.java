@@ -1,7 +1,4 @@
 package ru.job4j.servlets.userstore;
-
-import com.sun.deploy.net.HttpRequest;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

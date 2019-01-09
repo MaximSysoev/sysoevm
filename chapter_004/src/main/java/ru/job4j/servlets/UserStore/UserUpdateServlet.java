@@ -22,7 +22,7 @@ public class UserUpdateServlet extends HttpServlet {
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String email = req.getParameter("email");
-        User user = new User(id, name, login, email, new Date());
+        User user = new User(id, name, login, email, new Date(), null, null);
         logic.update(id, user);
         resp.sendRedirect(String.format("%s/edit?id=%s", req.getContextPath(), req.getParameter("id")));
     }

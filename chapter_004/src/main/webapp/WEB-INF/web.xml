@@ -36,7 +36,6 @@
         <servlet-name>Signin</servlet-name>
         <url-pattern>/signin</url-pattern>
     </servlet-mapping>
-
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ru.job4j.servlets.userstore.AuthFilter</filter-class>

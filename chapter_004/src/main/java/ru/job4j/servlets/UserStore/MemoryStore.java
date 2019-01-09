@@ -34,7 +34,6 @@ public class MemoryStore implements Store {
         return instance;
     }
 
-
     @Override
     public void add(User user) {
         user.setId(id.getAndIncrement());
