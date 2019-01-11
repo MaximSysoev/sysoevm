@@ -45,7 +45,15 @@ public final class ValidateService {
         return  store.findAll();
     }
 
+    public List<Role> findAllRoles() {
+        return store.findAllRoles();
+    }
+
     public User findById(int id) {
         return store.findById(id);
+    }
+
+    public int findByLogin(String login) {
+        return store.findByLogin(login);
     }
 }

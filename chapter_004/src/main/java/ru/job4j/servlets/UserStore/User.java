@@ -9,13 +9,13 @@ public class User {
     public String email;
     public Date createDate;
     private String password;
-    public String role;
+    private int role;
 
     public User() {
 
     }
 
-    public User(int id, String name, String login, String email, Date createDate, String password, String role) {
+    public User(int id, String name, String login, String email, Date createDate, String password, int role) {
         this.id = id;
         this.name = name;
         this.login = login;
@@ -69,12 +69,15 @@ public class User {
         return password;
     }
 
-    public String getRole() {
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getRole() {
         return role;
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", name='" + name + '\'' + ", login='" + login + '\'' + ", email='" + email + '\'' +  ", createDate=" + createDate + '}';
+    public void setRole(int role) {
+        this.role = role;
     }
 }

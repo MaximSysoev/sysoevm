@@ -6,6 +6,8 @@ public interface Store {
     void update(int id, User user);
     void delete(int key);
     List<User> findAll();
+    List<Role> findAllRoles();
     User findById(int key);
+    int findByLogin(String login);
     boolean contain(User user);
 }
