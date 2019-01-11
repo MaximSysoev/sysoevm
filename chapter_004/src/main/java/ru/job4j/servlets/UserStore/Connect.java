@@ -4,7 +4,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public class Connect {
     private static final BasicDataSource SOURCE = new BasicDataSource();
 
-
     public Connect() {
         SOURCE.setDriverClassName("org.postgresql.Driver");
         SOURCE.setUrl("jdbc:postgresql://localhost:5432/postgres");

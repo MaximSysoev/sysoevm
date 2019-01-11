@@ -76,12 +76,10 @@ public class MemoryStore implements Store {
         }
         return user;
     }
-
     @Override
     public List<Role> findAllRoles() {
         return null;
     }
-
     @Override
     public int findByLogin(String login) {
         return 0;

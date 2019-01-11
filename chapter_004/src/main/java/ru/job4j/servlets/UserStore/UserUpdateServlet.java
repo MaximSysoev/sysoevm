@@ -21,7 +21,6 @@ public class UserUpdateServlet extends HttpServlet {
         req.setAttribute("user", logic.findById(Integer.parseInt(req.getParameter("id"))));
         req.getRequestDispatcher("/WEB-INF/jsp/edit.jsp").forward(req, resp);
     }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));

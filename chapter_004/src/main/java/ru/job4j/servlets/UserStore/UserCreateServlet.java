@@ -20,7 +20,6 @@ public class UserCreateServlet extends HttpServlet {
         req.setAttribute("roles", logic.findAllRoles());
         req.getRequestDispatcher("/WEB-INF/jsp/create.jsp").forward(req, resp);
     }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");

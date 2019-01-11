@@ -14,9 +14,7 @@ public final class ValidateService {
     private static final Connect conn = new Connect();
 
 
-    private ValidateService() {
-
-    }
+    private ValidateService() {}
 
     public static synchronized ValidateService getInstance() {
         if (instance == null) {

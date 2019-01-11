@@ -159,7 +159,6 @@ public class DbStore implements Store {
         }
         return user;
     }
-
     @Override
     public int findByLogin(String login) {
         int id = 0;

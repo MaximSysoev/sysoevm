@@ -10,7 +10,6 @@
         <c:out value="${error}"></c:out>
     </div>
 </c:if>
-
 <form action = "${pageContext.servletContext.contextPath}/signin" method = "post">
     <table>
         <tr>

@@ -29,7 +29,6 @@ public class AuthFilter implements Filter {
             chain.doFilter(req, resp);
         }
     }
-
     @Override
     public void destroy() {
 

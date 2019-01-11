@@ -1,6 +1,5 @@
 package ru.job4j.servlets.userstore;
 import java.util.List;
-
 public interface Store {
     void add(User user);
     void update(int id, User user);
