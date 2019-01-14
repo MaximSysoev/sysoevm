@@ -24,7 +24,7 @@
         function addRow() {
             var email = $('#email').val();
             var pwd = $('#pwd').val();
-            $('#table tr:last').after('<tr><td>' + email + '</td><td>' + pwd + '</td></tr>');
+            $('#table thead:last').after('<tr><td>' + email + '</td><td>' + pwd + '</td></tr>');
         }
 
     </script>
@@ -61,9 +61,6 @@
                 <th>Email</th>
             </tr>
             </thead>
-
-
-
         </table>
 </div>
 </body>
