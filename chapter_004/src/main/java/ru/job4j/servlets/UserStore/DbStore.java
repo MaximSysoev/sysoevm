@@ -1,4 +1,6 @@
 package ru.job4j.servlets.userstore;
+import org.apache.commons.dbcp2.BasicDataSource;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,57 +9,45 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class DbStore implements Store {
+public class DbStore implements Store, AutoCloseable {
+
+    @Override
+    public void close() throws Exception {
+
+    }
+
     private static DbStore instance = new DbStore();
 
     public static DbStore getInstance() {
         return instance;
     }
 
-    public Connection connection() {
-        Connection connection = null;
-        try {
-            connection = new Connect().getSOURCE().getConnection();
+    private BasicDataSource source;
+
+    public void connection() {
+        this.source = new Connect().getSOURCE();
+        try (
+              PreparedStatement st1 = source.getConnection().prepareStatement("create table if not exists public.roles(id serial primary key, name varchar(100))");
+              PreparedStatement st2 = source.getConnection().prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100), password varchar(100), roles_id int references roles(id))");
+              PreparedStatement st3 = source.getConnection().prepareStatement("INSERT INTO users(login, password, roles_id) SELECT * FROM (SELECT 'admin', 'password', 1) as us WHERE NOT EXISTS (SELECT * FROM users WHERE login = 'admin') LIMIT 1");
+              PreparedStatement st4 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'admin') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'admin') LIMIT 1");
+              PreparedStatement st5 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'user') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'user') LIMIT 1");
+        ) {
+            st1.executeUpdate();
+            st2.executeUpdate();
+            st3.executeUpdate();
+            st4.executeUpdate();
+            st5.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        try(PreparedStatement st = connection.prepareStatement("create table if not exists public.roles(id serial primary key, name varchar(100))")) {
-            st.executeQuery();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        try (PreparedStatement st = connection.prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100), password varchar(100), roles_id int references roles(id))")) {
-            st.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try(PreparedStatement st = connection.prepareStatement("INSERT INTO users(login, password, roles_id) SELECT * FROM (SELECT 'admin', 'password', 1) as us WHERE NOT EXISTS (SELECT * FROM users WHERE login = 'admin') LIMIT 1")) {
-            st.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try(PreparedStatement st = connection.prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'admin') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'admin') LIMIT 1")) {
-            st.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try(PreparedStatement st = connection.prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'user') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'user') LIMIT 1")) {
-            st.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return connection;
     }
 
     public boolean isCredentional(String login, String password) {
         boolean exists = false;
-        try(PreparedStatement st = connection().prepareStatement("select * from users where login = '"+login+"' and password = '"+password+"'")) {
+        try(PreparedStatement st = source.getConnection().prepareStatement("select * from users where login = ? and password = ?")) {
+            st.setString(1, login);
+            st.setString(2, password);
             if (st.executeQuery().next()) {
                 exists = true;
             }
@@ -69,7 +59,9 @@ public class DbStore implements Store {
 
     @Override
     public boolean contain(User user) {
-        try  (PreparedStatement st = connection().prepareStatement("select login, email from users where login='"+user.getLogin()+"' or email = '"+user.getEmail()+"'")) {
+        try  (PreparedStatement st = source.getConnection().prepareStatement("select login, email from users where login = ? or email = ?")) {
+            st.setString(1, user.getLogin());
+            st.setString(2, user.getEmail());
             ResultSet rs = st.executeQuery();
             if (rs.next() || user.getName().isEmpty() || user.getLogin().isEmpty() || user.getEmail().isEmpty()) {
                 return true;
@@ -82,7 +74,7 @@ public class DbStore implements Store {
 
     @Override
     public void add(User user) {
-        try (PreparedStatement st = connection().prepareStatement("INSERT INTO users(name, login, email, password, roles_id) values(?,?,?,?,?)")) {
+        try (PreparedStatement st = source.getConnection().prepareStatement("INSERT INTO users(name, login, email, password, roles_id) values(?,?,?,?,?)")) {
             st.setString(1, user.getName());
             st.setString(2, user.getLogin());
             st.setString(3, user.getEmail());
@@ -96,7 +88,13 @@ public class DbStore implements Store {
 
     @Override
     public void update(int id, User user) {
-        try (PreparedStatement st = connection().prepareStatement("UPDATE users SET name='"+user.getName()+"', login='"+user.getLogin()+"', email='"+user.getEmail()+"', password = '"+user.getPassword()+"', roles_id='"+user.getRole()+"' WHERE id='"+id+"'")) {
+        try (PreparedStatement st = source.getConnection().prepareStatement("UPDATE users SET name=?, login=?, email=?, password = ?, roles_id=? WHERE id=?")) {
+            st.setString(1, user.getName());
+            st.setString(2, user.getLogin());
+            st.setString(3, user.getEmail());
+            st.setString(4, user.getPassword());
+            st.setInt(5, user.getRole());
+            st.setInt(6, id);
             st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,7 +103,8 @@ public class DbStore implements Store {
 
     @Override
     public void delete(int key) {
-        try (PreparedStatement st = connection().prepareStatement("delete from users where id = '"+key+"'")) {
+        try (PreparedStatement st = source.getConnection().prepareStatement("delete from users where id = key")) {
+            st.setInt(1, key);
             st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,7 +114,7 @@ public class DbStore implements Store {
     @Override
     public List<User> findAll() {
         List<User> userStore = new CopyOnWriteArrayList<User>();
-        try (PreparedStatement st = connection().prepareStatement("select * from users")) {
+        try (PreparedStatement st = source.getConnection().prepareStatement("select * from users")) {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("login"), rs.getString("email"), new Date(), rs.getString("password"), rs.getInt("roles_id"));
@@ -130,7 +129,7 @@ public class DbStore implements Store {
     @Override
     public List<Role> findAllRoles() {
         List<Role> roleStore = new CopyOnWriteArrayList<Role>();
-        try (PreparedStatement st = connection().prepareStatement("select * from roles")) {
+        try (PreparedStatement st = source.getConnection().prepareStatement("select * from roles")) {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Role role = new Role(rs.getInt("id"), rs.getString("name"));
@@ -145,7 +144,8 @@ public class DbStore implements Store {
     @Override
     public User findById(int key) {
         User user = new User();
-        try (PreparedStatement st = connection().prepareStatement("select * from users where id = '"+key+"'")) {
+        try (PreparedStatement st = source.getConnection().prepareStatement("select * from users where id = ?")) {
+            st.setInt(1, key);
             ResultSet rs = st.executeQuery();
             rs.next();
             user.setId(rs.getInt("id"));
@@ -159,10 +159,12 @@ public class DbStore implements Store {
         }
         return user;
     }
+
     @Override
     public int findByLogin(String login) {
         int id = 0;
-        try (PreparedStatement st = connection().prepareStatement("select * from users where login = '"+login+"'")) {
+        try (PreparedStatement st = source.getConnection().prepareStatement("select * from users where login = ?")) {
+            st.setString(1, login);
             ResultSet rs = st.executeQuery();
             rs.next();
             id = rs.getInt("roles_id");
