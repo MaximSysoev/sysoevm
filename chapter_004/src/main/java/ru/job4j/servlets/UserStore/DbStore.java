@@ -11,15 +11,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class DbStore implements Store, AutoCloseable {
 
-    @Override
-    public void close() throws Exception {
-
-    }
-
     private static DbStore instance = new DbStore();
 
     public static DbStore getInstance() {
         return instance;
+    }
+
+    private DbStore() {
+        connection();
+    }
+
+    @Override
+    public void close() throws Exception {
+        source.close();
     }
 
     private BasicDataSource source;
@@ -42,6 +46,7 @@ public class DbStore implements Store, AutoCloseable {
             e.printStackTrace();
         }
     }
+
 
     public boolean isCredentional(String login, String password) {
         boolean exists = false;
