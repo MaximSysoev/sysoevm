@@ -12,6 +12,12 @@ public class UserUpdateServlet extends HttpServlet {
     private final ValidateService logic = ValidateService.getInstance();
 
     @Override
+    public void destroy() {
+        super.destroy();
+        logic.close();
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         int role_id = logic.findByLogin(session.getAttribute("login").toString());

@@ -1,10 +1,7 @@
 package ru.job4j.servlets.userstore;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -22,8 +19,12 @@ public class DbStore implements Store, AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
-        source.close();
+    public void close() {
+        try {
+            source.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private BasicDataSource source;
@@ -34,19 +35,22 @@ public class DbStore implements Store, AutoCloseable {
               PreparedStatement st1 = source.getConnection().prepareStatement("create table if not exists public.roles(id serial primary key, name varchar(100))");
               PreparedStatement st2 = source.getConnection().prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100), password varchar(100), roles_id int references roles(id))");
               PreparedStatement st3 = source.getConnection().prepareStatement("INSERT INTO users(login, password, roles_id) SELECT * FROM (SELECT 'admin', 'password', 1) as us WHERE NOT EXISTS (SELECT * FROM users WHERE login = 'admin') LIMIT 1");
-              PreparedStatement st4 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'admin') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'admin') LIMIT 1");
-              PreparedStatement st5 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'user') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'user') LIMIT 1");
         ) {
+            PreparedStatement st = source.getConnection().prepareStatement("select * from role");
+            if (!st.executeQuery().next()) {
+                PreparedStatement st4 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'admin') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'admin') LIMIT 1");
+                PreparedStatement st5 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'user') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'user') LIMIT 1");
+                st4.executeUpdate();
+                st5.executeUpdate();
+            }
             st1.executeUpdate();
             st2.executeUpdate();
             st3.executeUpdate();
-            st4.executeUpdate();
-            st5.executeUpdate();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public boolean isCredentional(String login, String password) {
         boolean exists = false;

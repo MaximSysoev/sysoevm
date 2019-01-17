@@ -9,4 +9,5 @@ public interface Store {
     User findById(int key);
     int findByLogin(String login);
     boolean contain(User user);
+    void close();
 }

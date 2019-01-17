@@ -13,6 +13,12 @@ public class UserCreateServlet extends HttpServlet {
     private final ValidateService logic = ValidateService.getInstance();
 
     @Override
+    public void destroy() {
+        super.destroy();
+        logic.close();
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         HttpSession session = req.getSession();
         String login = session.getAttribute("login").toString();

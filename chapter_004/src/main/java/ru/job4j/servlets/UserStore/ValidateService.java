@@ -9,9 +9,7 @@ import java.util.List;
 public final class ValidateService {
 
     private static ValidateService instance = null;
-    // public MemoryStore store = MemoryStore.getInstance();
     private final Store store = DbStore.getInstance();
-    private static final Connect conn = new Connect();
 
 
     private ValidateService() {}
@@ -21,6 +19,10 @@ public final class ValidateService {
             instance = new ValidateService();
         }
         return instance;
+    }
+
+    public void close() {
+        store.close();
     }
 
     public boolean contain(User user) {
