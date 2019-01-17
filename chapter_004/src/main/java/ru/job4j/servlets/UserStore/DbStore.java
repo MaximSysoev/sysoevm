@@ -34,19 +34,18 @@ public class DbStore implements Store, AutoCloseable {
         try (
               PreparedStatement st1 = source.getConnection().prepareStatement("create table if not exists public.roles(id serial primary key, name varchar(100))");
               PreparedStatement st2 = source.getConnection().prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100), password varchar(100), roles_id int references roles(id))");
-              PreparedStatement st3 = source.getConnection().prepareStatement("INSERT INTO users(login, password, roles_id) SELECT * FROM (SELECT 'admin', 'password', 1) as us WHERE NOT EXISTS (SELECT * FROM users WHERE login = 'admin') LIMIT 1");
         ) {
-            PreparedStatement st = source.getConnection().prepareStatement("select * from role");
-            if (!st.executeQuery().next()) {
-                PreparedStatement st4 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'admin') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'admin') LIMIT 1");
-                PreparedStatement st5 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'user') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'user') LIMIT 1");
-                st4.executeUpdate();
-                st5.executeUpdate();
-            }
             st1.executeUpdate();
             st2.executeUpdate();
-            st3.executeUpdate();
-
+            PreparedStatement st = source.getConnection().prepareStatement("select * from roles");
+            if (!st.executeQuery().next()) {
+                PreparedStatement st4 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'admin') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'admin')");
+                PreparedStatement st5 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'user') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'user')");
+                PreparedStatement st3 = source.getConnection().prepareStatement("INSERT INTO users(login, password, roles_id) SELECT * FROM (SELECT 'admin', 'password', 1)");
+                st4.executeUpdate();
+                st5.executeUpdate();
+                st3.executeUpdate();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,9 +71,20 @@ public class DbStore implements Store, AutoCloseable {
             st.setString(1, user.getLogin());
             st.setString(2, user.getEmail());
             ResultSet rs = st.executeQuery();
-            if (rs.next() || user.getName().isEmpty() || user.getLogin().isEmpty() || user.getEmail().isEmpty()) {
-                return true;
+
+            User uDb = null;
+            if (rs.next()) {
+                final String login = rs.getString("login");
+                final String email = rs.getString("email");
+                uDb = new User(0, "test", login, email, new Date(), "test", 1);
             }
+
+            if (uDb!=null) {
+                if (user.getEmail().equals(uDb.getEmail()) || user.getLogin().equals(uDb.getLogin())) {
+                    return true;
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
