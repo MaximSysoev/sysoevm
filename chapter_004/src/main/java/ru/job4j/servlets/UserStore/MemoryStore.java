@@ -1,12 +1,16 @@
 package ru.job4j.servlets.userstore;
-
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MemoryStore implements Store {
+public class MemoryStore implements Store, AutoCloseable {
 
     private static MemoryStore instance = null;
+
+    @Override
+    public void close() {
+
+    }
 
     private AtomicInteger id = new AtomicInteger(0);
     public  List<User> userStore = new CopyOnWriteArrayList<User>();

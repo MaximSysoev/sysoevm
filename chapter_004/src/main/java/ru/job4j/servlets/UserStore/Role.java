@@ -1,5 +1,6 @@
 package ru.job4j.servlets.userstore;
 
+
 public class Role {
     private int id;
     private String name;

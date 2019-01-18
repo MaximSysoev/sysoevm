@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+
 public class UserServlet extends HttpServlet {
     private final ValidateService logic = ValidateService.getInstance();
 

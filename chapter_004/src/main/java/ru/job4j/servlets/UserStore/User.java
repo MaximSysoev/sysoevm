@@ -1,6 +1,7 @@
 package ru.job4j.servlets.userstore;
 import java.util.Date;
 
+
 public class User {
 
     public int id;

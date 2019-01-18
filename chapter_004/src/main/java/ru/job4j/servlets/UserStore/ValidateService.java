@@ -1,9 +1,6 @@
 package ru.job4j.servlets.userstore;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.List;
+
 
 
 public final class ValidateService {

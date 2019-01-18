@@ -122,7 +122,7 @@ public class DbStore implements Store, AutoCloseable {
 
     @Override
     public void delete(int key) {
-        try (PreparedStatement st = source.getConnection().prepareStatement("delete from users where id = key")) {
+        try (PreparedStatement st = source.getConnection().prepareStatement("delete from users where id = ?")) {
             st.setInt(1, key);
             st.executeUpdate();
         } catch (Exception e) {

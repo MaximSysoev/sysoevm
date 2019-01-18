@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
 
+
 public class UserUpdateServlet extends HttpServlet {
 
     private final ValidateService logic = ValidateService.getInstance();
