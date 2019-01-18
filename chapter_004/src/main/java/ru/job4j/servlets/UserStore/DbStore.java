@@ -14,9 +14,55 @@ public class DbStore implements Store, AutoCloseable {
         return instance;
     }
 
-    private DbStore() {
-        connection();
+    private BasicDataSource source;
+    private List<PreparedStatement> stStore = new CopyOnWriteArrayList<>();
+
+    public DbStore() {
+        source.setDriverClassName("org.postgresql.Driver");
+        source.setUrl("jdbc:postgresql://localhost:5432/postgres");
+        source.setUsername("postgres");
+        source.setPassword("password");
+        source.setMinIdle(5);
+        source.setMaxIdle(10);
+        source.setMaxOpenPreparedStatements(100);
+        createTables();
+        if (isEmpty()) {
+            addRootUser();
+        }
     }
+
+    public void addRootUser() {
+        try {
+            this.stStore.get(0).executeUpdate();
+            this.stStore.get(1).executeUpdate();
+            this.stStore.get(2).executeUpdate();
+            this.stStore.get(3).executeUpdate();
+            this.stStore.get(4).executeUpdate();
+        } catch (Exception e) {
+
+        }
+    }
+
+    public boolean isEmpty() {
+        try(
+            PreparedStatement st1 = source.getConnection().prepareStatement("select * from users");
+            PreparedStatement st2 = source.getConnection().prepareStatement("select * from roles");
+        ) {
+            st1.executeUpdate();
+            st2.executeUpdate();
+            if (!st1.executeQuery().next() && !st2.executeQuery().next()) {
+                return true;
+            }
+        } catch (Exception e) {
+
+        }
+
+        return false;
+    }
+
+   /* private DbStore() {
+        connection();
+    }*/
 
     @Override
     public void close() {
@@ -27,28 +73,25 @@ public class DbStore implements Store, AutoCloseable {
         }
     }
 
-    private BasicDataSource source;
-
-    public void connection() {
-        this.source = new Connect().getSOURCE();
+    public List<PreparedStatement> createTables() {
+       // this.source = new Connect().getSOURCE();
         try (
               PreparedStatement st1 = source.getConnection().prepareStatement("create table if not exists public.roles(id serial primary key, name varchar(100))");
               PreparedStatement st2 = source.getConnection().prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100), password varchar(100), roles_id int references roles(id))");
               PreparedStatement st4 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'admin') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'admin')");
               PreparedStatement st5 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'user') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'user')");
               PreparedStatement st3 = source.getConnection().prepareStatement("INSERT INTO users(login, password, roles_id) SELECT * FROM (SELECT 'admin', 'password', 1)");
-              PreparedStatement st = source.getConnection().prepareStatement("select * from roles");
         ) {
-            st1.executeUpdate();
-            st2.executeUpdate();
-            if (!st.executeQuery().next()) {
-                st4.executeUpdate();
-                st5.executeUpdate();
-                st3.executeUpdate();
-            }
+            this.stStore.add(st1);
+            this.stStore.add(st2);
+            this.stStore.add(st3);
+            this.stStore.add(st4);
+            this.stStore.add(st5);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return stStore;
     }
 
     public boolean isCredentional(String login, String password) {
