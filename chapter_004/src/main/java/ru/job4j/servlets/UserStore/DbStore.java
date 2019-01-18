@@ -34,14 +34,14 @@ public class DbStore implements Store, AutoCloseable {
         try (
               PreparedStatement st1 = source.getConnection().prepareStatement("create table if not exists public.roles(id serial primary key, name varchar(100))");
               PreparedStatement st2 = source.getConnection().prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100), password varchar(100), roles_id int references roles(id))");
+              PreparedStatement st4 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'admin') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'admin')");
+              PreparedStatement st5 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'user') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'user')");
+              PreparedStatement st3 = source.getConnection().prepareStatement("INSERT INTO users(login, password, roles_id) SELECT * FROM (SELECT 'admin', 'password', 1)");
+              PreparedStatement st = source.getConnection().prepareStatement("select * from roles");
         ) {
             st1.executeUpdate();
             st2.executeUpdate();
-            PreparedStatement st = source.getConnection().prepareStatement("select * from roles");
             if (!st.executeQuery().next()) {
-                PreparedStatement st4 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'admin') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'admin')");
-                PreparedStatement st5 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'user') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'user')");
-                PreparedStatement st3 = source.getConnection().prepareStatement("INSERT INTO users(login, password, roles_id) SELECT * FROM (SELECT 'admin', 'password', 1)");
                 st4.executeUpdate();
                 st5.executeUpdate();
                 st3.executeUpdate();
