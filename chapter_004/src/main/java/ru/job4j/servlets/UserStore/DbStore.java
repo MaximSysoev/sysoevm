@@ -15,9 +15,9 @@ public class DbStore implements Store, AutoCloseable {
     }
 
     private BasicDataSource source;
-    private List<PreparedStatement> stStore = new CopyOnWriteArrayList<>();
 
     public DbStore() {
+        this.source = new BasicDataSource();
         source.setDriverClassName("org.postgresql.Driver");
         source.setUrl("jdbc:postgresql://localhost:5432/postgres");
         source.setUsername("postgres");
@@ -31,38 +31,53 @@ public class DbStore implements Store, AutoCloseable {
         }
     }
 
-    public void addRootUser() {
-        try {
-            this.stStore.get(0).executeUpdate();
-            this.stStore.get(1).executeUpdate();
-            this.stStore.get(2).executeUpdate();
-            this.stStore.get(3).executeUpdate();
-            this.stStore.get(4).executeUpdate();
-        } catch (Exception e) {
+    public void createTables() {
+        try (Connection connection = source.getConnection()) {
+            PreparedStatement st1 = connection.prepareStatement("create table if not exists public.roles(id serial primary key, name varchar(100))");
+            PreparedStatement st2 = connection
+                    .prepareStatement("create table if not exists public.users(" +
+                            "id serial primary key, name varchar(100), login varchar(100)" +
+                            ", email varchar (100), password varchar(100)," +
+                            " roles_id int references roles(id))");
+            st1.execute();
+            st2.execute();
 
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public boolean isEmpty() {
-        try(
-            PreparedStatement st1 = source.getConnection().prepareStatement("select * from users");
-            PreparedStatement st2 = source.getConnection().prepareStatement("select * from roles");
-        ) {
-            st1.executeUpdate();
-            st2.executeUpdate();
-            if (!st1.executeQuery().next() && !st2.executeQuery().next()) {
-                return true;
+    private boolean isEmpty() {
+        int count = 0;
+        boolean result = false;
+        try (Connection connection = source.getConnection();
+             PreparedStatement ps = connection.prepareStatement("Select count(*) from users")) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+                if (count == 0) {
+                    result = true;
+                    break;
+                }
             }
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return false;
+        return result;
     }
 
-   /* private DbStore() {
-        connection();
-    }*/
+    private void addRootUser() {
+        try (Connection connection = source.getConnection()) {
+            final PreparedStatement ps = connection.prepareStatement("INSERT INTO roles(name) values ('admin')");
+            PreparedStatement st2 = connection.prepareStatement("INSERT INTO roles(name) values ('user')");
+            PreparedStatement st3 = connection.prepareStatement("INSERT INTO users(login, password, roles_id) VALUES ('admin', 'admin', 1)");
+            ps.execute();
+            st2.execute();
+            st3.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void close() {
@@ -73,30 +88,12 @@ public class DbStore implements Store, AutoCloseable {
         }
     }
 
-    public List<PreparedStatement> createTables() {
-       // this.source = new Connect().getSOURCE();
-        try (
-              PreparedStatement st1 = source.getConnection().prepareStatement("create table if not exists public.roles(id serial primary key, name varchar(100))");
-              PreparedStatement st2 = source.getConnection().prepareStatement("create table if not exists public.users(id serial primary key, name varchar(100), login varchar(100), email varchar (100), password varchar(100), roles_id int references roles(id))");
-              PreparedStatement st4 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'admin') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'admin')");
-              PreparedStatement st5 = source.getConnection().prepareStatement("INSERT INTO roles(name) SELECT * FROM (SELECT 'user') as rl WHERE NOT EXISTS (SELECT * FROM roles WHERE name = 'user')");
-              PreparedStatement st3 = source.getConnection().prepareStatement("INSERT INTO users(login, password, roles_id) SELECT * FROM (SELECT 'admin', 'password', 1)");
-        ) {
-            this.stStore.add(st1);
-            this.stStore.add(st2);
-            this.stStore.add(st3);
-            this.stStore.add(st4);
-            this.stStore.add(st5);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return stStore;
-    }
 
     public boolean isCredentional(String login, String password) {
         boolean exists = false;
-        try(PreparedStatement st = source.getConnection().prepareStatement("select * from users where login = ? and password = ?")) {
+        try(Connection connection = source.getConnection()) {
+            PreparedStatement st = connection.prepareStatement("select * from users where login = ? and password = ?");
             st.setString(1, login);
             st.setString(2, password);
             if (st.executeQuery().next()) {
@@ -110,7 +107,8 @@ public class DbStore implements Store, AutoCloseable {
 
     @Override
     public boolean contain(User user) {
-        try  (PreparedStatement st = source.getConnection().prepareStatement("select login, email from users where login = ? or email = ?")) {
+        try  (Connection connection = source.getConnection()) {
+            PreparedStatement st = connection.prepareStatement("select login, email from users where login = ? or email = ?");
             st.setString(1, user.getLogin());
             st.setString(2, user.getEmail());
             ResultSet rs = st.executeQuery();
@@ -136,7 +134,8 @@ public class DbStore implements Store, AutoCloseable {
 
     @Override
     public void add(User user) {
-        try (PreparedStatement st = source.getConnection().prepareStatement("INSERT INTO users(name, login, email, password, roles_id) values(?,?,?,?,?)")) {
+        try (Connection connection = source.getConnection()) {
+            PreparedStatement st = connection.prepareStatement("INSERT INTO users(name, login, email, password, roles_id) values(?,?,?,?,?)");
             st.setString(1, user.getName());
             st.setString(2, user.getLogin());
             st.setString(3, user.getEmail());
@@ -150,7 +149,8 @@ public class DbStore implements Store, AutoCloseable {
 
     @Override
     public void update(int id, User user) {
-        try (PreparedStatement st = source.getConnection().prepareStatement("UPDATE users SET name=?, login=?, email=?, password = ?, roles_id=? WHERE id=?")) {
+        try (Connection connection = source.getConnection()) {
+            PreparedStatement st = connection.prepareStatement("UPDATE users SET name=?, login=?, email=?, password = ?, roles_id=? WHERE id=?");
             st.setString(1, user.getName());
             st.setString(2, user.getLogin());
             st.setString(3, user.getEmail());
@@ -165,7 +165,8 @@ public class DbStore implements Store, AutoCloseable {
 
     @Override
     public void delete(int key) {
-        try (PreparedStatement st = source.getConnection().prepareStatement("delete from users where id = ?")) {
+        try (Connection connection = source.getConnection()) {
+            PreparedStatement st = connection.prepareStatement("delete from users where id = ?");
             st.setInt(1, key);
             st.executeUpdate();
         } catch (Exception e) {
@@ -176,7 +177,8 @@ public class DbStore implements Store, AutoCloseable {
     @Override
     public List<User> findAll() {
         List<User> userStore = new CopyOnWriteArrayList<User>();
-        try (PreparedStatement st = source.getConnection().prepareStatement("select * from users")) {
+        try (Connection connection = source.getConnection()) {
+            PreparedStatement st = connection.prepareStatement("select * from users");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("login"), rs.getString("email"), new Date(), rs.getString("password"), rs.getInt("roles_id"));
@@ -191,7 +193,8 @@ public class DbStore implements Store, AutoCloseable {
     @Override
     public List<Role> findAllRoles() {
         List<Role> roleStore = new CopyOnWriteArrayList<Role>();
-        try (PreparedStatement st = source.getConnection().prepareStatement("select * from roles")) {
+        try (Connection connection = source.getConnection()) {
+            PreparedStatement st = connection.prepareStatement("select * from roles");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Role role = new Role(rs.getInt("id"), rs.getString("name"));
@@ -206,7 +209,8 @@ public class DbStore implements Store, AutoCloseable {
     @Override
     public User findById(int key) {
         User user = new User();
-        try (PreparedStatement st = source.getConnection().prepareStatement("select * from users where id = ?")) {
+        try (Connection connection = source.getConnection()) {
+            PreparedStatement st = connection.prepareStatement("select * from users where id = ?");
             st.setInt(1, key);
             ResultSet rs = st.executeQuery();
             rs.next();
@@ -225,7 +229,8 @@ public class DbStore implements Store, AutoCloseable {
     @Override
     public int findByLogin(String login) {
         int id = 0;
-        try (PreparedStatement st = source.getConnection().prepareStatement("select * from users where login = ?")) {
+        try (Connection connection = source.getConnection()) {
+            PreparedStatement st = connection.prepareStatement("select * from users where login = ?");
             st.setString(1, login);
             ResultSet rs = st.executeQuery();
             rs.next();
