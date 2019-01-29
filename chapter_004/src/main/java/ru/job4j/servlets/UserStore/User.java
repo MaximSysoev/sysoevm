@@ -1,15 +1,28 @@
 package ru.job4j.servlets.userstore;
 import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
-
+    @JsonProperty("id")
     public int id;
+
+    @JsonProperty("name")
     public String name;
+
+    @JsonProperty("login")
     public String login;
+
+    @JsonProperty("email")
     public String email;
+
+    @JsonProperty("createDate")
     public Date createDate;
+
+    @JsonProperty("password")
     private String password;
+
+    @JsonIgnore
     private int role;
 
     public User() {}

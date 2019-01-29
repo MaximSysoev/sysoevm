@@ -12,10 +12,10 @@
         <servlet-name>UserCreateServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.userstore.UserCreateServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
+    <!--<servlet-mapping>
         <servlet-name>UserCreateServlet</servlet-name>
         <url-pattern>/</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
     <servlet>
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.userstore.UserServlet</servlet-class>
