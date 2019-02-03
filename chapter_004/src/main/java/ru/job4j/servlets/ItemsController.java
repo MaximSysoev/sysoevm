@@ -19,22 +19,23 @@ public class ItemsController extends HttpServlet {
     public static void toJSON(User user) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(new File(baseFile), user);
-        System.out.println("json created!");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
+        resp.setContentType("text/json");
         req.getRequestDispatcher("/WEB-INF/jsp/Items.html").forward(req, resp);
+        PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(map);
+        writer.append(json);
+        writer.flush();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper mapper = new ObjectMapper();
-        User user = new User(0, "name", "login", req.getParameter("email"), new Date(), req.getParameter("pwd"), 1);
-        toJSON(user);
-        map.put(req.getParameter("pwd"), mapper.readValue(new File(baseFile), User.class));
-
-
+        BufferedReader reader = req.getReader();
+        final User user = mapper.convertValue(reader, User.class);
     }
 }
