@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script language="JavaScript">
+        $.ajax (
+            ( '/', {
+                method: 'get',
+                    complete: function(data) {
+                        console.log(JSON.parse(data.responseText));
+                    }
+            })
+        );
+
+        function validate() {
+            if ($('#email').val()=='' && $('#pwd').val() == '') {
+                alert("Заполните поля");
+            } else if ($('#email').val()!='') {
+                if ($('#pwd').val() == '') {
+                    alert($("#pwd").attr("title"));
+                }
+            } else {
+                alert($('#email').attr('title'));
+            }
+            return false;
+        }
+        function addRow() {
+            var email = $('#email').val();
+            var pwd = $('#pwd').val();
+            $('#table thead:last').after('<tr><td>' + email + '</td><td>' + pwd + '</td></tr>');
+        }
+
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="container-fluid">
+        <h1>My First Bootstrap Page</h1>
+        <p>This is some text.</p>
+    </div>
+    <form action="">
+        <div class="form-group">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control" title = "Enter email" id="email">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" title = "Enter password" id="pwd">
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+        </div>
+        <button type="submit" class="btn btn-default" onclick="return validate();">Submit</button>
+    </form>
+    <h2>Condensed Table</h2>
+    <p>The .table-condensed class makes a table more compact by cutting cell padding in half:</p>
+    </br></br>
+    <button type="button" class="btn btn-primary" onclick="return addRow();">Добавить строку</button>
+    </br></br>
+
+    <table class="table table-condensed" id="table">
+            <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+        </table>
+</div>
+</body>
+</html>
