@@ -8,21 +8,38 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script language="JavaScript">
-        $.ajax (
-            ( '/', {
-                method: 'get',
-                url: './items',
+
+        function loadUsers() {
+            $.ajax (
+                ( '/', {
+                    method: 'get',
+                    url: './items',
                     complete: function(data) {
-                    var users = JSON.parse(data.responseText);
-                    var result = "";
+                        var users = JSON.parse(data.responseText);
+                        var result = "";
                         for (var i=0; i<users.length; ++i) {
-                            result+="<tr><td>" +users[i].login +  "</td><td>" + users[i].password + "</td></tr>";
+                            result+="<tr><td>" +users[i].password +  "</td><td>" + users[i].email + "</td></tr>";
                         }
                         var table = document.getElementById("table");
                         table.innerHTML = result;
                     }
-            })
-        );
+                })
+            );
+        }
+
+        $(loadUsers());
+
+        function createUser() {
+            $.ajax (
+                ( '/', {
+                    method: 'post',
+                    url: './items',
+                    data: {email: document.getElementById("email"), pwd: document.getElementById("pwd")},
+                    complete: loadUsers()
+                })
+            );
+            return false;
+        }
 
         function validate() {
             if ($('#email').val()=='' && $('#pwd').val() == '') {
@@ -62,10 +79,11 @@
         <div class="checkbox">
             <label><input type="checkbox"> Remember me</label>
         </div>
-        <button type="submit" class="btn btn-default" onclick="return validate();">Submit</button>
+     <!--   <button type="submit" class="btn btn-default" onclick="return validate();">Submit</button>-->
+        <button type="button" class="btn btn-primary" onclick="return createUser();">Добавить строку</button>
     </form>
     </br></br>
-    <button type="button" class="btn btn-primary" onclick="return addRow();">Добавить строку</button>
+
 
     </br></br>
 
