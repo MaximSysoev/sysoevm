@@ -30,20 +30,5 @@ public class ItemsController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = new User(0, "", "", req.getParameter("email"), new Date(), req.getParameter("password"), 2);
         map.put(integer.getAndIncrement(), user);
-        /*BufferedReader reader = req.getReader();
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line);
-        }
-        ObjectMapper objectMapper = new ObjectMapper();
-        User user = objectMapper.readValue(sb.toString(), User.class);
-        map.put(integer.getAndIncrement(), user);
-        String toJson = objectMapper.writeValueAsString(map);
-        resp.setContentType("text/json");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        System.out.println(toJson);
-        writer.append(toJson);
-        writer.flush();*/
     }
 }

@@ -8,14 +8,14 @@
         <servlet-name>ItemsController</servlet-name>
         <url-pattern>/items</url-pattern>
     </servlet-mapping>
-    <servlet>
+    <!--<servlet>
         <servlet-name>UserCreateServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.userstore.UserCreateServlet</servlet-class>
     </servlet>
-    <!--<servlet-mapping>
+    <servlet-mapping>
         <servlet-name>UserCreateServlet</servlet-name>
         <url-pattern>/</url-pattern>
-    </servlet-mapping>-->
+    </servlet-mapping>
     <servlet>
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.userstore.UserServlet</servlet-class>
@@ -42,7 +42,7 @@
     <servlet-mapping>
         <servlet-name>Signin</servlet-name>
         <url-pattern>/signin</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 <!--
     <filter>
         <filter-name>AuthFilter</filter-name>
