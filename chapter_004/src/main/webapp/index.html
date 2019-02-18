@@ -8,7 +8,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script language="JavaScript">
-
         function validate() {
             if ($('#email').val()=='' && $('#password').val() == '') {
                 alert("Заполните поля");
@@ -33,28 +32,42 @@
                     url: './items',
                     complete: function(data) {
                         var users = JSON.parse(data.responseText);
-                        var result = "";
+                        var result = " <table class=\"table table-condensed\" id=\"table\">" +
+                            "<tr>" +
+                                "<th>Email</th>" +
+                                "<th>Password</th>" +
+                            "</tr>";
                         for (var i=0; i<users.length; ++i) {
                             result+="<tr><td>" +users[i].email +  "</td><td>" + users[i].password + "</td></tr>";
                         }
-                        $("#table").append(result);
+                        result+="</table>";
+                        var table = document.getElementById("table");
+                        table.innerHTML = result;
+                        //$("#table").append(result);
 
                     }
                 });
         }
 
-        $(loadUsers());
+        $(document).ready(function(){
+           loadUsers();
+        });
 
         function createUser() {
-            $.ajax
-            ({
-                 method: 'post',
-                 url: './items',
-                 data: {
+            if (!validate()) {
+                $.ajax
+                ({
+                    method: 'post',
+                    url: './items',
+                    data: {
                         email: $("#email").val(), password: $("#password").val()
-                 },
-                 complete: loadUsers()
-            });
+                    },
+                    success: function() {
+                        loadUsers()
+                    }
+                });
+            }
+
         }
     </script>
 </head>
