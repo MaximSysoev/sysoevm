@@ -1,8 +1,6 @@
 package ru.job4j.servlets.userstore;
 import java.util.List;
 
-
-
 public final class ValidateService {
 
     private static ValidateService instance = null;

@@ -4,36 +4,44 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
-    @JsonProperty("id")
+    @JsonProperty
     public int id;
 
-    @JsonProperty("name")
+    @JsonProperty
     public String name;
 
-    @JsonProperty("login")
+    @JsonProperty
     public String login;
 
     @JsonProperty("email")
     public String email;
 
-    @JsonProperty("createDate")
+    @JsonIgnore
     public Date createDate;
 
     @JsonProperty("password")
     private String password;
+
+    @JsonProperty
+    private String country;
+
+    @JsonProperty
+    private String city;
 
     @JsonIgnore
     private int role;
 
     public User() {}
 
-    public User(int id, String name, String login, String email, Date createDate, String password, int role) {
+    public User(int id, String name, String login, String email, Date createDate, String password, String country, String city, int role) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.email = email;
         this.createDate = createDate;
         this.password = password;
+        this.country = country;
+        this.city = city;
         this.role = role;
     }
 
@@ -83,6 +91,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public int getRole() {

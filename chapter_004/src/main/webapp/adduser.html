@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание пользователя</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+
+        function validate() {
+            if ($('#login').val()=='' && $('#email').val() == '') {
+                alert("Заполните поля");
+                return true;
+            } else if ($('#login').val()!='') {
+                if ($('#email').val() == '') {
+                    alert($("#email").attr("title"));
+                    return true;
+                }
+            } else {
+                alert($('#login').attr('title'));
+                return true;
+            }
+            return false;
+        }
+
+        function addUser() {
+            if (!validate()) {
+                $.ajax
+                ({
+                    method: 'post',
+                    url: './adduser',
+                    data: {
+                        name: $("#name").val(),
+                        login: $("#login").val(),
+                        email: $("#email").val(),
+                        password: $("#password").val(),
+                        country: $("#country").val(),
+                        city: $("#city").val()
+                    }
+                });
+            }
+        }
+    </script>
+
+</head>
+<body>
+<div id="error"></div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="width:100%; text-align: center"> <h4>Добавление пользователя</h4> </div>
+        <form action="" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">Имя</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Имя">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="login" class="col-sm-2 control-label">Логин</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="login" title="Введите логин" name="login" placeholder="Логин">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" name="email" title="Введите email" placeholder="Электронная почта">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">Пароль</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Пароль">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="country" class="col-sm-2 control-label">Страна</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="country" name="country">
+                        <option value="rus" selected>Россия</option>
+                        <option value="ger">Германия</option>
+                        <option value="chili">Чили</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="city" class="col-sm-2 control-label">Город</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="city" name="city"></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" onclick="addUser(); " class="btn btn-default" value="Создать"></input>
+                </div>
+            </div>
+        </form>
+        <p align="center">
+            <a href="index.html" class="btn btn-default btn-md active" role="button">Список пользователей</a>
+        </p>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+<script>
+    var cities = {
+        rus: ["Москва", "Санкт-Петербург"],
+        ger: ["Берлин", "Гамбург"],
+        chili: ["Сантьяго", "Вальпараисо"]
+    };
+
+    var country = document.getElementById("country");
+    var city = document.querySelector("#city");
+
+    window.onload = selectCountry;
+    country.onchange = selectCountry;
+
+    function selectCountry(ev){
+        city.innerHTML = "";
+        var c = this.value || "rus", o;
+        for(var i = 0; i < cities[c].length; i++){
+            o = new Option(cities[c][i],i,false,false);
+            city.add(o);
+        }
+    }
+</script>
+
+</body>
+</html>

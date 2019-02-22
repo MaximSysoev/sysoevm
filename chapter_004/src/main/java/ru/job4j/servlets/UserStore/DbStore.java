@@ -36,12 +36,12 @@ public class DbStore implements Store, AutoCloseable {
             PreparedStatement st1 = connection.prepareStatement("create table if not exists public.roles(id serial primary key, name varchar(100))");
             PreparedStatement st2 = connection
                     .prepareStatement("create table if not exists public.users(" +
-                            "id serial primary key, name varchar(100), login varchar(100)" +
-                            ", email varchar (100), password varchar(100)," +
-                            " roles_id int references roles(id))");
+                            "id serial primary key, name varchar(100), login varchar(100)," +
+                            "email varchar (100), password varchar(100)," +
+                            "country varchar (100), city varchar(100),"+
+                            "roles_id int references roles(id))");
             st1.execute();
             st2.execute();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,7 +117,7 @@ public class DbStore implements Store, AutoCloseable {
             if (rs.next()) {
                 final String login = rs.getString("login");
                 final String email = rs.getString("email");
-                uDb = new User(0, "test", login, email, new Date(), "test", 1);
+                uDb = new User(0, "test", login, email, new Date(), "test", "", "", 1);
             }
 
             if (uDb!=null) {
@@ -135,12 +135,14 @@ public class DbStore implements Store, AutoCloseable {
     @Override
     public void add(User user) {
         try (Connection connection = source.getConnection()) {
-            PreparedStatement st = connection.prepareStatement("INSERT INTO users(name, login, email, password, roles_id) values(?,?,?,?,?)");
+            PreparedStatement st = connection.prepareStatement("INSERT INTO users(name, login, email, password, roles_id, country, city) values(?,?,?,?,?,?,?)");
             st.setString(1, user.getName());
             st.setString(2, user.getLogin());
             st.setString(3, user.getEmail());
             st.setString(4, user.getPassword());
             st.setInt(5, user.getRole());
+            st.setString(6, user.getCountry());
+            st.setString(7, user.getCity());
             st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -181,7 +183,7 @@ public class DbStore implements Store, AutoCloseable {
             PreparedStatement st = connection.prepareStatement("select * from users");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("login"), rs.getString("email"), new Date(), rs.getString("password"), rs.getInt("roles_id"));
+                User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("login"), rs.getString("email"), new Date(), rs.getString("password"), "", "", rs.getInt("roles_id"));
                 userStore.add(user);
             }
         } catch (Exception e) {
