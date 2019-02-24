@@ -19,6 +19,15 @@
         <url-pattern>/adduser</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UpdateUser</servlet-name>
+        <servlet-class>ru.job4j.servlets.userstore.UserUpdateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateUser</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
+
     <!--<servlet>
         <servlet-name>ItemsController</servlet-name>
         <servlet-class>ru.job4j.servlets.ItemsController</servlet-class>
