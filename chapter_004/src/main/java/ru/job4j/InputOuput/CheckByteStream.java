@@ -1,27 +1,27 @@
-package ru.job4j.InputOuput;
+package ru.job4j.inputouput;
 
 import java.io.*;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.util.Scanner;
 
 public class CheckByteStream {
 
-    public boolean isNumber(InputStream in) throws IOException {
-        try(BufferedInputStream bis = new BufferedInputStream(in) ) {
-            int even = (int)bis.read();
-                if (even%2==0) {
-                    System.out.println("Четное число " + even);
+    public static boolean isNumber(InputStream in) throws IOException {
+        //Оборачивем в try-with-resources входящий поток in.
+        try (BufferedInputStream bis = new BufferedInputStream(in)) {
+            Scanner scanner = new Scanner(bis);
+            //Проверяем, что имеется int значение.
+            if (scanner.hasNextInt()) {
+                //Проверяем, что это значение чётное.
+                if (scanner.nextInt() % 2 == 0) {
+                    System.out.println("Четное число");
                     return true;
                 }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            }
+            System.out.println("Нечетное число");
+            return false;
+            //Закрываем блок try.
         }
-        System.out.println("Нечетное число");
-        return false;
-    }
-
-    public static void main(String[] args) throws IOException {
-        CheckByteStream cbs = new CheckByteStream();
-        System.out.println("Введите число");
-        cbs.isNumber(System.in);
     }
 }
