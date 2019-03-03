@@ -7,7 +7,9 @@ public final class ValidateService {
     private final Store store = DbStore.getInstance();
 
 
-    private ValidateService() {}
+    private ValidateService() {
+
+    }
 
     public static synchronized ValidateService getInstance() {
         if (instance == null) {

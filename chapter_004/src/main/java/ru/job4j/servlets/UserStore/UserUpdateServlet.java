@@ -24,6 +24,15 @@ public class UserUpdateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<User> users = logic.findAll();
+        resp.setContentType("text/json");
+        PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(writer, users.toArray());
+        writer.flush();
+        req.getRequestDispatcher("update.html").forward(req, resp);
+
+
       /*  HttpSession session = req.getSession();
         int role_id = logic.findByLogin(session.getAttribute("login").toString());
         req.setAttribute("login", session.getAttribute("login").toString());
@@ -32,13 +41,6 @@ public class UserUpdateServlet extends HttpServlet {
         req.setAttribute("user", logic.findById(Integer.parseInt(req.getParameter("id"))));
         req.getRequestDispatcher("/WEB-INF/jsp/edit.jsp").forward(req, resp);*/
 
-        List<User> users = logic.findAll();
-        resp.setContentType("text/json");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(writer, users.toArray());
-        writer.flush();
-        req.getRequestDispatcher("update.html").forward(req, resp);
     }
 
 
