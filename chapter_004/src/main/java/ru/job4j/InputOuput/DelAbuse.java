@@ -1,16 +1,15 @@
 package ru.job4j.inputouput;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+
 import java.io.*;
 import java.util.Scanner;
 
 public class DelAbuse  {
     public void dropAbuses(InputStream in, OutputStream out, String[] abuse) throws IOException {
-        BufferedInputStream bis = new BufferedInputStream(in);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        Scanner sc = new Scanner(bis);
-
-        int count = 0;
-        try {
+        try(BufferedInputStream bis = new BufferedInputStream(in)) {
+            Scanner sc = new Scanner(bis);
+            int count = 0;
             while(sc.hasNext()) {
                 String s = sc.next();
                 byte[] buffer = s.getBytes();
@@ -21,14 +20,13 @@ public class DelAbuse  {
                     }
                 }
                 if (count == 0) {
-                    bos.write(buffer);
+                   out.write(buffer);
                 } else {
                     count = 0;
                 }
 
-                System.out.println(bos.toString());
+                System.out.println(out.toString());
             }
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,6 +36,6 @@ public class DelAbuse  {
     public static void main(String[] args) throws IOException {
         DelAbuse delAbuse = new DelAbuse();
         String[] abuse = new String[]{"слово1", "слово2"};
-        delAbuse.dropAbuses(System.in, System.out, abuse);
+        delAbuse.dropAbuses(System.in, new ByteOutputStream(), abuse);
     }
 }
