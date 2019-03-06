@@ -50,10 +50,4 @@ public class DelAbuse  {
             e.printStackTrace();
        }
     }
-
-    public static void main(String[] args) throws IOException {
-        DelAbuse delAbuse = new DelAbuse();
-        String[] abuse = new String[]{"слово1", "слово2"};
-        delAbuse.dropAbuses(System.in, System.out, abuse);
-    }
 }
