@@ -19,8 +19,17 @@ public class Args {
         ){
 
         for (Path element : path) {
-           File file = new File(element.toString());
-           System.out.println(element.getRoot());
+           File file = new File(element.toAbsolutePath().toString());
+           for (int i = 0; i < file.listFiles().length; i++) {
+               File f = new File(file.listFiles()[i].getPath());
+               if (f.isDirectory()) {
+                   String[] files = f.list();
+                   for  (int j = 0; j <files.length; j++) {
+                       zout.putNextEntry(new ZipEntry(files[j]));
+                   }
+               }
+           }
+           break;
         }
 
             /*for (int i = 0; i < file.listFiles().length; i++) {
