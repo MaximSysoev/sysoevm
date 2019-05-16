@@ -8,26 +8,37 @@ import java.net.Socket;
 
 public class Server {
 
-    public void start(int port) throws Exception {
+    private final Socket socket;
+
+    public Server(Socket socket) {
+        this.socket = socket;
+    }
+
+
+    public void start() throws Exception {
         try {
-            Socket socket =  new ServerSocket(port).accept();
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+            String ask;
             do {
                 System.out.println("wait command ...");
-                String ask = in.readLine();
+                ask = in.readLine();
                 System.out.println(ask);
                 if ("hello".equals(ask)) {
                     out.println("Hello, dear friend, I'm a oracle.");
                     out.println();
+                } else {
+                    out.println();
                 }
-            } while ("exit".equals(in.readLine()));
+            } while (!"exit".equals(ask));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new Server().start(5001);
+        try (final Socket socket =  new ServerSocket(5000).accept()) {
+            new Server(socket).start();
+        }
     }
 }

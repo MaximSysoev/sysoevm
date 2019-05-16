@@ -4,6 +4,18 @@
     <version>2.0</version>
     <dependencies>
         <dependency>
+            <groupId>com.googlecode.catch-exception</groupId>
+            <artifactId>catch-exception</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-core</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>1.0.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.9.5</version>
@@ -128,5 +140,4 @@
             </extension>
         </extensions>
     </build>
-
 </project>
