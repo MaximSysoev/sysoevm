@@ -14,7 +14,6 @@ public class Server {
         this.socket = socket;
     }
 
-
     public void start() throws Exception {
         try {
             PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true);
