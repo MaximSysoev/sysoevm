@@ -3,53 +3,36 @@ package ru.job4j.calculator;
 /**
  * Calculator класс.
  */
+
 public class Calculator {
-    /**
-     * Переменная.
-     */
+
     private double result;
 
-    /**
-     * Сложение.
-     * @param first параметр.
-     * @param second параметр.
-     */
+    public Calculator() {
+
+    }
+
     public void add(double first, double second) {
-        this.result = first + second;
+        result = first + second;
+        System.out.println("Результат: " + result);
     }
 
-    /**
-     * Вычитание.
-     * @param first параметр.
-     * @param second параметр.
-     */
     public void substract(double first, double second) {
-        this.result = first - second;
+        result = first - second;
+        System.out.println("Результат: " + result);
     }
 
-    /**
-     * Деление.
-     * @param first параметр.
-     * @param second параметр.
-     */
-    public void div(double first, double second) {
-        this.result = first / second;
-    }
-
-    /**
-     * Умноение.
-     * @param first параметр.
-     * @param second параметр.
-     */
     public void multiply(double first, double second) {
-        this.result = first * second;
+        result = first * second;
+        System.out.println("Результат: " + result);
     }
 
-    /**
-     * Получение результата.
-     * @return result/
-     */
+    public void div(double first, double second) {
+        result = first / second;
+        System.out.println("Результат: " + result);
+    }
+
     public double getResult() {
-        return this.result;
+        return result;
     }
 }
