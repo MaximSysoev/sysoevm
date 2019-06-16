@@ -1,6 +1,5 @@
 package ru.job4j.productStorage;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,7 +23,11 @@ public class ControllQuality {
         } else if (storageTime >= percent * 25 && storageTime <= percent * 75) {
             this.actions = new Shop();
             this.execute(food);
-        } else if (storageTime > percent * 75 ) {
+        } else if (storageTime > percent * 75 && storageTime < percent * 100) {
+            this.actions = new Shop();
+            food.setDiscont(10);
+            this.execute(food);
+        } else if (storageTime > percent * 100) {
             this.actions = new Trash();
             this.execute(food);
         }

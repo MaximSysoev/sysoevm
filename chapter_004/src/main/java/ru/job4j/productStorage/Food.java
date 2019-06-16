@@ -3,7 +3,6 @@ package ru.job4j.productStorage;
 import java.util.Date;
 
 public class Food {
-
     private String name;
     private Date expaireDate;
     private Date createDate;
@@ -36,5 +35,9 @@ public class Food {
 
     public int getDiscont() {
         return discont;
+    }
+
+    public void setDiscont(int discont) {
+        this.discont = discont;
     }
 }
