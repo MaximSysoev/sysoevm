@@ -8,7 +8,10 @@ public class Shop implements Actions {
 
     @Override
     public void add(Food food) {
-        store.add(food);
+        if (this.accept(food)) {
+            store.add(food);
+            System.out.println("Продукт отправлен в магазин");
+        }
     }
 
     @Override

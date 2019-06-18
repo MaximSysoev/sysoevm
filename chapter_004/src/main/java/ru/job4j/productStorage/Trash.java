@@ -9,7 +9,10 @@ public class Trash implements Actions {
 
     @Override
     public void add(Food food) {
-        store.add(food);
+        if (this.accept(food)) {
+            store.add(food);
+            System.out.println("Продукт отправлен в мусор");
+        }
     }
 
     @Override

@@ -9,7 +9,10 @@ public class Warehouse implements Actions {
 
     @Override
     public void add(Food food) {
-        this.store.add(food);
+        if (accept(food)) {
+            this.store.add(food);
+            System.out.println("Продукт отправлен на склад.");
+        }
     }
 
     @Override
