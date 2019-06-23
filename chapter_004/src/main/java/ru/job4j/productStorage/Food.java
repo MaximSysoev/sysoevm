@@ -8,13 +8,15 @@ public class Food {
     private Date createDate;
     private int price;
     private int discont;
+    boolean canReproduct;
 
-    public Food(String name, Date expaireDate, Date createDate, int price, int discont) {
+    public Food(String name, Date expaireDate, Date createDate, int price, int discont, boolean canReproduct) {
         this.name = name;
         this.expaireDate = expaireDate;
         this.createDate = createDate;
         this.price = price;
         this.discont = discont;
+        this.canReproduct = canReproduct;
     }
 
     public String getName() {
@@ -39,5 +41,13 @@ public class Food {
 
     public void setDiscont(int discont) {
         this.discont = discont;
+    }
+
+    public boolean isCanReproduct() {
+        return canReproduct;
+    }
+
+    public void setCanReproduct(boolean canReproduct) {
+        this.canReproduct = canReproduct;
     }
 }

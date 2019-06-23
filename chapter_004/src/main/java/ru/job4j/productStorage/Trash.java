@@ -5,12 +5,12 @@ import java.util.Date;
 
 public class Trash implements Actions {
 
-    private ArrayList<Food> store = new ArrayList<>();
+    private ArrayList<Food> storeTrash = new ArrayList<>();
 
     @Override
     public void add(Food food) {
         if (this.accept(food)) {
-            store.add(food);
+            storeTrash.add(food);
             System.out.println("Продукт отправлен в мусор");
         }
     }
@@ -29,6 +29,6 @@ public class Trash implements Actions {
     }
 
     public ArrayList<Food> getStore() {
-        return store;
+        return storeTrash;
     }
 }
