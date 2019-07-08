@@ -2,10 +2,10 @@ package ru.job4j.productStorage;
 
 public class TrashReproduct extends Reproduct {
 
-    public TrashReproduct(Actions reproductAction) {
+   /* public TrashReproduct(Actions reproductAction) {
         super(reproductAction);
     }
-
+*/
     @Override
     public boolean accept(Food food) {
         if (food.canReproduct) {

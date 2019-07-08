@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class LowTemperatureWarehouse extends Reproduct {
     private ArrayList<Food> store = new ArrayList();
 
-    public LowTemperatureWarehouse(Actions reproductAction) {
+   /* public LowTemperatureWarehouse(Actions reproductAction) {
         super(reproductAction);
     }
-
+*/
     @Override
     public boolean accept(Food food) {
         if (food.canReproduct) {
