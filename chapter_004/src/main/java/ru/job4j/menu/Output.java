@@ -1,38 +1,29 @@
 package ru.job4j.menu;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Output<E> implements OutputMenu<E> {
 
-    public void print(List<Node> menu) {
-        String s = "";
-        for (int i = 0; i < menu.size(); i++) {
-            Node node = menu.get(i);
-            if (node!=null) {
-                s = s + node.value + "\n";
-            }
+    public String outputData = "";
 
-            if (node.next1 != null) {
-                s = s + "---- " + node.next1.value + "\n";
-                if (node.next1.next1!=null) {
-                    s = s + "--------- " + node.next1.next1.value + "\n";
-                }
-                if (node.next1.next2!=null) {
-                    s = s + "--------- " + node.next1.next2.value + "\n";
-                }
-            }
-
-            if (node.next2 != null) {
-                s = s + "---- " + node.next2.value + "\n";
-                if (node.next2.next1!=null) {
-                    s = s + "--------- " + node.next2.next1.value + "\n";
-                }
-                if (node.next2.next2!=null) {
-                    s = s + "--------- " + node.next2.next2.value + "\n";
-                }
-            }
-
+    public String item(String value) {
+        String item = "";
+        String[] arr = value.split("\\.");
+        for (int i = 0; i < arr.length; i++) {
+            item = item + "----";
         }
-        System.out.println(s);
+        return item;
     }
 
+    @Override
+    public void print(Node<E> head) {
+        List<Node<E>> list = head.list;
+        for (int i = 0; i < list.size(); i++) {
+            Node<E> newNode = list.get(i);
+            outputData = outputData + this.item(newNode.value) + " " + newNode.value + "\n";
+            if (newNode.list.size() != 0) {
+                print(newNode);
+            }
+        }
+    }
 }
