@@ -15,18 +15,10 @@ public class PingPong extends Application {
         int limitY = 300;
         Group group = new Group();
         Rectangle rect1 = new Rectangle(50, 100, 10, 10);
-        Rectangle rect2 = new Rectangle(250, 100, 20, 20);
         group.getChildren().add(rect1);
 
-        Thread t1 = new Thread(new RectangleMove(rect1, 1));
-        Thread t2 = new Thread(new RectangleMove(rect2, -1));
+        new Thread(new RectangleMove(rect1)).start();
 
-        t1.start();
-        t1.join();
-        if (!t1.isAlive()) {
-            group.getChildren().add(rect2);
-            t2.start();
-        }
 
 
         stage.setScene(new Scene(group, limitX, limitY));
