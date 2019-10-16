@@ -14,22 +14,22 @@ public class RectangleMove implements Runnable {
     @Override
     public void run() {
         while (true) {
-            this.rect.setX(this.rect.getX() + ch);
-            if (this.rect.getX()>200) {
+            while(!Thread.currentThread().isInterrupted()) {
+                this.rect.setX(this.rect.getX() + ch);
+                if (this.rect.getX() > 200) {
                     ch = -1;
+                }
+                if (this.rect.getX() < 10) {
+                    ch = 1;
+                }
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
-            if (this.rect.getX()<10) {
-                ch = 1;
-            }
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
         }
-
-
-
     }
 
 }
