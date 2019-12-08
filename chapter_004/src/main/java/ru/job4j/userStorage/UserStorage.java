@@ -3,59 +3,55 @@ package ru.job4j.userStorage;
 import javax.annotation.concurrent.GuardedBy;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @ThreadSafe
 public class UserStorage{
 
-
-
     @GuardedBy("this")
-    public List<User> list = new ArrayList<>();
+    public Map<Integer, User> users = new HashMap<Integer, User>();
 
-    public synchronized boolean add(User user) {
-        if (list.add(user)) {
+    public synchronized boolean add(int id, User user) {
+        if (!users.containsKey(id)) {
+            users.put(id, user);
             return true;
         }
         return false;
     }
 
-    public synchronized int getUserById(int id) {
-        int index = -1;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getId() == id) {
-                //user = list.get(i);
-                index = i;
-                break;
+    public synchronized User getUserById(int id) {
+        User user = new User();
+        for (Map.Entry<Integer, User> item : users.entrySet()) {
+            if (item.getValue().getId() == id) {
+                user = item.getValue();
             }
         }
-        return index;
+        return user;
     }
 
     public synchronized boolean update (User user) {
-        int userId = getUserById(user.getId());
-        if (userId!=-1) {
-            list.get(userId).setId(user.getId());
-            list.get(userId).setAmount(user.getAmount());
+        User newUser =  getUserById(user.getId());
+        if (newUser!=null) {
+            newUser.setAmount(user.getAmount());
             return true;
         }
         return false;
     }
 
     public synchronized boolean delete(User user) {
-        int userId = getUserById(user.getId());
-        if (userId!=-1) {
-            list.remove(userId);
+        User newUser =  getUserById(user.getId());
+        if (newUser!=null) {
+            users.remove(user.getId());
             return true;
         }
         return false;
     }
 
     public synchronized void transfer(int fromId, int told, int amount) {
-        int userFromId = getUserById(fromId);
-        int userToldId = getUserById(told);
-        User userFrom = list.get(userFromId);
-        User userTold = list.get(userToldId);
+        User userFrom = getUserById(fromId);
+        User userTold = getUserById(told);
         int difference = userFrom.getAmount() - amount;
         int sum = userTold.getAmount() + amount;
         if (difference > 0) {
@@ -65,4 +61,5 @@ public class UserStorage{
             System.out.println("Недостаточно средств на счёте");
         }
     }
+
 }

@@ -5,6 +5,10 @@ public class User {
     private int id;
     private int amount;
 
+    public User() {
+
+    }
+
     public User(int id, int amount) {
         this.id = id;
         this.amount = amount;
