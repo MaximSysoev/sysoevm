@@ -1,42 +1,40 @@
 package ru.job4j.simpleBlockingQueue;
-
 import javax.annotation.concurrent.GuardedBy;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 
 @ThreadSafe
-public class SimpleBlockingQueue {
+public class SimpleBlockingQueue<T> {
 
     private final Object lock = new Object();
 
     @GuardedBy("this")
-    private Queue<Integer> queue = new LinkedList<>();
+    private final Queue<T> queue = new LinkedList<>();
 
     //Вставляет элемент в конец очереди
-    public void offer(int value) {
-        queue.offer(value);
+    public synchronized void offer(T value) {
+        this.queue.offer(value);
     }
 
     // возвращает и удаляет головной элемент
-    public int poll() {
-        return queue.poll();
-    }
+    public synchronized T poll() {
+            return this.queue.poll();
+         }
 
-    public void doSomething() throws InterruptedException {
+    public void doSomething(T value) throws InterruptedException {
         synchronized (this.lock) {
             if (queue.peek()==null) {
-                offer(0);
+                offer(value);
                 lock.wait();
             }
         }
     }
 
-    public void changeBlock() {
+    public synchronized void changeBlock() {
         synchronized (this.lock) {
             if (queue.peek()!=null) {
-                poll();
+                this.poll();
             }
             lock.notify();
         }
@@ -53,7 +51,7 @@ public class SimpleBlockingQueue {
             @Override
             public void run() {
                 try {
-                    sbq.doSomething();
+                    sbq.doSomething(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
