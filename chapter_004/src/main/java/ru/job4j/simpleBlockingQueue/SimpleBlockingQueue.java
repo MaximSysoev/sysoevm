@@ -22,9 +22,8 @@ public class SimpleBlockingQueue<T> {
         return this.queue.poll();
     }
 
-    public synchronized void doSomething(T value) throws InterruptedException {
+    public void doSomething(T value) throws InterruptedException {
         synchronized (this.lock) {
-           // while (this.queue.peek()==null) {
                 try {
                     System.out.println(String.format("%s wait", Thread.currentThread().getId()));
                     offer(value);
@@ -32,12 +31,11 @@ public class SimpleBlockingQueue<T> {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            // }
             System.out.println(String.format("%s userfull work", Thread.currentThread().getId()));
         }
     }
 
-    public synchronized void changeBlock() {
+    public void changeBlock() {
         synchronized (this.lock) {
             System.out.println(String.format("%s enable", Thread.currentThread().getId()));
             poll();
