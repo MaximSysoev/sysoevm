@@ -13,12 +13,12 @@ public class SimpleBlockingQueue<T> {
     public final Queue<T> queue = new LinkedList<>();
 
     // Вставляет элемент в конец очереди
-    public synchronized void offer(T value) {
+    public void offer(T value) {
         this.queue.offer(value);
     }
 
     // возвращает и удаляет головной элемент
-    public synchronized T poll() {
+    public T poll() {
         return this.queue.poll();
     }
 
