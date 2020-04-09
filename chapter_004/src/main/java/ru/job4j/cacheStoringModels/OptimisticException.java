@@ -4,6 +4,6 @@ public class OptimisticException extends RuntimeException {
 
     private int version;
     public OptimisticException(String message) {
-        super(message);
+       System.out.println(message);
     }
 }

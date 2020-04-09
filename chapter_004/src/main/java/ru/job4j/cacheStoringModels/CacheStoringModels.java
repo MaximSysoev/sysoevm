@@ -1,31 +1,31 @@
 package ru.job4j.cacheStoringModels;
-
+import javax.annotation.concurrent.GuardedBy;
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
+@ThreadSafe
 public class CacheStoringModels extends Thread {
-    private final Object lock = new Object();
+
+    @GuardedBy("this")
     public ConcurrentHashMap<Integer, Base> map = new ConcurrentHashMap<>();
+
+    private EmulatedCAS value;
 
     public void add(Base model) {
         map.put(model.getId(), model);
     }
 
-    public void update(Base model) throws OptimisticException, InterruptedException {
-        synchronized (this.lock) {
-            try {
-                if (map.get(model.getId()).getVersion() == model.getVersion()) {
-                    map.get(model.getId()).setVersion(model.getVersion());
-                   // this.lock.wait();
-                }
-            } catch (OptimisticException e) {
-                System.out.println(e.getMessage());
-            }
+    public void update(Base model) throws OptimisticException {
+        value = new EmulatedCAS(model.getVersion());
+        int oldValue = value.getValue();
+        if (value.compareAndSwap(oldValue, oldValue + 1) != oldValue) {
+            oldValue = model.getVersion();
+            throw new OptimisticException("Данные уже обновлены");
         }
+        model.setVersion(oldValue + 1);
     }
 
-    public void delete(Base model) {
-
-    }
 
     public static void main(String[] args) throws InterruptedException {
         CacheStoringModels csm = new CacheStoringModels();
@@ -37,7 +37,7 @@ public class CacheStoringModels extends Thread {
                 public void run() {
                     try {
                         csm.update(model);
-                    } catch (InterruptedException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -57,6 +57,7 @@ public class CacheStoringModels extends Thread {
 
             task_1.start();
             task_2.start();
+
     }
 
 }
