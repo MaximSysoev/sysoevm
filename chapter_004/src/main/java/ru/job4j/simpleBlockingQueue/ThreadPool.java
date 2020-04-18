@@ -1,20 +1,23 @@
 package ru.job4j.simpleBlockingQueue;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ThreadPool<E> {
     private final List<Thread> threads = new LinkedList<>();
     private final  SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>();
-    private  ExecutorService executorService = Executors.newFixedThreadPool(10);
+
+    public void add(Thread thread) {
+        threads.add(thread);
+    }
 
     public void work (Runnable job) {
-        this.executorService.execute(job);
+        new Thread(job).start();
     }
 
     public void shutdown() {
-        this.executorService.shutdown();
+        for (Thread thread:threads) {
+            thread.currentThread().interrupt();
+        }
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -29,7 +32,6 @@ public class ThreadPool<E> {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
             }
         };
 
@@ -40,10 +42,12 @@ public class ThreadPool<E> {
             }
         };
 
-        threadPool.work(task_1);
-        threadPool.work(task_2);
-        threadPool.shutdown();
+         threadPool.add(task_1);
+         threadPool.add(task_2);
+         threadPool.work(task_1);
+         threadPool.work(task_2);
 
+         threadPool.shutdown();
 
     }
 }
