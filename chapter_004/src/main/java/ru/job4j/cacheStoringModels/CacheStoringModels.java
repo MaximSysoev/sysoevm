@@ -5,25 +5,29 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @ThreadSafe
-public class CacheStoringModels extends Thread {
+public class CacheStoringModels {
 
     @GuardedBy("this")
     public ConcurrentHashMap<Integer, Base> map = new ConcurrentHashMap<>();
 
-    private EmulatedCAS value;
+    private int value;
 
     public void add(Base model) {
         map.put(model.getId(), model);
     }
 
     public void update(Base model) throws OptimisticException {
-        value = new EmulatedCAS(model.getVersion());
-        int oldValue = value.getValue();
-        if (value.compareAndSwap(oldValue, oldValue + 1) != oldValue) {
-            oldValue = model.getVersion();
-            throw new OptimisticException("Данные уже обновлены");
-        }
-        model.setVersion(oldValue + 1);
+       if (value == model.getVersion()) {
+           value = model.getVersion();
+           model.setVersion(value+1);
+           map.computeIfPresent(model.getId(), (k, v)-> model);
+       } else {
+            throw new OptimisticException("Модель уже обновлена");
+       }
+    }
+
+    public synchronized void delete(Base model) {
+        map.remove(model.getId());
     }
 
 
@@ -54,10 +58,20 @@ public class CacheStoringModels extends Thread {
 
                 }
             };
+        Thread task_3 = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    csm.update(model);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-            task_1.start();
-            task_2.start();
+            }
+        };
 
+        task_1.start();
+        task_2.start();
     }
 
 }
