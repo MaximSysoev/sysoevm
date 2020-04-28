@@ -1,18 +1,20 @@
 package ru.job4j.simpleBlockingQueue;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ThreadPool<E> {
     private final List<Thread> threads = new LinkedList<>();
     private final  SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>();
 
-    public void add(Thread thread) {
+    public void work (Runnable job) {
+        Thread thread = new Thread(job);
         threads.add(thread);
+        thread.start();
     }
 
-    public void work (Runnable job) {
-        new Thread(job).start();
-    }
 
     public void shutdown() {
         for (Thread thread:threads) {
@@ -24,7 +26,7 @@ public class ThreadPool<E> {
 
         ThreadPool threadPool = new ThreadPool();
 
-        Thread task_1 = new Thread() {
+        Runnable task1 = new Runnable() {
             @Override
             public void run() {
                 try {
@@ -35,19 +37,16 @@ public class ThreadPool<E> {
             }
         };
 
-        Thread task_2 = new Thread() {
+        Runnable task2 = new Runnable() {
             @Override
             public void run() {
                 threadPool.tasks.changeBlock();
             }
         };
 
-         threadPool.add(task_1);
-         threadPool.add(task_2);
-         threadPool.work(task_1);
-         threadPool.work(task_2);
-
-         threadPool.shutdown();
+        threadPool.work(task1);
+        threadPool.work(task2);
+        threadPool.shutdown();
 
     }
 }
