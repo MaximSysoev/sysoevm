@@ -18,7 +18,7 @@ public class ThreadPool<E> {
 
     public void shutdown() {
         for (Thread thread:threads) {
-            thread.currentThread().interrupt();
+            thread.interrupt();
         }
     }
 
